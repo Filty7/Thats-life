@@ -1,10 +1,4 @@
-<!doctype html>
-<html lang="cs">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#A9C6D6">
-<title>To je život</title>
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#A9C6D6"><title>To je život</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -296,6 +290,8 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .oc .req{font-size:10px;left:3px;top:3px}
   .lockb{width:20px;height:20px;top:-8px;right:-8px;font-size:11px}
   .acts{display:none}
+  .qright{right:8px;bottom:4px}
+  .qf{font-size:8.5px}
   #actsBtn{display:block}
   .actgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
   .actgrid .act{width:auto;height:46px}
@@ -352,11 +348,23 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
 @keyframes critB{50%{opacity:.25}}
 .cm.bad{background:#F3D5D2}
 .cm.quest{background:#F6E7B8}
+.skw{position:relative;display:inline-flex}
+.qf{position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:1px;background:#F6E7B8;border:1.5px solid var(--ink);border-radius:999px;font-family:var(--display);font-weight:600;font-size:10px;line-height:1;padding:1px 4px 1px 2px;z-index:3;cursor:help;white-space:nowrap}
+.qf svg{font-size:10px}
+.qright{position:absolute;right:16px;bottom:10px;display:flex;gap:8px;z-index:4;flex-wrap:wrap;justify-content:flex-end;max-width:45%}
+.btn.soft{background:var(--paper)}
+.save{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 16px}
+.save input{font:inherit;font-weight:700;border:2.5px solid var(--ink);border-radius:7px;padding:7px 10px;background:var(--paper);min-width:0;flex:1 1 180px;max-width:260px}
+.save .st{font-size:13px;font-weight:700;color:var(--muted)}
+.hall{width:100%;border-collapse:collapse;margin:0;font-weight:700}
+.hall td{padding:7px 8px;border-bottom:2px solid var(--paper2)}
+.hall tr{cursor:pointer}.hall tr:hover td{background:var(--paper2)}
+.hall td.n{font-family:var(--display);font-weight:600;color:var(--muted);width:2em}
+.hall td.sc{font-family:var(--display);font-weight:600;text-align:right;font-size:17px}
+.hall .sub{color:var(--muted);font-size:12.5px;font-weight:700}
+.hallbox{background:var(--paper);border:2.5px solid var(--ink);border-radius:10px;box-shadow:0 4px 0 var(--ink);padding:10px 14px;text-align:left;width:100%;max-height:55vh;overflow:auto}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
-</head>
-<body>
-
+</style></head><body>
 
 <canvas id="scene"></canvas>
 <div id="app">
@@ -371,6 +379,7 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
     <div class="toasts" id="toasts"></div>
     <div class="offers" id="offers"></div>
     <div class="acts" id="acts"></div>
+    <div class="qright" id="qright"></div>
     <div class="chipsrow"><button class="recentBtn box" id="recentBtn" hidden></button><div class="cms" id="cms"></div></div>
     <div class="tray box" id="tray" hidden></div>
   </div>
@@ -704,6 +713,126 @@ const RAW=[
 ['Odvykací kúra','Z',3,'8-18','15-90','',-3000,-0.2,0.02,0.03,{heal:0.5,tag:'rehab'}],
 ['Anonymní alkoholici','Z/F',2,'18-21','18-95','',0,-0.1,0,-0.04,{tag:'rehab'}],
 
+// ===== DALŠÍ ŘETĚZY =====
+// fotografie
+['Focení mobilem','K',1,'*','10-90','',0,0,0,-0.03,{tag:'photo'}],
+['Fotografování','K/C',2,'7-21','14-90','',-1000,-0.2,0,-0.04,{tag:'photo',needT:{photo:1}}],
+['Fotokurz','V/K',3,'17-21','15-70','',-3000,-0.2,0,0,{tag:'photo',needT:{photo:2}}],
+['Svatební fotograf|Svatební fotografka','P/K',6,'10-22','20-65','K3',35000,-0.6,0,0.02,{tag:'photo',needT:{photo:5}}],
+['Fotoreportér|Fotoreportérka','P/C',9,'*','22-60','K5',55000,-0.9,-0.01,0.04,{tag:'photo',needT:{photo:9}}],
+// móda a šití
+['Šití a úpravy','K',2,'*','12-90','',-800,-0.1,0,-0.04,{tag:'fashion'}],
+['Bazarové lovy','K/F',2,'9-19','14-70','',-1500,-0.2,0,-0.03,{tag:'fashion'}],
+['Módní kurz','V/K',4,'16-21','16-40','',-4000,-0.3,0,0,{tag:'fashion',needT:{fashion:2}}],
+['Prodavač v butiku|Prodavačka v butiku','P',8,'9-20','17-60','',29000,-0.8,0,0.02,{tag:'fashion',needT:{fashion:1}}],
+['Módní návrhář|Módní návrhářka','P/K',9,'*','22-70','K5',70000,-0.9,0,0.04,{tag:'fashion',needT:{fashion:8}}],
+// věda
+['Pokusy doma','V/K',2,'14-20','8-16','',-300,-0.1,0,-0.02,{tag:'science'}],
+['Fyzikální olympiáda','V',3,'14-20','12-19','V2',0,-0.4,0,0.03,{tag:'science',needT:{science:1}}],
+['Přírodovědecká fakulta','V',8,'8-18','18-27','V3',0,-0.5,0,0.02,{tag:'science',needT:{science:3},yrs:5,xpb:1.2}],
+['Laborant|Laborantka','P/V',8,'7-16','20-65','V3',36000,-0.7,0,0.01,{tag:'science',needT:{science:4}}],
+['Vědec|Vědkyně','P/V',9,'8-20','25-80','V6',60000,-0.8,0,0.03,{tag:'science',needT:{science:10}}],
+// právo a politika
+['Debatní klub','V/F',2,'14-19','13-19','',0,-0.3,0,0.01,{tag:'law'}],
+['Studentský parlament','F/V',2,'13-17','14-19','',0,-0.3,0,0.02,{tag:'politics'}],
+['Právnická fakulta','V',8,'8-18','18-26','V4',0,-0.6,0,0.03,{tag:'law',needT:{law:1},yrs:5}],
+['Koncipient|Koncipientka','P/V',10,'8-20','23-35','V5',35000,-1.0,0,0.05,{tag:'law',needT:{law:5}}],
+['Advokát|Advokátka','P',10,'8-21','27-75','V6 P4',120000,-1.0,-0.005,0.06,{tag:'law',needT:{law:10}}],
+['Demonstrace','F',3,'14-20','15-80','',0,-0.4,0,-0.02,{tag:'politics'}],
+['Místní spolek','F',3,'17-21','20-90','',0,-0.2,0,-0.03,{tag:'politics',needT:{politics:1}}],
+['Zastupitel|Zastupitelka','P/F',4,'16-21','25-80','',8000,-0.5,0,0.03,{tag:'politics',needT:{politics:4}}],
+['Politik|Politička','P/F',10,'7-22','30-80','V4 F5',90000,-1.1,-0.01,0.08,{tag:'politics',needT:{politics:10}}],
+// obchod a peníze
+['Prodej na bazaru','P',2,'*','12-90','',3000,-0.2,0,0,{tag:'trade'}],
+['Kryptoměny','K',2,'*','16-70','',-3000,-0.2,0,0.05,{tag:'trade',addict:'gamble'}],
+['Burzovní obchodování','P/V',3,'9-17','20-80','V2',10000,-0.3,0,0.06,{tag:'trade',needT:{trade:3}}],
+['Obchodní zástupce|Obchodní zástupkyně','P',9,'8-19','20-65','',48000,-0.9,0,0.04,{tag:'trade',needT:{trade:2}}],
+['Realitní makléř|Realitní makléřka','P',9,'9-21','23-70','P3',70000,-0.9,0,0.05,{tag:'trade',needT:{trade:5}}],
+['Investiční bankéř|Investiční bankéřka','P/V',12,'7-23','25-60','V5 P5',220000,-1.3,-0.01,0.09,{tag:'trade',needT:{trade:10}}],
+// jazyky
+['Cizí jazyk přes appku','V',1,'*','10-90','',0,0,0,0,{tag:'lang'}],
+['Konverzace s rodilým mluvčím','V/F',2,'16-21','14-80','',-2000,-0.2,0,0,{tag:'lang',needT:{lang:1}}],
+['Překladatel|Překladatelka','P/V',7,'*','22-80','V4',38000,-0.6,0,0.01,{tag:'lang',needT:{lang:5}}],
+['Tlumočník|Tlumočnice','P/C',8,'8-20','25-70','V6',75000,-0.9,0,0.04,{tag:'lang',needT:{lang:9}}],
+// řemeslo a dřevo
+['Kutilství','K',2,'8-20','10-95','',-1000,-0.3,0,-0.04,{tag:'wood'}],
+['Truhlářská dílna','K',3,'8-20','16-95','',-1500,-0.5,0,-0.05,{tag:'wood',needT:{wood:2}}],
+['Truhlář|Truhlářka','P/K',8,'6-16','18-70','',38000,-1.0,-0.005,0.01,{tag:'wood',needT:{wood:4}}],
+['Restaurátor nábytku|Restaurátorka nábytku','P/K',7,'8-18','28-85','K5',48000,-0.6,0,0,{tag:'wood',needT:{wood:9}}],
+// zahrada a příroda
+['Pěstování bylinek','K',1,'7-20','12-99','',-300,0,0,-0.04,{tag:'garden'}],
+['Zahradník|Zahradnice','P/K',8,'6-17','18-70','',30000,-0.9,0.02,-0.01,{tag:'garden',needT:{garden:3}}],
+['Včelaření','K',2,'8-19','25-95','',-800,-0.1,0.01,-0.05,{tag:'garden',needT:{garden:2}}],
+['Vinice','K/P',4,'7-19','30-90','',8000,-0.5,0.01,-0.03,{tag:'garden',needT:{garden:5}}],
+['Vinař|Vinařka','P/K',9,'6-19','30-85','K4',50000,-0.9,0,0.02,{tag:'garden',needT:{garden:8}}],
+// rybaření a skauting
+['Rybářský kroužek','K/F',2,'14-19','8-16','',-300,-0.1,0,-0.04,{tag:'fish',needT:{fish:1}}],
+['Rybářské závody','K/S',6,'5-17','14-85','',-1500,-0.4,0,-0.02,{tag:'fish',needT:{fish:3}}],
+['Skauti','F/C',3,'14-20','7-18','',-400,-0.3,0.02,-0.03,{tag:'scout'}],
+['Vedoucí oddílu','F/P',4,'14-20','16-40','',0,-0.4,0.01,-0.03,{tag:'scout',needT:{scout:2}}],
+['Instruktor přežití|Instruktorka přežití','S/P',6,'8-20','22-60','S4',32000,-0.9,0.02,0.01,{tag:'scout',needT:{scout:6}}],
+// komedie a média
+['Karaoke','F/K',3,'20-2','15-70','',-1000,-0.2,0,-0.07,{tag:'stage'}],
+['Stand-up open mic','K/F',2,'19-24','18-60','',0,-0.3,0,0.04,{tag:'stage',needT:{stage:1}}],
+['Komik|Komička','K/P',4,'19-24','22-70','K4',40000,-0.6,0,0.03,{tag:'stage',needT:{stage:5}}],
+['Podcast','K',2,'*','16-80','',-500,-0.2,0,0,{tag:'media'}],
+['Rozhlasový moderátor|Rozhlasová moderátorka','P/K',6,'6-20','22-70','V3',45000,-0.6,0,0.03,{tag:'media',needT:{media:4}}],
+['Televizní moderátor|Televizní moderátorka','P/K',8,'*','25-70','K5 V4',110000,-0.9,-0.005,0.06,{tag:'media',needT:{media:9}}],
+['Kouzelnické triky','K',1,'*','8-80','',-300,0,0,-0.03,{tag:'stage'}],
+// šachy a hlavolamy
+['Šachy','K/V',2,'15-22','6-99','',-200,0,0,0,{tag:'chess'}],
+['Šachový turnaj','K/V',6,'8-20','10-90','',-500,-0.4,0,0.03,{tag:'chess',needT:{chess:2}}],
+['Šachový trenér|Šachová trenérka','P/V',4,'14-20','25-90','V4',20000,-0.3,0,0,{tag:'chess',needT:{chess:6}}],
+['Křížovky a sudoku','K',1,'*','12-99','',-100,0,0,-0.03,{}],
+// tanec
+['Taneční kurz','K/F',2,'18-22','15-30','',-2500,-0.4,0.01,-0.04,{tag:'dance'}],
+['Latina a salsa','K/S',2,'18-23','16-70','',-1500,-0.5,0.02,-0.05,{tag:'dance',needT:{dance:1}}],
+['Taneční soutěže','S/K',4,'9-21','14-40','S3',-3000,-0.9,0.02,0.03,{tag:'dance',needT:{dance:4}}],
+['Lektor tance|Lektorka tance','S/P',5,'15-22','20-65','S4 K3',30000,-0.8,0.02,0,{tag:'dance',needT:{dance:6}}],
+// kolo, voda, sníh, míč
+['Horské kolo','S/C',3,'8-20','12-70','',-800,-0.7,0.03,-0.04,{tag:'bike'}],
+['Cyklistické závody','S',4,'8-18','16-55','S3',-3000,-1.1,0.03,0.02,{tag:'bike',needT:{bike:3}}],
+['Profi cyklista|Profi cyklistka','S/P',7,'7-18','18-38','S6',90000,-1.4,0.03,0.04,{tag:'bike',needT:{bike:9}}],
+['Plavčík|Plavčice','P/S',8,'8-20','17-55','S2',26000,-0.7,0.02,0,{tag:'swim',needT:{swim:2}}],
+['Plavecký oddíl','S',2,'6-9','6-25','',-800,-0.8,0.04,-0.02,{tag:'swim'}],
+['Instruktor lyžování|Instruktorka lyžování','S/P',8,'8-17','18-55','S3',32000,-0.9,0.02,-0.01,{tag:'ski',needT:{ski:2}}],
+['Lyžování','S/C',4,'8-17','6-75','',-3000,-0.6,0.02,-0.04,{tag:'ski'}],
+['Fotbalový klub','S/F',3,'15-20','6-35','',-800,-0.8,0.04,-0.03,{tag:'ball'}],
+['Divize a krajský přebor','S/F',4,'15-21','16-40','S3',3000,-1.0,0.03,0.01,{tag:'ball',needT:{ball:4}}],
+['Profi fotbalista|Profi fotbalistka','S/P',6,'9-20','18-34','S6',140000,-1.2,0.02,0.05,{tag:'ball',needT:{ball:10}}],
+['Hokej','S',3,'6-21','6-40','',-2500,-1.0,0.03,-0.02,{tag:'hockey'}],
+['Hokejová extraliga','S/P',6,'8-22','18-36','S6',160000,-1.3,0,0.05,{tag:'hockey',needT:{hockey:10}}],
+['Tenis','S',2,'7-21','8-80','',-2000,-0.8,0.04,-0.03,{tag:'tennis'}],
+['Golf','S/F',4,'8-20','25-95','',-6000,-0.3,0.03,-0.06,{tag:'golf',pmin:6}],
+['Jachting','S/C',5,'8-20','20-85','',-12000,-0.4,0.02,-0.08,{tag:'sail'}],
+['Kapitán jachty|Kapitánka jachty','P/C',10,'*','25-70','C4 S3',80000,-1.0,0,0.02,{tag:'sail',needT:{sail:6}}],
+// jóga a pohyb
+['Instruktor jógy|Instruktorka jógy','Z/P',4,'7-21','22-80','',25000,-0.2,0.04,-0.05,{tag:'yoga',needT:{yoga:4}}],
+['Kurz pilates','Z/S',2,'8-20','16-90','',-1500,-0.2,0.03,-0.04,{tag:'yoga'}],
+['Osobní trenér|Osobní trenérka','S/P',7,'6-21','20-60','S4',38000,-0.8,0.02,0,{tag:'gym',needT:{gym:4}}],
+['Kulturistika','S',3,'6-22','17-55','S2',-2500,-1.1,0.02,-0.02,{tag:'gym',needT:{gym:2}}],
+// pivo a víno
+['Domácí pivovar','K',3,'16-22','20-80','',-2000,-0.2,-0.005,-0.04,{tag:'brew',addict:'alcohol'}],
+['Minipivovar','P/K',10,'8-22','28-75','K4 P3',55000,-1.0,-0.01,0.04,{tag:'brew',needT:{brew:5}}],
+['Barman|Barmanka','P/F',8,'17-3','18-50','',28000,-1.0,-0.01,0.02,{tag:'party',needT:{party:2}}],
+['Sommelier|Sommelierka','P/K',7,'14-23','24-75','K3',45000,-0.6,-0.005,0.01,{tag:'wine',needT:{garden:2}}],
+// zdravotnictví a pomoc
+['Kurz první pomoci','Z/V',3,'8-18','12-80','',-1500,-0.2,0,0,{tag:'medic'}],
+['Dobrovolný záchranář|Dobrovolná záchranářka','Z/F',4,'*','18-70','',0,-0.6,0,0.03,{tag:'medic',needT:{medic:1}}],
+['Záchranář|Záchranářka','P/Z',12,'*','20-60','V2',45000,-1.2,-0.01,0.05,{tag:'medic',needT:{medic:3}}],
+['Psycholog|Psycholožka','P/Z',7,'8-19','25-80','V5',55000,-0.6,0,0.02,{tag:'mind'}],
+['Pomoc v hospici','Z/F',3,'8-20','20-95','',0,-0.4,0,0.02,{tag:'mind'}],
+// ostatní
+['Seznamovací appky','R/F',2,'19-1','17-60','',-500,-0.2,0,0.03,{tag:'social',need:'single',addict:'social'}],
+['Rande naslepo','R/F',3,'18-24','18-60','',-1500,-0.1,0,0.02,{need:'single'}],
+['Dobrovolnictví v zahraničí','F/C',8,'7-20','18-40','',-5000,-0.6,0,-0.04,{tag:'travel',yrs:1}],
+['Muzea a galerie','K/V',3,'9-18','8-99','',-500,-0.1,0,-0.05,{tag:'art'}],
+['Historické šermování','S/K',3,'14-21','14-60','',-1000,-0.7,0.02,-0.03,{tag:'nerd'}],
+['Sbírání známek','K',1,'*','8-99','',-500,0,0,-0.04,{tag:'collect',addict:'collect'}],
+['Geocaching','S/C',3,'8-20','10-80','',0,-0.4,0.02,-0.05,{tag:'scout'}],
+['Ultramaraton','S',4,'5-20','22-60','S6',-3000,-1.6,0.03,0.02,{tag:'run',needT:{run:8}}],
+['Kancelář vlastní agentury','P',10,'8-20','28-70','P5',95000,-1.0,0,0.06,{tag:'trade',needT:{trade:4}}],
+
 ];
 
 const ILL=[
@@ -741,7 +870,7 @@ const QOL=[
 // Okno, kdy se karta dá dělat: [a,b) ve slotech od 6:00; b může přetéct přes 24 (přes půlnoc dokola).
 function parseWin(w){if(w==='*')return [0,24];const [a,b]=w.split('-').map(Number);let s=(a-6+24)%24,e=(b-6+24)%24;if(e<=s)e+=24;return [s,e]}
 // Energie je teď v „jednotkách odpočinku“ za den. Kladnou energii mají jen vzácné věci (hlavně zdraví).
-const TAGMAP={'Kreslení':{tag:'art'},'Tvoření':{tag:'art'},'Hudba':{tag:'music'},'Soukromé lekce hudby':{tag:'music'},'Hudební škola':{tag:'music'},
+const TAGMAP={'Rybaření':{tag:'fish'},'Zahrada':{tag:'garden'},'Posilovna':{tag:'gym'},'Plavání':{tag:'swim'},'Jóga':{tag:'yoga'},'Večerní jóga':{tag:'yoga'},'Cyklistika':{tag:'bike'},'Turistika':{tag:'scout'},'Kurzy a knihy':{tag:'lang'},'Lyžák v Alpách':{tag:'ski'},'Terapeut|Terapeutka':{tag:'mind'},'Zdravotník|Zdravotní sestra':{tag:'medic'},'Kreslení':{tag:'art'},'Tvoření':{tag:'art'},'Hudba':{tag:'music'},'Soukromé lekce hudby':{tag:'music'},'Hudební škola':{tag:'music'},
   'Muzikant|Muzikantka':{tag:'music',needT:{music:6}},'Rocková hvězda':{tag:'music',needT:{music:15}},'Videohry':{tag:'games',addict:'games'},'Čtení':{tag:'books'},'Knihovna':{tag:'books'},
   'Psaní':{tag:'writing'},'Vaření':{tag:'food'},'Mazlíček':{tag:'animals'},'Jezdecký kroužek':{tag:'animals'},'Běhání':{tag:'run'},'Maraton':{tag:'run',needT:{run:2}},
   'Expedice do hor':{tag:'climb',needT:{climb:3}},'Párty':{tag:'party'},'Večírky s alkoholem':{tag:'party',addict:'alcohol'},'Cigarety s kamarády':{tag:'smoke',addict:'smoke'},
@@ -804,11 +933,11 @@ function newLife(){
     spawnT:1.5,second:true,pension:0,dead:false,flags:{},peakMoney:0,monthly:0,trend:{en:0,hp:0,st:0},R:null,log:[],maxH:100,
     hist:[],taken:[],ills:0,nightMix:0,hadJob:false,movedAt:null,bd:{},gender:(S&&S.gender)||'m',loans:[],own:null,rentals:[],inv:0,searchAt:null,lotAt:null,partner:null,pastPartners:[],kids:[],famFx:{sc:0,st:0},evAt:0,ins:false,car:null,biz:null,sabUntil:null,sabAt:null,will:null,friendLoan:null,lastKidAt:null,retrainAt:null,tagH:{},addict:{},addicted:{},seenPath:new Set(),quests:[],questAt:6+rnd()*3,questsDone:0,crit:null,seenActs:new Set()};
   document.body.classList.remove('crit');
-  const k=['R','K','S','F','V'][Math.floor(rnd()*5)];S.mot[k]=1;S.firstLove=k;
+  const k=['R','K','S','F','V'][Math.floor(rnd()*5)];S.mot[k]=1;S.firstLove=k;S.tagKid={};S.addHist=[];
   S.log.push(`0 let – narození. Od malička tě baví ${CATS[k].name.toLowerCase()}.`);
   document.querySelectorAll('.oc').forEach(e=>e.remove());
   dirty=true;buildSkills();renderMots();renderQol();renderRecent();renderActs();renderChips();
-  if(typeof setPlace==='function')setPlace(placeFor(S.qol,true),true);
+  if(typeof setPlace==='function'){setPlace(placeFor(S.qol,true),true);S.birthPlace=PLACE}
 }
 
 /* ============ VÝPOČET DNE ============ */
@@ -868,15 +997,15 @@ function step(dt){
   S.stress=clamp(S.stress+dS*dt,0,100);
   // zdraví
   const H=R.H,exh=S.energy<=0?-0.3:0,stressH=S.stress>30?-(S.stress-30)*0.015:0,ageH=S.age>50?-(S.age-50)*0.004:0,bigIll=S.placed.some(p=>p.ev&&p.h>=18)?-0.3:0;
-  const addHp=(S.addFx&&S.addFx.hp)||0;const dH=(H.rest+H.cards+H.ill+H.home+exh+stressH+ageH+bigIll+addHp)*0.6;
+  const addHp=(S.addFx&&S.addFx.hp)||0;const dHr=H.rest+H.cards+H.ill+H.home+exh+stressH+ageH+bigIll+addHp,HK=dHr>0?1.2:0.6,dH=dHr*HK;
   S.maxH=S.age<45?100:Math.max(35,100-(S.age-45)*1.1);
   S.health=clamp(S.health+dH*dt,0,S.maxH);
   S.trend={en:dE,hp:dH,st:dS};
-  S.bd.E={...R.E,total:R.enU};S.bd.H={...H,exh,stressH,ageH,bigIll,addHp,total:dH,k:0.6};S.bd.T={...T,parentsSt,debt,tired,decay,famSt,addSt,total:dS};
+  S.bd.E={...R.E,total:R.enU};S.bd.H={...H,exh,stressH,ageH,bigIll,addHp,total:dH,k:HK};S.bd.T={...T,parentsSt,debt,tired,decay,famSt,addSt,total:dS};
   S.score+=(R.score+famScore())*dt;
   const per=S.age<18?0:S.age<40?1:S.age<65?2:3;
   for(const k of CK){S.th[per][k]+=R.hours[k]*dt/YEAR;S.yh[k]+=R.hours[k]*dt}
-  for(const t in R.tagH)S.tagH[t]=(S.tagH[t]||0)+R.tagH[t]*dt/YEAR;
+  for(const t in R.tagH){S.tagH[t]=(S.tagH[t]||0)+R.tagH[t]*dt/YEAR;if(S.age<18)S.tagKid[t]=(S.tagKid[t]||0)+R.tagH[t]*dt/YEAR}
   addictTick(dt,R);questTick();
   for(const k of SK){const b=lvl(S.xp[k]);S.xp[k]+=R.xp[k]*dt;const a=lvl(S.xp[k]);
     if(a>b){dirty=true;if(a>=4)S.log.push(`${Math.floor(S.age)} let – ${CATS[k].name.toLowerCase()} na úrovni ${a}.`);buildSkills();celebrateLevel(k,a)}}
@@ -909,7 +1038,7 @@ function step(dt){
     for(let i=0;i<2;i++)if(S.offers.length<mx||(S.forceZ&&S.offers.length<10))spawnOffer()}
   while(Math.floor(S.age)>S.lastYear){S.lastYear++;yearTick(S.lastYear)}
 }
-function maxOffers(){return clamp(Math.round(1.5*(2+Math.min(S.age,45)/9+(S.qol-4)*0.45)),3,10)}
+function maxOffers(){return clamp(Math.round(3.2+Math.min(S.age,40)/7.5+(S.qol-4)*0.3),3,10)}
 function growIll(p){if(p.h>=18)return;if(rnd()<0.5)p.start=(p.start+23)%24;p.h++;dirty=true}
 function deathCause(){
   const ills=S.placed.filter(p=>p.ev).sort((a,b)=>a.ill.hp*a.h-b.ill.hp*b.h);
@@ -999,62 +1128,146 @@ function die(cause){
   for(const p of S.placed)endPlaced(p);
   S.hist.push({a:S.age,lv:Object.fromEntries(SK.map(k=>[k,lvl(S.xp[k])])),money:S.money,score:S.score});
   const age=Math.floor(S.age);S.log.push(`${age} let – ${cause}`);
-  showOverlay(summaryHTML(age,cause),true);
-  $('#again').onclick=birthChoice;
+  const rec=buildRec(age,cause);S.rec=rec;showOverlay(summaryHTML(rec,true),true);wireSummary(rec)
 }
-function summaryHTML(age,cause){
-  const tot=Object.fromEntries(CK.map(k=>[k,S.th.reduce((t,p)=>t+p[k],0)]));
+/* ============ ZÁZNAM ŽIVOTA, PŘÍBĚH, SÍŇ SLÁVY ============ */
+const SB_URL='https://ttgjzbpglgerxvbmaqdt.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0Z2p6YnBnbGdlcnh2Ym1hcWR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwOTgxNTksImV4cCI6MjEwNzY3NDE1OX0.7ptBAWJdyZFkXz02ZLAYIuID4GmxuYvrHJCZPQkTNCk';
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pickOne=a=>a[Math.floor(rnd()*a.length)];
+const TAGN={film:'filmy',theatre:'divadlo',games:'videohry',nerd:'fantasy a nerdovské věci',social:'sociální sítě',cars:'auta a motory',faith:'víra',music:'hudba',food:'vaření',
+  code:'programování',animals:'zvířata',climb:'lezení a hory',fight:'bojové sporty',run:'běhání',art:'malování a umění',books:'knihy',writing:'psaní',travel:'cestování',party:'večírky',
+  photo:'fotografie',fashion:'móda',science:'věda',law:'právo',politics:'politika',trade:'obchod a peníze',lang:'cizí jazyky',wood:'práce se dřevem',garden:'zahrada',fish:'rybaření',
+  scout:'příroda a táboráky',stage:'pódium a humor',media:'média',chess:'šachy',dance:'tanec',bike:'kolo',swim:'plavání',ski:'lyže',ball:'fotbal',hockey:'hokej',tennis:'tenis',golf:'golf',
+  sail:'jachting',yoga:'jóga',gym:'posilovna',brew:'pivo',wine:'víno',medic:'záchranařina',mind:'pomoc druhým',smoke:'cigarety',gamble:'hazard',collect:'sbírání',rehab:'odvykání'};
+const ADDN={alcohol:'alkoholem',smoke:'cigaretami',gamble:'hazardem',social:'sociálními sítěmi',games:'hrami',drugs:'drogami',caffeine:'kofeinem',collect:'sběratelskou vášní'};
+const PLACE_IN={vesnice:'na vesnici',venkov:'na venkově',mesto:'ve městě',velkomesto:'ve velkoměstě'};
+const GR={acc:{P:'práci',V:'učení',R:'rodinu',F:'kamarády',K:'koníčky',S:'sport',C:'cestování'},
+  gen:{P:'práce',V:'učení',R:'rodiny',F:'kamarádů',K:'koníčků',S:'sportu',C:'cestování'},
+  dat:{P:'práci',V:'učení',R:'rodině',F:'kamarádům',K:'koníčkům',S:'sportu',C:'cestování'}};
+const topTags=(o,n)=>Object.entries(o||{}).filter(([t,v])=>v>0.8&&TAGN[t]&&!['rehab'].includes(t)).sort((a,b)=>b[1]-a[1]).slice(0,n).map(x=>x[0]);
+const andJoin=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' a '+a[a.length-1];
+
+function vLet(n,cap){n=Math.round(n);const ve=n===1?'v jednom roce':((/^(2|3|4|12|13|14|2\d|3\d|4\d)$/.test(String(n))?'ve ':'v ')+n+' letech');return cap?ve[0].toUpperCase()+ve.slice(1):ve}
+function storyText(age,cause){
+  const P=[],f=isF();
+  // dětství
+  const pt=S.parents,home=pt<=2?pickOne(['v rodině, kde se počítala každá koruna','ve skromných poměrech']):pt<=5?pickOne(['v obyčejné rodině','v docela normální rodině']):pickOne(['v rodině, která si mohla dovolit skoro všechno','v dobře situované rodině']);
+  const kt=topTags(S.tagKid,2);
+  let p1=`Narodil/a ses ${PLACE_IN[S.birthPlace]||'v malém městě'}, ${home}. Od malička jsi měl/a ${pickOne(['nejradši','nejvíc v oblibě'])} ${GR.acc[S.firstLove]}`;
+  p1+=kt.length?`, a když ses zrovna nevěnoval/a škole, nejvíc tě bavily ${andJoin(kt.map(t=>TAGN[t]))}.`:'.';
+  const neg=Object.entries(S.mot).filter(([k,v])=>v<0).map(([k])=>k)[0];
+  if(neg)p1+=` ${pickOne(['Už tehdy ti ale lezlo na nervy','Jen jedno jsi nesnášel/a:','A pak tu bylo něco, co tě štvalo:'])} ${CATS[neg].name.toLowerCase()}.`;
+  P.push(p1);
+  if(age<18){P.push(`Život ale skončil příliš brzy, ${vLet(age)}. ${cause}`);return P}
+  // mládí a dospělost
+  const jobs=S.taken.filter(t=>t.cats.includes('P')&&t.money>0).sort((a,b)=>a.from-b.from);
+  const longJobs=[...jobs].filter(j=>j.to-j.from>=2).sort((a,b)=>(b.to-b.from)-(a.to-a.from));
+  const at=topTags(S.tagH,3);let p2='';
+  p2+=S.movedAt!=null?pickOne([`${vLet(S.movedAt,1)} sis sbalil/a věci a odstěhoval/a ses od rodičů.`,`Z domu jsi vylétl/a ${vLet(S.movedAt)}.`]):'Od rodičů ses nikdy pořádně neodstěhoval/a.';
+  if(jobs.length){const first=jobs[0];p2+=` První peníze ti vydělala práce „${first.name}“${first.from<20?', ještě skoro jako dítěti':''}.`;
+    if(longJobs.length&&longJobs[0].name!==first.name){const j=longJobs[0],y=Math.round(j.to-j.from);p2+=` ${pickOne(['Nejvíc let ale padlo na','Nakonec ses usadil/a u'])} „${j.name}“, ${y} ${letStr(y)}.`}}
+  else p2+=' Stálou práci jsi nikdy pořádně nenašel/nenašla.'.replace('nenašel/nenašla',f?'nenašla':'nenašel');
+  if(at.length){const main=at[0],job=S.taken.find(t=>t.money>0&&CARDS.find(c=>c.name===t.raw&&c.tag===main)),named=[jobs[0]&&jobs[0].name,longJobs[0]&&longJobs[0].name];
+    p2+=job&&!named.includes(job.name)?` A z koníčku (${TAGN[main]}) se nakonec stalo živobytí: „${job.name}“.`:job?` Z koníčku (${TAGN[main]}) se tak stala práce.`:` Celým životem se ti táhly ${andJoin(at.map(t=>TAGN[t]))}.`}
   const best=SK.map(k=>[k,lvl(S.xp[k])]).sort((a,b)=>b[1]-a[1]);
-  // graf úrovní
+  if(best[0][1]>=8)p2+=` V tématu ${CATS[best[0][0]].name.toLowerCase()} jsi to dotáhl/a na úroveň ${best[0][1]}. Lepší by se hledal/a těžko.`;
+  else if(best[0][1]>=5)p2+=` V tématu ${CATS[best[0][0]].name.toLowerCase()} z tebe byl/a profesionál/ka s úrovní ${best[0][1]}.`;
+  P.push(p2.replace('profesionál/ka',f?'profesionálka':'profesionál').replace('byl/a profesionál',f?'byla profesionál':'byl profesionál'));
+  // láska a rodina
+  const pf=familyStory();if(pf)P.push(pf);
+  // zkoušky a konec
+  let p4='';
+  if(S.addHist.length){const h=S.addHist[0];p4+=h.to!=null?`Kolem ${Math.floor(h.from)} ${letStr(Math.floor(h.from))} sis prošel/prošla obdobím, kdy tě ovládlo to s ${ADDN[h.a]}, ale dostal/a ses z toho. `:`Od ${Math.floor(h.from)} ${letStr(Math.floor(h.from))} jsi bojoval/a s ${ADDN[h.a]} a už ses toho nezbavil/a. `}
+  if(S.ills>6)p4+=pickOne(['Tělo ti nic nedarovalo, nemocí a úrazů bylo víc než dost. ','Nemocnice jsi znal/a líp, než bys chtěl/a. ']);
+  if(S.questsDone>=3)p4+=`Splnil/a sis spoustu snů ze seznamu, celkem ${S.questsDone}. `;else if(S.questsDone>0)p4+=`Pár věcí ze seznamu snů se ti splnit podařilo. `;
+  if(age>=65)p4+=pickOne(['Na stáří jsi zpomalil/a a užíval/a si klid. ','Poslední roky patřily hlavně klidu. ']);
+  p4+=/^Odešl|^Odešel/.test(cause)?cause.replace(/ jsi /,` jsi ${vLet(age)} `):`Odešel/odešla jsi ${vLet(age)}. ${cause}`;
+  const sc=S.score;p4+=' '+(sc>=200?'Byl to krásný život, plný věcí, které tě opravdu bavily.':sc>=80?'Byl to dobrý život s dost chvílemi radosti.':sc>=0?'Byl to život všelijaký, radosti i starosti se držely v rovnováze.':'Často jsi dělal/a, co tě netěšilo, a štěstí se ti spíš vyhýbalo.');
+  P.push(p4.replace('prošel/prošla',f?'prošla':'prošel'));
+  return P.map(p=>gtxt(p));
+}
+function familyStory(){
+  const P=S.partner,past=S.pastPartners,f=isF(),parts=[];
+  const spouses=[...past.filter(p=>p.married),...(P&&P.married?[P]:[])];
+  if(!P&&!past.length)return S.age>30?pickOne(['Velká láska se v tvém životě nikdy pořádně neusadila.','Na lásku jsi celý život nějak neměl/a štěstí.']):'';
+  if(spouses.length){const s0=spouses[0];parts.push(s0.g==='f'?`Pak přišla ${s0.name} a z té lásky byla svatba.`:`Pak přišel ${s0.name} a z té lásky byla svatba.`)}
+  else if(P)parts.push(`Po tvém boku ${P.g==='f'?'stála':'stál'} ${P.name}, i když svatba nikdy nepřišla.`);
+  const div=past.filter(p=>p.married).length;
+  if(div===1)parts.push(pickOne(['Manželství ale nevydrželo a skončilo rozvodem.','Jenže časem jste si přestali rozumět a přišel rozvod.']));else if(div>1)parts.push(`Rozvodů bylo nakonec ${div}.`);
+  if(P&&spouses.length>1)parts.push(`Nakonec ti ${P.g==='f'?'zůstala':'zůstal'} ${P.name}.`);
+  const kids=S.kids;
+  if(kids.length){const names=kids.map(k=>k.name);parts.push(kids.length===1?`Narodilo se vám dítě, ${names[0]}.`:`Přišly děti: ${andJoin(names)}.`);
+    const close=kids.filter(k=>k.alive&&k.rel>=70).map(k=>k.name),far=kids.filter(k=>k.alive&&k.rel<35).map(k=>k.name),lost=kids.filter(k=>!k.alive).map(k=>k.name);
+    if(close.length)parts.push(`${andJoin(close)} ${close.length>1?'k tobě měli':'k tobě mělo'} až do konce moc blízko.`);
+    if(far.length)parts.push(`S ${far.length>1?'některými':'jedním'} ses ale minul/a, ${andJoin(far)} ${far.length>1?'ti zůstali':'ti zůstalo'} cizí.`);
+    if(lost.length)parts.push(`Nejtěžší chvílí bylo rozloučení s ${lost.length>1?'dětmi':'dítětem'} (${andJoin(lost)}).`);
+    const g=kids.reduce((t,k)=>t+k.grand,0);if(g)parts.push(`Dočkal/a ses ${g} ${g===1?'vnoučete':'vnoučat'}.`)}
+  if(S.will==='charity')parts.push('Všechno jsi nakonec odkázal/a na dobrou věc.');else if(S.will==='kids')parts.push('Co jsi měl/a, jsi odkázal/a dětem.');
+  return parts.join(' ')}
+
+function buildRec(age,cause){
+  const tot=Object.fromEntries(CK.map(k=>[k,Math.round(S.th.reduce((t,p)=>t+p[k],0)*10)/10]));
+  const pts=[{a:0,lv:Object.fromEntries(SK.map(k=>[k,0]))},...S.hist];
+  const hist={a:pts.map(h=>Math.round(h.a*10)/10),lv:Object.fromEntries(SK.map(k=>[k,pts.map(h=>h.lv[k]||0)]))};
+  const longest=[...S.taken].sort((a,b)=>(b.to-b.from)-(a.to-a.from))[0];
+  const facts=[['Nejvíc peněz',kNum(Math.max(0,S.peakMoney))],['Štěstí',String(Math.trunc(S.score))],
+    longest?['Nejdéle',`${longest.name} (${Math.max(1,Math.round(longest.to-longest.from))} ${letStr(Math.max(1,Math.round(longest.to-longest.from)))})`]:null,
+    ['Nemoci a úrazy',String(S.ills)],S.kids.length?['Děti',String(S.kids.length)+(S.kids.reduce((t,k)=>t+k.grand,0)?` · vnoučata ${S.kids.reduce((t,k)=>t+k.grand,0)}`:'')]:null,
+    ['Splněné cíle',String(S.questsDone)],S.movedAt!=null?['Od rodičů ve',String(S.movedAt)]:null].filter(Boolean);
+  return {age,cause:gtxt(cause),gender:S.gender,score:Math.trunc(S.score),story:storyText(age,gtxt(cause)),hist,tot,facts:facts.map(([a,b])=>[gtxt(a),gtxt(b)])};
+}
+function summaryHTML(rec,own){
+  const age=rec.age,lvNow=k=>{const a=rec.hist.lv[k]||[];return a[a.length-1]||0};
+  const best=SK.map(k=>[k,lvNow(k)]).sort((a,b)=>b[1]-a[1]);
   const Wd=640,Hd=170,px=a=>30+a/Math.max(age,10)*(Wd-40),py=l=>Hd-20-l/10*(Hd-34);
   let svg=`<svg viewBox="0 0 ${Wd} ${Hd}" class="sumchart" role="img" aria-label="Úrovně dovedností během života">`;
   for(let l=0;l<=10;l+=5)svg+=`<line x1="30" x2="${Wd-10}" y1="${py(l)}" y2="${py(l)}" stroke="var(--paper2)" stroke-width="1.5"/><text x="22" y="${py(l)+4}" text-anchor="end" font-size="10" fill="var(--muted)">${l}</text>`;
   for(let a=0;a<=age;a+=10)svg+=`<text x="${px(a)}" y="${Hd-4}" text-anchor="middle" font-size="10" fill="var(--muted)">${a}</text>`;
-  const pts=[{a:0,lv:Object.fromEntries(SK.map(k=>[k,0]))},...S.hist];
-  for(const k of SK){if(!best.find(b=>b[0]===k&&b[1]>0))continue;
-    svg+=`<polyline fill="none" stroke="${CATS[k].c}" stroke-width="3" stroke-linejoin="round" points="${pts.map(h=>px(h.a)+','+py(h.lv[k])).join(' ')}"/>`;
-    const L=pts[pts.length-1];svg+=`<circle cx="${px(L.a)}" cy="${py(L.lv[k])}" r="4" fill="${CATS[k].c}" stroke="var(--ink)" stroke-width="1.5"/>`}
+  for(const k of SK){if(!(lvNow(k)>0))continue;const L=rec.hist.lv[k];
+    svg+=`<polyline fill="none" stroke="${CATS[k].c}" stroke-width="3" stroke-linejoin="round" points="${rec.hist.a.map((a,i)=>px(+a)+','+py(+L[i]||0)).join(' ')}"/>`;
+    svg+=`<circle cx="${px(+rec.hist.a[rec.hist.a.length-1])}" cy="${py(lvNow(k))}" r="4" fill="${CATS[k].c}" stroke="var(--ink)" stroke-width="1.5"/>`}
   svg+='</svg>';
-  const legend=best.filter(b=>b[1]>0).map(([k,l])=>`<span class="lg"><i style="background:${CATS[k].c}"></i>${CATS[k].name} ${l}</span>`).join('');
-  // čas
-  const sum=CK.reduce((t,k)=>t+tot[k],0)||1;
-  const bar=CK.filter(k=>tot[k]>0).sort((a,b)=>tot[b]-tot[a]).map(k=>`<i style="background:${CATS[k].c};flex:${tot[k]}" title="${CATS[k].name} ${Math.round(tot[k]/sum*100)} %"></i>`).join('');
-  const barLeg=CK.filter(k=>tot[k]/sum>0.04).sort((a,b)=>tot[b]-tot[a]).map(k=>`<span class="lg"><i style="background:${CATS[k].c}"></i>${CATS[k].name} ${Math.round(tot[k]/sum*100)} %</span>`).join('');
-  // zajímavosti
-  const longest=[...S.taken].sort((a,b)=>(b.to-b.from)-(a.to-a.from))[0];
-  const facts=[`Nejvíc peněz: <b>${kNum(Math.max(0,S.peakMoney))}</b>`,`Štěstí: <b>${Math.trunc(S.score)}</b>`,
-    longest?`Nejdéle: <b>${longest.name}</b> (${Math.max(1,Math.round(longest.to-longest.from))} ${letStr(Math.max(1,Math.round(longest.to-longest.from)))})`:'',
-    `Nemoci a úrazy: <b>${S.ills}</b>`,S.kids.length?`Děti: <b>${S.kids.length}</b>${S.kids.reduce((t,k)=>t+k.grand,0)?` · vnoučata: <b>${S.kids.reduce((t,k)=>t+k.grand,0)}</b>`:''}`:'',S.movedAt!=null?`Od rodičů ve <b>${S.movedAt}</b>`:'Od rodičů ses <b>nikdy neodstěhoval/a</b>'].filter(Boolean);
-  return `<h2>Život skončil ve ${age} ${letStr(age)}</h2><p class="lead">${cause}</p>
-    <div class="story">${storyText(age,cause,tot,best)}</div>
+  const legend=best.filter(b=>b[1]>0).map(([k,l])=>`<span class="lg"><i style="background:${CATS[k].c}"></i>${CATS[k].name} ${+l}</span>`).join('');
+  const tot=rec.tot||{},sum=CK.reduce((t,k)=>t+(+tot[k]||0),0)||1;
+  const bar=CK.filter(k=>+tot[k]>0).sort((a,b)=>tot[b]-tot[a]).map(k=>`<i style="background:${CATS[k].c};flex:${+tot[k]}"></i>`).join('');
+  const barLeg=CK.filter(k=>+tot[k]/sum>0.04).sort((a,b)=>tot[b]-tot[a]).map(k=>`<span class="lg"><i style="background:${CATS[k].c}"></i>${CATS[k].name} ${Math.round(tot[k]/sum*100)} %</span>`).join('');
+  const who=rec.name?`<p class="pre" style="margin:0 0 4px;letter-spacing:.2em;text-transform:uppercase;font-size:12px;font-weight:800;color:var(--muted)">${esc(rec.name)} · štěstí ${+rec.score}</p>`:'';
+  return `${who}<h2>Život skončil ${vLet(+age)}</h2><p class="lead">${esc(rec.cause)}</p>
+    <div class="story">${(rec.story||[]).map(p=>`<p>${esc(p)}</p>`).join('')}</div>
+    ${own?`<div class="save"><input id="pname" maxlength="24" placeholder="Tvoje jméno" autocomplete="nickname"><button class="btn" id="psave">Zapsat do síně slávy</button><span class="st" id="pst"></span></div>`:''}
     <div class="lab">Jak rostly dovednosti</div>${svg}<div class="legend">${legend||'<span class="lg">Žádná dovednost nepřesáhla nulu.</span>'}</div>
-    <div class="lab" style="margin-top:14px">Kde jsi trávil/a čas</div><div class="tbar">${bar}</div><div class="legend">${barLeg}</div>
-    <ul class="facts">${facts.map(f=>`<li>${f}</li>`).join('')}</ul>
-    <button class="btn" id="again">Žít znovu</button>`;
+    <div class="lab" style="margin-top:14px">Kde trávil${rec.gender==='f'?'a':''} čas</div><div class="tbar">${bar}</div><div class="legend">${barLeg}</div>
+    <ul class="facts">${(rec.facts||[]).map(([a,b])=>`<li>${esc(a)}: <b>${esc(b)}</b></li>`).join('')}</ul>
+    <div class="births">${own?'<button class="btn" id="again">Žít znovu</button><button class="btn soft" id="toHall">Síň slávy</button>':'<button class="btn" id="backHall">Zpět do síně slávy</button>'}</div>`;
 }
-const GR={acc:{P:'práci',V:'učení',R:'rodinu',F:'kamarády',K:'koníčky',S:'sport',C:'cestování'},
-  gen:{P:'práce',V:'učení',R:'rodiny',F:'kamarádů',K:'koníčků',S:'sportu',C:'cestování'},
-  dat:{P:'práci',V:'učení',R:'rodině',F:'kamarádům',K:'koníčkům',S:'sportu',C:'cestování'}};
-function storyText(age,cause,tot,best){
-  const top=(per)=>SK.filter(k=>S.th[per][k]>0).sort((a,b)=>S.th[per][b]-S.th[per][a]);
-  const pt=S.parents,home=pt<=2?'ve skromných poměrech':pt<=5?'v obyčejné rodině':'v dobře situované rodině';
-  const kid=top(0);
-  let p1=`Narodil/a ses ${home}. Od malička jsi měl/a rád/a ${GR.acc[S.firstLove]}`;
-  p1+=kid.length?` a dětství se nejvíc točilo kolem ${GR.gen[kid[0]]}${kid[1]?` a ${GR.gen[kid[1]]}`:''}.`:'.';
-  if(age<18)return `<p>${p1}</p><p>Život skončil příliš brzy, ve ${age} ${letStr(age)}. ${cause}</p>`;
-  const jobs=S.taken.filter(t=>t.cats.includes('P')&&t.money>0&&t.to-t.from>=2).sort((a,b)=>(b.to-b.from)-(a.to-a.from));
-  const ad=top(1).concat(top(2)).filter((k,i,a)=>a.indexOf(k)===i);
-  let p2=S.movedAt!=null?`Ve ${S.movedAt} letech ses odstěhoval/a od rodičů. `:'Od rodičů ses nikdy neodstěhoval/a. ';
-  if(jobs.length){const y=Math.round(jobs[0].to-jobs[0].from);p2+=`Nejdéle tě živila práce „${jobs[0].name}“, ${y} ${letStr(y)}`;
-    const j2=jobs.find(j=>j.name!==jobs[0].name);p2+=j2?`, a vedle ní taky „${j2.name}“. `:'. '}
-  else p2+='Stálou práci jsi nikdy pořádně neměl/a. ';
-  if(ad.length)p2+=`V dospělosti jsi nejvíc času věnoval/a ${GR.dat[ad[0]]}${ad[1]?` a ${GR.dat[ad[1]]}`:''}. `;
-  if(best[0][1]>=5)p2+=`V tématu ${CATS[best[0][0]].name.toLowerCase()} jsi to dotáhl/a na úroveň ${best[0][1]}${best[0][1]>=8?', mezi nejlepší vůbec':', na profesionála'}.`;
-  const fam=false;
-  const sc=S.score,verdict=sc>=150?'Byl to šťastný život, plný věcí, které tě opravdu bavily.':sc>=50?'Byl to dobrý život s dost chvílemi radosti.':sc>=0?'Byl to život všelijaký, radosti i starosti se držely v rovnováze.':'Často jsi dělal/a věci, které tě netěšily.';
-  const p3=`${S.ills>3?`Prošel/la jsi ${S.ills} nemocemi a úrazy. `:''}${/^Odešel/.test(cause)?cause.replace(/\.$/,` ve ${age} ${letStr(age)}.`):`Odešel/odešla jsi ve ${age} ${letStr(age)}. ${cause}`} ${verdict}`;
-  const pf=familyStory();
-  return `<p>${p1}</p><p>${p2}</p>${pf?`<p>${pf}</p>`:''}<p>${p3}</p>`;
+async function sbFetch(path,opt={}){const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),8000);
+  try{const r=await fetch(SB_URL+'/rest/v1/'+path,{...opt,signal:ctl.signal,headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json',...(opt.headers||{})}});
+    if(!r.ok)throw new Error('HTTP '+r.status);return r.status===201||r.status===204?null:await r.json()}finally{clearTimeout(t)}}
+function wireSummary(rec){
+  $('#again').onclick=birthChoice;$('#toHall').onclick=()=>showHall();
+  try{const n=localStorage.getItem('tzj-name');if(n)$('#pname').value=n}catch(e){}
+  $('#psave').onclick=async()=>{const name=$('#pname').value.trim().slice(0,24);if(!name){$('#pst').textContent='Napiš své jméno.';return}
+    try{localStorage.setItem('tzj-name',name)}catch(e){}
+    $('#psave').disabled=true;$('#pst').textContent='Ukládám…';
+    try{await sbFetch('scores',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({name,score:rec.score,age:rec.age,gender:rec.gender,data:{v:1,cause:rec.cause,story:rec.story,hist:rec.hist,tot:rec.tot,facts:rec.facts}})});
+      $('#pst').textContent='Zapsáno. Najdeš se v síni slávy.';$('#psave').textContent='Zapsáno'}
+    catch(e){$('#psave').disabled=false;$('#pst').textContent='Nepodařilo se uložit. Síň slávy funguje na lygames.cz.'}};
+}
+async function showHall(){
+  $('#ov').classList.add('title');
+  showOverlay(`<div class="hero"><p class="pre">nejšťastnější životy</p><h1 class="mid">Síň slávy</h1><div class="hallbox" id="hallbox"><p class="lead">Načítám…</p></div><div class="births"><button class="btn big" id="hb">${S&&S.dead?'Žít znovu':'Zpět'}</button></div></div>`,true);
+  $('#hb').onclick=()=>{if(S&&S.dead)birthChoice();else intro(true)};
+  try{const rows=await sbFetch('scores?select=id,name,score,age,gender,created_at&order=score.desc,created_at.asc&limit=30');
+    $('#hallbox').innerHTML=rows.length?`<table class="hall">${rows.map((r,i)=>`<tr data-id="${+r.id}"><td class="n">${i+1}.</td><td>${esc(r.name)}<div class="sub">${r.gender==='f'?'žila':'žil'} ${+r.age} ${letStr(+r.age)}</div></td><td class="sc">${+r.score}</td></tr>`).join('')}</table>`:'<p class="lead">Zatím tu nikdo není. Buď první.</p>';
+    document.querySelectorAll('.hall tr').forEach(tr=>tr.onclick=()=>showHallEntry(+tr.dataset.id))}
+  catch(e){$('#hallbox').innerHTML='<p class="lead">Síň slávy se nepodařilo načíst. Funguje na lygames.cz.</p>'}
+}
+async function showHallEntry(id){
+  try{const r=(await sbFetch(`scores?select=*&id=eq.${id}`))[0];if(!r)return;const d=r.data||{};
+    const rec={name:r.name,score:r.score,age:r.age,gender:r.gender,cause:d.cause||'',story:Array.isArray(d.story)?d.story.map(String):[],hist:d.hist&&d.hist.a?d.hist:{a:[0],lv:{}},tot:d.tot||{},facts:Array.isArray(d.facts)?d.facts.map(x=>[String(x[0]),String(x[1])]):[]};
+    $('#ov').classList.remove('title');showOverlay(summaryHTML(rec,false),true);$('#backHall').onclick=()=>showHall()}
+  catch(e){}
 }
 
 /* ============ KARTY ============ */
@@ -1172,7 +1385,7 @@ function statTip(k,e){
   if(k==='en'&&B.E){const E=B.E;h=`<h4>Energie</h4><div class="k">Mění se pomalu. Záleží na spánku a odpočinku za celý den.</div>`+
     statRow('Odpočinek a spánek',sc(E.rest*EK),yr)+statRow('Hodiny bez odpočinku',sc(E.awake*EK),yr)+statRow('Náročnost činností',sc(E.cards*EK),yr)+statRow('Nemoci',sc(E.ill*EK),yr)+statRow('Malé děti',sc(E.family*EK),yr)+statRow('Sabatikl',sc(E.sab*EK),yr)+statRow('Bydlení',sc(E.home*EK),yr)+statRow('Potřeba těla',sc(E.need*EK),yr)+
     `<div class="sr tot"><span>Celkem</span><b>${(sc(E.total*EK)>0?'+':'−')+yr(Math.abs(sc(E.total*EK)))}</b></div>`}
-  if(k==='hp'&&B.H){const H=Object.fromEntries(Object.entries(B.H).map(([a,v])=>[a,a==='total'||a==='k'?v:v*0.6]));h=`<h4>Zdraví</h4>${S.crit!=null?`<div style="color:var(--bad)">Kritický stav! Zbývá ${Math.max(0,1-(S.age-S.crit)).toFixed(1).replace('.',',')} roku, potřebuješ aspoň 5.</div>`:''}`+statRow('Odpočinek',sc(H.rest),yr)+statRow('Aktivity',sc(H.cards),yr)+statRow('Nemoci',sc(H.ill+H.bigIll),yr)+statRow('Bydlení',sc(H.home),yr)+
+  if(k==='hp'&&B.H){const H=Object.fromEntries(Object.entries(B.H).map(([a,v])=>[a,a==='total'||a==='k'?v:v*B.H.k]));h=`<h4>Zdraví</h4>${S.crit!=null?`<div style="color:var(--bad)">Kritický stav! Zbývá ${Math.max(0,1-(S.age-S.crit)).toFixed(1).replace('.',',')} roku, potřebuješ aspoň 5.</div>`:''}`+statRow('Odpočinek',sc(H.rest),yr)+statRow('Aktivity',sc(H.cards),yr)+statRow('Nemoci',sc(H.ill+H.bigIll),yr)+statRow('Bydlení',sc(H.home),yr)+
     statRow('Vyčerpání',sc(H.exh),yr)+statRow('Stres',sc(H.stressH),yr)+statRow('Věk',sc(H.ageH),yr)+statRow('Závislosti',sc(H.addHp||0),yr)+`<div class="sr tot"><span>Celkem</span><b>${(H.total>0?'+':'−')+yr(Math.abs(sc(H.total)))}</b></div>`+(S.maxH<100?`<div class="k">Strop zdraví s věkem klesá: ${Math.round(S.maxH)}</div>`:'')}
   if(k==='st'&&B.T){const T=B.T;h=`<h4>Stres</h4>`+statRow('Aktivity',sc(T.cards),yr,1)+statRow('Překrývání karet',sc(T.overlap),yr,1)+statRow('Karty nad úroveň',sc(T.gap),yr,1)+statRow('Bydlení',sc(T.home),yr,1)+
     statRow('Pořád u rodičů',sc(T.parentsSt),yr,1)+statRow('Rodina a život',sc(T.famSt),yr,1)+statRow('Chuť (závislost)',sc(T.addSt||0),yr,1)+statRow('Dluhy',sc(T.debt),yr,1)+statRow('Únava',sc(T.tired),yr,1)+statRow('Přirozeně odchází',sc(T.decay),yr,1)+`<div class="sr tot"><span>Celkem</span><b>${(T.total>0?'+':'−')+yr(Math.abs(sc(T.total)))}</b></div>`}
@@ -1218,7 +1431,7 @@ function onDragUp(){
 /* ============ HUD ============ */
 const skEls={};
 function buildSkills(){
-  $('#skills').innerHTML=SK.map(k=>{const l=lvl(S.xp[k]);return `<div class="skc ${l?'':'zero'} ${l>=8?'glow':''}" id="sk${k}" style="background:color-mix(in srgb, ${CATS[k].c} ${l?30+7*l:0}%, var(--paper));--gc:${CATS[k].c}" title="${CATS[k].name} – úroveň ${l} z 10${S.mot[k]?` · učíš se ${S.mot[k]>0?'rychleji':'pomaleji'} (×${String(motMult(S.mot[k])).replace('.',',')})`:''}">${ICO[k]}<b>${l||''}</b></div>`}).join('');
+  $('#skills').innerHTML=SK.map(k=>{const l=lvl(S.xp[k]),q=(S.quests||[]).find(x=>x.type==='skill'&&x.k===k);return `<div class="skw">${q?`<span class="qf" data-c="q:${q.id}">${AICO.flag}${q.target}</span>`:''}<div class="skc ${l?'':'zero'} ${l>=8?'glow':''}" id="sk${k}" style="background:color-mix(in srgb, ${CATS[k].c} ${l?30+7*l:0}%, var(--paper));--gc:${CATS[k].c}" title="${CATS[k].name} – úroveň ${l} z 10${S.mot[k]?` · učíš se ${S.mot[k]>0?'rychleji':'pomaleji'} (×${String(motMult(S.mot[k])).replace('.',',')})`:''}">${ICO[k]}<b>${l||''}</b></div></div>`}).join('');
   SK.forEach(k=>skEls[k]=$('#sk'+k));
 }
 function renderMots(){
@@ -1270,7 +1483,7 @@ function hideOverlay(){$('#ov').hidden=true;$('#ov').classList.remove('title')}
 function intro(first){paused=true;setSpeedUI();
   if(first){$('#ov').classList.add('title');showOverlay(`<div class="hero"><p class="pre">hra o čase</p><h1>To je život</h1>
     <p class="tag">Jeden rok trvá minutu a půl.<br>Příležitosti přicházejí a odcházejí.<br>Některé chytíš, jiné necháš plout.<br><b>Čemu dáš svůj čas, to se z tebe stane.</b></p>
-    <button class="btn big" id="start">Začít hru</button></div>`);$('#start').onclick=()=>{audioInit();birthChoice()};return}
+    <div class="births"><button class="btn big" id="start">Začít hru</button><button class="btn big soft" id="hall">Síň slávy</button></div></div>`);$('#start').onclick=()=>{audioInit();birthChoice()};$('#hall').onclick=()=>showHall();return}
   showOverlay(`<h2>Jak hrát</h2><p class="lead">Přetáhni příležitost na osu dne. Prázdné hodiny jsou odpočinek. Najeď myší na cokoliv, co tě zajímá.</p><p class="lead">Zbytek je na tobě.</p><button class="btn" id="go">Pokračovat</button>`);
   $('#go').onclick=()=>{hideOverlay();paused=false;setSpeedUI()}}
 function birth(g){audioInit();S.gender=g;newLife();$('#ov').classList.remove('title');hideOverlay();paused=false;setSpeedUI()}
@@ -1481,7 +1694,7 @@ const AICO={
   lot:P+'<path d="M4 8h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4z"/><path d="M10 8v10" stroke-dasharray="2 2"/></svg>',
 };
 const ACTS=[
-  {id:'search',name:'Hledat',show:()=>S.age>=4,tip:'Jednou za rok si za 10 energie řekneš o konkrétní téma. Přijdou dvě jednodušší karty.',
+  {id:'search',name:'Hledat',show:()=>S.age>=4,tip:'Jednou za rok si za 10 energie řekneš o konkrétní téma. Přijdou dvě karty podle tvé úrovně.',
     ok:()=>S.age>=4&&S.age-(S.searchAt??-9)>=1&&S.energy>=10,why:()=>S.age<4?'Od 4 let.':S.energy<10?'Potřebuješ aspoň 10 energie.':`Znovu za ${(1-(S.age-S.searchAt)).toFixed(1).replace('.',',')} roku.`,run:actSearch},
   {id:'loan',name:'Půjčka',show:()=>S.age>=18,tip:'Půjčíš si a pak to roky splácíš i s úrokem.',ok:()=>S.age>=18&&S.loans.filter(l=>l.kind==='loan').length<2,why:()=>S.age<18?'Od 18 let.':'Máš už dvě půjčky.',run:actLoan},
   {id:'home',name:'Koupit bydlení',show:()=>S.age>=18,tip:'Zaplatíš 20 % a zbytek je hypotéka. Nájem neplatíš, jen údržbu. Byt časem zdražuje.',ok:()=>S.age>=18&&!S.own,why:()=>S.age<18?'Od 18 let.':'Už vlastníš, kde bydlíš.',run:actHome},
@@ -1507,14 +1720,13 @@ function closeModal(){hideOverlay();paused=wasPaused;setSpeedUI();renderActs();r
 
 function actSearch(){
   const cats=CK.filter(k=>k!=='P'||S.age>=15);
-  modal(`<h3>Co hledáš?</h3><p class="lead">Stojí 10 energie. Přijdou dvě jednodušší karty z vybraného tématu.</p>
+  modal(`<h3>Co hledáš?</h3><p class="lead">Stojí 10 energie. Přijdou dvě karty z vybraného tématu podle toho, na co máš.</p>
     <div class="pick">${cats.map(k=>`<button class="pk" data-k="${k}" style="background:${CATS[k].c}"><span class="ai">${ICO[k]}</span>${CATS[k].name}</button>`).join('')}</div>`,()=>{
     document.querySelectorAll('.pk').forEach(b=>b.onclick=()=>{const k=b.dataset.k;S.searchAt=S.age;S.energy=Math.max(0,S.energy-10);
       const used=new Set([...S.placed.filter(p=>!p.ev).map(p=>p.card.id),...S.offers.map(o=>o.card.id)]);
       let pool=CARDS.filter(c=>c.cats.includes(k)&&S.age>=c.a0&&S.age<=c.a1&&!used.has(c.id)&&meets(c)&&genderOk(c)&&needOk(c)&&!(S.movedOut===false&&c.pmin&&S.qol<c.pmin));
-      pool.sort((a,b)=>Object.values(a.req).reduce((t,v)=>t+v,0)-Object.values(b.req).reduce((t,v)=>t+v,0)||Math.abs(a.money)-Math.abs(b.money));
-      pool=pool.slice(0,Math.max(3,Math.ceil(pool.length/2)));let n=0;
-      while(pool.length&&n<2){const c=pool.splice(Math.floor(rnd()*pool.length),1)[0];const o={uid:++uidC,card:c,life:LIFE[1],max:LIFE[1],self:c.money<0&&S.age>=15&&S.age<18&&S.hadJob};S.offers.push(o);makeOfferEl(o);n++}
+      const qual=c=>1+Object.values(c.req).reduce((t,v)=>t+v,0)*0.7+Math.max(0,c.money)/25000+(c.needT?1:0)+(c.tag?Math.min(2,(S.tagH[c.tag]||0)*0.2):0);let n=0;
+      while(pool.length&&n<2){const c=pickW(pool,qual);pool.splice(pool.indexOf(c),1);const o={uid:++uidC,card:c,life:LIFE[1],max:LIFE[1],self:c.money<0&&S.age>=15&&S.age<18&&S.hadJob};S.offers.push(o);makeOfferEl(o);n++}
       closeModal();sfx('appear');toast(n?`Našel/a jsi ${n===1?'jednu kartu':'dvě karty'}: ${CATS[k].name.toLowerCase()}.`:'Tentokrát nic nevyšlo.',n?'good':'bad')})});
 }
 function actLoan(){
@@ -1718,7 +1930,6 @@ function extraChips(){let h='';
   if(S.ins)h+=`<button class="cm box" data-c="ins"><span class="ai">${AICO.ins}</span>Pojištění</button>`;
   if(S.car)h+=`<button class="cm box" data-c="car"><span class="ai">${AICO.car}</span>${S.car.name}</button>`;
   if(S.biz)h+=`<button class="cm box" data-c="biz"><span class="ai">${AICO.biz}</span>Firma <b>${kNum(S.biz.value)}</b></button>`;
-  for(const q of S.quests)h+=`<button class="cm box quest" data-c="q:${q.id}"><span class="ai">${AICO.flag}</span>${q.text} <b>${Math.max(0,q.until-S.age).toFixed(1).replace('.',',')} r</b></button>`;
   for(const a in S.addicted)h+=`<button class="cm box bad" data-c="add:${a}"><span class="ai">${ICO.st}</span>${ADD[a]}</button>`;
   if(S.sabUntil&&S.age<S.sabUntil)h+=`<button class="cm box" data-c="sab"><span class="ai">${AICO.sab}</span>Sabatikl <b>${(S.sabUntil-S.age).toFixed(1).replace('.',',')}</b></button>`;
   return h}
@@ -1755,25 +1966,6 @@ function extraClick(c){
   else if(c==='car'){const v=S.car.value;modal(`<h3>Prodat auto?</h3><p class="lead">Dostaneš ${kNum(v)}.</p><div class="opts"><button class="opt" id="c1"><b>Prodat</b></button></div>`,()=>{$('#c1').onclick=()=>{S.money+=v;S.car=null;closeModal()}})}
   else if(c==='biz'){const v=S.biz.value*0.9;modal(`<h3>Prodat firmu?</h3><p class="lead">Dostaneš ${kNum(v)}.</p><div class="opts"><button class="opt" id="b1"><b>Prodat</b></button></div>`,()=>{$('#b1').onclick=()=>{S.money+=v;S.biz=null;S.log.push(`${Math.floor(S.age)} let – prodej firmy.`);closeModal()}})}
 }
-function familyStory(){
-  const parts=[],P=S.partner,past=S.pastPartners,f=isF();
-  const spouses=[...past.filter(p=>p.married),...(P&&P.married?[P]:[])];
-  if(spouses.length===1){const s=spouses[0];parts.push(s.g==='f'?`Tvou manželkou se stala ${s.name}.`:`Tvým manželem se stal ${s.name}.`)}
-  else if(spouses.length>1)parts.push(`Byl/a jsi ${spouses.length}× ${f?'vdaná':'ženatý'}.`);
-  const div=past.filter(p=>p.married).length;if(div)parts.push(div===1?'Jedno manželství skončilo rozvodem.':`Rozvodů bylo ${div}.`);
-  if(P&&!P.married)parts.push(`Do konce s tebou ${P.g==='f'?'byla':'byl'} ${P.name}.`);
-  else if(P&&spouses.length>1)parts.push(`Nakonec ti ${P.g==='f'?'zůstala':'zůstal'} ${P.name}.`);
-  else if(!P&&!spouses.length&&S.age>35)parts.push('Velkou lásku jsi nikdy nenašel/nenašla.'.replace('nenašel/nenašla',f?'nenašla':'nenašel'));
-  const kids=S.kids;if(kids.length){parts.push(`${kids.length===1?'Měl/a jsi jedno dítě':`Měl/a jsi ${kids.length} ${kids.length<5?'děti':'dětí'}`}: ${kids.map(k=>k.name).join(', ')}.`);
-    const close=kids.filter(k=>k.alive&&k.rel>=70).map(k=>k.name),far=kids.filter(k=>k.alive&&k.rel<35).map(k=>k.name),lost=kids.filter(k=>!k.alive).map(k=>k.name);
-    if(close.length)parts.push(`Moc blízko k tobě ${close.length>1?'měli':'mělo'}: ${close.join(', ')}.`);
-    if(far.length)parts.push(`Odcizil${far.length>1?'y se':'o se'} ti: ${far.join(', ')}.`);
-    if(lost.length)parts.push(`Přežil/a jsi ztrátu dítěte (${lost.join(', ')}) a nikdy se s tím úplně nesrovnal/a.`);
-    const g=kids.reduce((t,k)=>t+k.grand,0);if(g)parts.push(`Dočkal/a ses ${g} ${g===1?'vnoučete':'vnoučat'}.`)}
-  else if(S.age>40)parts.push('Děti jsi neměl/a.');
-  if(S.will==='charity')parts.push('Všechno jsi odkázal/a na dobrou věc.');else if(S.will==='kids')parts.push('Majetek jsi odkázal/a dětem.');
-  return parts.join(' ')}
-
 
 /* ============ ZÁVISLOSTI ============ */
 const ADD={alcohol:'alkohol',smoke:'cigarety',gamble:'hazard',social:'sociální sítě',games:'hry',drugs:'drogy',caffeine:'kofein',collect:'sběratelství'};
@@ -1781,8 +1973,8 @@ const ADD_HP={alcohol:-0.025,smoke:-0.02,drugs:-0.04,caffeine:-0.008};
 function addictTick(dt,R){const rehab=R.tagH.rehab||0,fx={st:0,hp:0,money:0};
   for(const a of new Set([...Object.keys(S.addict),...Object.keys(R.addH)])){const h=R.addH[a]||0;
     S.addict[a]=Math.max(0,(S.addict[a]||0)+(h-(h?0:0.3+rehab*0.5))*dt/YEAR);
-    if(!S.addicted[a]&&S.addict[a]>=4){S.addicted[a]=S.age;moment(ICO.st,'#F0A7A0',`Závislost: ${ADD[a]}`,'Bez toho už to nejde. Pomůže odvykací kúra, nebo hodně vůle.');sfx('motDown');S.log.push(`${Math.floor(S.age)} let – závislost (${ADD[a]}).`);renderChips()}
-    else if(S.addicted[a]&&S.addict[a]<1.5){delete S.addicted[a];toast(`Zbavil/a ses závislosti: ${ADD[a]}.`,'good');S.log.push(`${Math.floor(S.age)} let – konec závislosti (${ADD[a]}).`);renderChips()}
+    if(!S.addicted[a]&&S.addict[a]>=4){S.addicted[a]=S.age;S.addHist.push({a,from:S.age,to:null});moment(ICO.st,'#F0A7A0',`Závislost: ${ADD[a]}`,'Bez toho už to nejde. Pomůže odvykací kúra, nebo hodně vůle.');sfx('motDown');S.log.push(`${Math.floor(S.age)} let – závislost (${ADD[a]}).`);renderChips()}
+    else if(S.addicted[a]&&S.addict[a]<1.5){delete S.addicted[a];{const h=S.addHist.filter(x=>x.a===a&&x.to==null).pop();if(h)h.to=S.age}toast(`Zbavil/a ses závislosti: ${ADD[a]}.`,'good');S.log.push(`${Math.floor(S.age)} let – konec závislosti (${ADD[a]}).`);renderChips()}
     if(S.addicted[a]){if(!h)fx.st+=rehab?0.1:0.25;fx.hp+=ADD_HP[a]||0;if(a==='gamble')fx.money-=6000;if(a==='drugs')fx.money-=4000}}
   S.addFx=fx}
 
@@ -1825,6 +2017,7 @@ function renderChips(){
   S.rentals.forEach((r,i)=>h+=`<button class="cm box" data-c="rent:${i}"><span class="ai">${AICO.home}</span>Pronájem <b class="g">+${kNum(r.income)}</b></button>`);
   if(S.inv>0)h+=`<button class="cm box" data-c="inv"><span class="ai">${AICO.inv}</span>Investice <b>${kNum(S.inv)}</b></button>`;
   $('#cms').innerHTML=h+extraChips();
+  $('#qright').innerHTML=S.quests.filter(q=>q.type!=='skill').map(q=>`<button class="cm box quest" data-c="q:${q.id}"><span class="ai">${AICO.flag}</span>${q.text} <b>${Math.max(0,q.until-S.age).toFixed(1).replace('.',',')} r</b></button>`).join('');buildSkills();
 }
 function chipInfo(c){
   if(c.startsWith('loan:')){const l=S.loans.find(x=>x.id===+c.slice(5));if(!l)return '';const yl=l.left/12;
@@ -1834,6 +2027,7 @@ function chipInfo(c){
   if(c==='inv')return `<h4>Investice</h4><div class="sr"><span>Hodnota</span><b>${kNum(S.inv)}</b></div><div class="k">Klikni pro vklad nebo výběr.</div>`;
   return extraInfo(c);
 }
+['#qright','#skills'].forEach(id=>{$(id).addEventListener('pointermove',e=>{const b=e.target.closest('[data-c^="q:"]');if(!b)return;tip.innerHTML=chipInfo(b.dataset.c);tip.hidden=false;posTip(e)});$(id).addEventListener('pointerleave',()=>tip.hidden=true)});
 $('#cms').addEventListener('pointermove',e=>{const b=e.target.closest('.cm');if(!b){tip.hidden=true;return}tip.innerHTML=chipInfo(b.dataset.c);tip.hidden=false;posTip(e)});
 $('#cms').addEventListener('pointerleave',()=>tip.hidden=true);
 $('#cms').addEventListener('click',e=>{const b=e.target.closest('.cm');if(!b||S.dead)return;const c=b.dataset.c;tip.hidden=true;
@@ -1998,6 +2192,4 @@ function frame(now){const dtR=Math.min(0.1,(now-last)/1000);last=now;
   if(dirty)renderTimeline();updateHUD();updateOffers();drawScene(now);drawKid(now);requestAnimationFrame(frame)}
 buildAxis();newLife();S.R=computeRates();renderTimeline();intro(true);requestAnimationFrame(frame);
 </script>
-
-</body>
-</html>
+</body></html>
