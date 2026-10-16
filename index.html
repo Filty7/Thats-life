@@ -357,6 +357,7 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
 .qn svg{width:11px;height:11px}.qn b{font-weight:600;opacity:.65}
 .seg .ndx{position:absolute;top:3px;right:4px;z-index:4;width:17px;height:17px;border-radius:50%;background:var(--bad);color:#fff;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:12px;line-height:1}
 .btn.soft{background:var(--paper)}
+.hrow{display:flex;gap:8px}.hrow .opt:first-child{flex:1}.opt.cash{flex:0 0 auto;background:#DCEBD2}
 .save{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 16px}
 .save input{font:inherit;font-weight:700;border:2.5px solid var(--ink);border-radius:7px;padding:7px 10px;background:var(--paper);min-width:0;flex:1 1 180px;max-width:260px}
 .save .st{font-size:13px;font-weight:700;color:var(--muted)}
@@ -423,7 +424,7 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
 /* ============ TEMPO ============ */
 const YEAR=90;              // sekund na rok
 const LIFE=[63,81];
-const ST_K=0.55;             // stres se kumuluje pomaleji         // karta čeká 55–70 s
+const ST_K=0.75;             // stres se kumuluje pomaleji         // karta čeká 55–70 s
 
 /* ============ IKONY ============ */
 const P='<svg class="i" viewBox="0 0 24 24">';
@@ -1055,7 +1056,7 @@ function newLife(){
     th:[0,1,2,3].map(()=>Object.fromEntries(CK.map(k=>[k,0]))),
     mot:{},motChance:0.04,placed:[],offers:[],recent:[],qol:parents,parents,movedOut:false,qolLock:0,
     spawnT:1.5,second:true,pension:0,dead:false,flags:{},peakMoney:0,monthly:0,trend:{en:0,hp:0,st:0},R:null,log:[],maxH:100,
-    hist:[],taken:[],ills:0,nightMix:0,hadJob:false,movedAt:null,bd:{},gender:(S&&S.gender)||'m',loans:[],own:null,rentals:[],inv:0,searchAt:null,lotAt:null,partner:null,pastPartners:[],kids:[],famFx:{sc:0,st:0},evAt:0,ins:false,car:null,biz:null,sabUntil:null,sabAt:null,will:null,friendLoan:null,lastKidAt:null,retrainAt:null,tagH:{},addict:{},addicted:{},seenPath:new Set(),quests:[],questAt:6+rnd()*3,questsDone:0,crit:null,seenActs:new Set()};
+    hist:[],taken:[],ills:0,nightMix:0,hadJob:false,movedAt:null,bd:{},gender:(S&&S.gender)||'m',loans:[],own:null,rentals:[],inv:0,searchAt:null,lotAt:null,partner:null,pastPartners:[],kids:[],famFx:{sc:0,st:0},evAt:0,ins:false,car:null,biz:null,sabUntil:null,sabAt:null,will:null,friendLoan:null,lastKidAt:null,retrainAt:null,tagH:{},addict:{},addicted:{},seenPath:new Set(),quests:[],questAt:5+rnd()*3,questsDone:0,crit:null,seenActs:new Set()};
   document.body.classList.remove('crit');
   const k=['R','K','S','F','V'][Math.floor(rnd()*5)];S.mot[k]=1;S.firstLove=k;S.tagKid={};S.addHist=[];
   S.log.push(`0 let – narození. Od malička tě baví ${CATS[k].name.toLowerCase()}.`);
@@ -1116,7 +1117,7 @@ function step(dt){
   // energie – pomalá, dlouhodobá
   const dE=R.enU*EK;S.energy=clamp(S.energy+dE*dt,0,100);
   // stres
-  const T=R.T,parentsSt=(S.age>=18&&!S.movedOut)?0.05+0.03*Math.pow(S.age-18,1.4):0,debt=S.money<-20000?0.1+Math.min(0.8,-S.money/600000):0,tired=S.energy<15?0.3:0,decay=-(0.35+0.012*R.rest);
+  const T=R.T,parentsSt=(S.age>=18&&!S.movedOut)?0.05+0.03*Math.pow(S.age-18,1.4):0,debt=S.money<-20000?0.12+Math.min(1,-S.money/500000):0,tired=S.energy<15?0.3:0,decay=-(0.35+0.012*R.rest);
   familyTick(dt,R);const famSt=famStress();
   const addSt=(S.addFx&&S.addFx.st)||0;const STP={cards:T.cards,overlap:T.overlap,gap:T.gap,home:T.home,mot:T.mot,parentsSt,debt,tired,decay,famSt,addSt};
   for(const k in STP)if(STP[k]>0)STP[k]*=ST_K;const dS=Object.values(STP).reduce((a,b)=>a+b,0);
@@ -1184,7 +1185,7 @@ function yearTick(y){
   if(y===18){toast('Je ti 18. Teď si všechno platíš sám.','good');S.log.push('18 let – dospělost.')}
   if(y===65){S.pension=9000+1500*lvl(S.xp.P);toast(`Důchod: ${kNum(S.pension)} měsíčně`,'good');S.log.push('65 let – důchod.')}
   if(y>=100)die('Dožil/a ses sta let.');
-  for(const k of CK)S.yh[k]=0;yearMoneyTick();if(S.car)S.car.value*=0.88;jobYear();carYear();if(y>=S.questAt&&S.quests.length<2){genQuest();S.questAt=y+4+rnd()*4}if(S.sabUntil&&S.age>=S.sabUntil){S.sabUntil=null;toast('Sabatikl skončil.')}familyYear();renderQol();renderActs();
+  for(const k of CK)S.yh[k]=0;yearMoneyTick();if(S.car)S.car.value*=0.88;jobYear();carYear();if(y>=S.questAt){if(S.quests.length<3)genQuest();S.questAt=y+1.2+rnd()*3.3}if(S.sabUntil&&S.age>=S.sabUntil){S.sabUntil=null;toast('Sabatikl skončil.')}familyYear();renderQol();renderActs();
 }
 function addNegMot(){
   const tot=SK.reduce((t,k)=>t+S.yh[k],0),keys=Object.keys(S.mot);
@@ -1832,7 +1833,7 @@ const ACTS=[
   {id:'search',name:'Hledat',show:()=>S.age>=4,tip:'Jednou za rok si za 10 energie řekneš o konkrétní téma. Přijdou dvě karty podle tvé úrovně.',
     ok:()=>S.age>=4&&S.age-(S.searchAt??-9)>=1&&S.energy>=10,why:()=>S.age<4?'Od 4 let.':S.energy<10?'Potřebuješ aspoň 10 energie.':`Znovu za ${(1-(S.age-S.searchAt)).toFixed(1).replace('.',',')} roku.`,run:actSearch},
   {id:'loan',name:'Půjčka',show:()=>S.age>=18,tip:'Půjčíš si a pak to roky splácíš i s úrokem.',ok:()=>S.age>=18&&S.loans.filter(l=>l.kind==='loan').length<2,why:()=>S.age<18?'Od 18 let.':'Máš už dvě půjčky.',run:actLoan},
-  {id:'home',name:'Koupit bydlení',show:()=>S.age>=18,tip:'Zaplatíš 20 % a zbytek je hypotéka. Nájem neplatíš, jen údržbu. Byt časem zdražuje.',ok:()=>S.age>=18&&!S.own,why:()=>S.age<18?'Od 18 let.':'Už vlastníš, kde bydlíš.',run:actHome},
+  {id:'home',name:'Koupit bydlení',show:()=>S.age>=18,tip:'Za hotové, nebo 20 % předem a zbytek hypotéka. Nájem neplatíš, jen údržbu. Byt časem zdražuje.',ok:()=>S.age>=18&&!S.own,why:()=>S.age<18?'Od 18 let.':'Už vlastníš, kde bydlíš.',run:actHome},
   {id:'inv',name:'Investovat',show:()=>S.age>=18,tip:'Peníze ve fondu průměrně rostou, ale některé roky padají.',ok:()=>S.age>=18,why:()=>'Od 18 let.',run:actInv},
   {id:'lot',name:'Los',show:()=>S.age>=18,tip:'Jednou za rok si koupíš los za 500 Kč. Většinou nic.',ok:()=>S.age>=18&&S.age-(S.lotAt??-9)>=1,why:()=>S.age<18?'Od 18 let.':'Další los až příští rok.',run:actLot},
 ];
@@ -1872,20 +1873,23 @@ function actLoan(){
 }
 function actHome(){
   const tiers=[3,4,5,6,7,8,9];
-  modal(`<h3>Koupit bydlení</h3><p class="lead">Zaplatíš 20 % předem, zbytek je hypotéka na 30 let s úrokem 5 %. Místo nájmu platíš jen údržbu.</p>
-    <div class="opts">${tiers.map(t=>{const pr=homePrice(t),down=pr*0.2,pay=annuity(pr*0.8,0.05,30),can=S.money>=down;
-      return `<button class="opt ${can?'':'off'}" data-t="${t}" ${can?'':'disabled'}><b>${QOL[t].n}</b><span>Cena ${kNum(pr)} · předem ${kNum(down)}</span><small>Hypotéka ${kNum(pay)} + údržba ${kNum(QOL[t].cost*0.15)} měsíčně (nájem by byl ${kNum(QOL[t].cost)})</small></button>`}).join('')}</div>`,()=>{
-    document.querySelectorAll('.opt:not(.off)').forEach(b=>b.onclick=()=>{const t=+b.dataset.t,pr=homePrice(t);S.money-=pr*0.2;
-      const l=addLoan(`Hypotéka – ${lc1(QOL[t].n)}`,pr*0.8,0.05,30,'hypo');S.own={tier:t,value:pr,loan:l.id};
-      if(!S.movedOut){S.movedOut=true;S.movedAt=Math.floor(S.age)}S.qol=t;S.qolLock=S.age+1;S.log.push(`${Math.floor(S.age)} let – koupě: ${lc1(QOL[t].n)}.`);
-      sfx('level');toast(`Máš vlastní bydlení: ${lc1(QOL[t].n)}`,'good');renderQol();closeModal();relocate()})});
+  modal(`<h3>Koupit bydlení</h3><p class="lead">Buď zaplatíš 20 % předem a zbytek je hypotéka na 30 let s úrokem 5 %, nebo když na to máš, koupíš za hotové. Místo nájmu pak platíš jen údržbu.</p>
+    <div class="opts">${tiers.map(t=>{const pr=homePrice(t),down=pr*0.2,pay=annuity(pr*0.8,0.05,30),can=S.money>=down,cash=S.money>=pr;
+      return `<div class="hrow"><button class="opt ${can?'':'off'}" data-t="${t}" ${can?'':'disabled'}><b>${QOL[t].n}</b><span>Cena ${kNum(pr)} · předem ${kNum(down)}</span><small>Hypotéka ${kNum(pay)} + údržba ${kNum(QOL[t].cost*0.15)} měsíčně (nájem by byl ${kNum(QOL[t].cost)})</small></button>${cash?`<button class="opt cash" data-c="${t}"><b>Za hotové</b><span>${kNum(pr)}</span><small>bez splátek</small></button>`:''}</div>`}).join('')}</div>`,()=>{
+    const buy=(t,cash)=>{const pr=homePrice(t);let loan=null;
+      if(cash){S.money-=pr;moneyFx(-pr,'Bydlení za hotové')}else{S.money-=pr*0.2;loan=addLoan(`Hypotéka – ${lc1(QOL[t].n)}`,pr*0.8,0.05,30,'hypo').id}
+      S.own={tier:t,value:pr,loan};
+      if(!S.movedOut){S.movedOut=true;S.movedAt=Math.floor(S.age)}S.qol=t;S.qolLock=S.age+1;S.log.push(`${Math.floor(S.age)} let – koupě: ${lc1(QOL[t].n)}${cash?' (za hotové)':''}.`);
+      sfx('level');toast(`Máš vlastní bydlení: ${lc1(QOL[t].n)}`,'good');renderQol();renderChips();closeModal();relocate()};
+    document.querySelectorAll('.opt[data-t]:not(.off)').forEach(b=>b.onclick=()=>buy(+b.dataset.t,false));
+    document.querySelectorAll('.opt[data-c]').forEach(b=>b.onclick=()=>buy(+b.dataset.c,true))});
 }
 function actInv(){
   const dep=[25000,100000,Math.max(0,S.money-20000)];
   modal(`<h3>Investice</h3><p class="lead">Ve fondu máš <b>${kNum(S.inv)}</b>. Průměrně to roste o 6 % ročně, ale některé roky to klesne.</p>
     <div class="opts">${dep.map((v,i)=>`<button class="opt ${S.money>=v&&v>0?'':'off'}" data-v="${v}" ${S.money>=v&&v>0?'':'disabled'}><b>Vložit ${kNum(v)}</b>${i===2?'<span>Všechno kromě rezervy 20k</span>':''}</button>`).join('')}
     <button class="opt ${S.inv>0?'':'off'}" id="wd" ${S.inv>0?'':'disabled'}><b>Vybrat všechno</b><span>${kNum(S.inv)}</span></button></div>`,()=>{
-    document.querySelectorAll('.opt[data-v]:not(.off)').forEach(b=>b.onclick=()=>{const v=+b.dataset.v;S.money-=v;S.inv+=v;sfx('place');closeModal()});
+    document.querySelectorAll('.opt[data-v]:not(.off)').forEach(b=>b.onclick=()=>{const v=+b.dataset.v;S.money-=v;S.inv+=v;moneyFx(-v,'Investováno');sfx('place');closeModal()});
     const w=$('#wd');if(S.inv>0)w.onclick=()=>{S.money+=S.inv;S.inv=0;sfx('place');closeModal()}});
 }
 function actLot(){S.lotAt=S.age;S.money-=500;const r=rnd();
@@ -1899,6 +1903,7 @@ function jobYear(){if(S.sabUntil&&S.age<S.sabUntil)return;
     const risk=0.025+(1-f)*0.35+cardGap(p.card)*0.04+(S.stress>70?0.05:0);
     if(rnd()<risk){endPlaced(p);removePlaced(p);S.stress=Math.min(100,S.stress+12);
       toast(f<0.95?`Dostal/a jsi výpověď: ${nm(p.card).toLowerCase()}. Moc ses tomu nevěnoval/a.`:`Přišel/přišla jsi o práci: ${nm(p.card).toLowerCase()}.`,'bad');S.log.push(`${Math.floor(S.age)} let – výpověď (${nm(p.card).toLowerCase()}).`);sfx('motDown')}}}
+function carCost(){return S.car?Math.round(S.car.upkeep*(1+0.09*(S.car.age||0))/100)*100:0}
 function carYear(){if(!S.car)return;S.car.age=(S.car.age||0)+1;
   if(rnd()<0.018){const fatal=rnd()<0.06;S.log.push(`${Math.floor(S.age)} let – autonehoda.`);S.car=null;renderChips();
     if(fatal)return die('Autonehoda.');const v=ILL.find(i=>i.name==='Autonehoda');S.placed.push({uid:++uidC,ev:true,ill:v,start:Math.floor(rnd()*24),h:v.h,z:1e9+(++zC),t:0});S.ills++;dirty=true;
@@ -1906,7 +1911,7 @@ function carYear(){if(!S.car)return;S.car.age=(S.car.age||0)+1;
   if(S.car.age>=S.car.life){toast(`${S.car.name} dosloužilo. Je na šrot.`,'bad');S.log.push(`${Math.floor(S.age)} let – auto dosloužilo.`);S.car=null;renderChips()}}
 /* ============ RODINA ============ */
 function familyMoneyParts(){let kids=0;for(const k of aliveKids()){const a=kidAge(k);if(a<18)kids-=5000;else if(a<25&&k.rel>40)kids-=2500}
-  return {kids,partner:S.partner&&S.partner.married?10000:0,ins:S.ins?-1500:0,car:S.car?-S.car.upkeep:0}}
+  return {kids,partner:S.partner&&S.partner.married?10000:0,ins:S.ins?-1500:0,car:S.car?-carCost():0}}
 const F_NAMES=['Jana','Tereza','Eliška','Anna','Klára','Lucie','Veronika','Kateřina','Adéla','Barbora','Natálie','Markéta','Zuzana','Petra','Ema','Sofie','Karolína','Nela','Simona','Monika','Andrea','Michaela','Kristýna','Denisa','Hana','Lenka','Ivana','Martina','Gabriela','Alžběta','Viktorie','Julie','Magdaléna','Dominika','Šárka','Radka','Pavla','Zdeňka','Bára','Linda','Romana','Nikola','Vendula','Johana','Rozálie','Amálie','Stela','Olga','Dagmar','Irena'];
 const M_NAMES=['Jakub','Tomáš','Jan','Adam','Matěj','Filip','Ondřej','Lukáš','David','Vojtěch','Martin','Petr','Daniel','Michal','Šimon','Marek','Vít','Kryštof','Pavel','Jiří','Josef','Karel','Roman','Radek','Richard','Patrik','Dominik','Robert','Miroslav','Zdeněk','Viktor','Antonín','Štěpán','Libor','Aleš','Stanislav','Ladislav','Vladimír','Hynek','Oskar','Eduard','Kamil','Matouš','Tobiáš','Sebastián','Lubomír','Igor','Leoš','Erik','Bohumil'];
 const RECENT_NAMES=[];
@@ -1927,7 +1932,7 @@ function familyHours(R){let ph=0,kh=0;
   return {ph,kh}}
 function familyEnergy(){let u=0;for(const k of aliveKids()){const a=kidAge(k);if(a<3)u-=1.5;else if(a<10)u-=0.6}return u}
 function familyMoney(){let m=0;for(const k of aliveKids()){const a=kidAge(k);if(a<18)m-=7000;else if(a<25&&k.rel>40)m-=3000}
-  if(S.partner)m+=S.partner.married?10000:4000;if(S.ins)m-=1500;if(S.car)m-=S.car.upkeep;return m}
+  if(S.partner)m+=S.partner.married?10000:4000;if(S.ins)m-=1500;if(S.car)m-=carCost();return m}
 function familyTick(dt,R){
   const yr=dt/YEAR,{ph,kh}=familyHours(R),mR=S.mot.R||0,care=mR<0?0:mR===0?0.5:1;let sc=0,st=0;
   if(S.partner){const P=S.partner,want=P.married?2.5:2;P.rel=clamp(P.rel+(ph-want)*3*yr,0,100);
@@ -2042,13 +2047,13 @@ function actIns(){modal(`<h3>Pojištění</h3><p class="lead">${S.ins?'Teď jsi 
   <div class="opts"><button class="opt" id="i1"><b>${S.ins?'Zrušit pojištění':'Pojistit se'}</b></button></div>`,()=>{$('#i1').onclick=()=>{S.ins=!S.ins;toast(S.ins?'Jsi pojištěný/á.':'Pojištění zrušeno.');closeModal()}})}
 function actCar(){const o=[['Ojeté auto',150000,2500],['Nové auto',600000,4000]];
   modal(`<h3>Auto</h3><p class="lead">Každá hodina mimo domov tě bude unavovat o 15 % méně. Auto ale stojí provoz a časem ztrácí hodnotu.</p><div class="opts">${o.map(([n,p,u],i)=>`<button class="opt ${S.money>=p?'':'off'}" data-i="${i}" ${S.money>=p?'':'disabled'}><b>${n}</b><span>${kNum(p)} · provoz ${kNum(u)} měsíčně</span></button>`).join('')}</div>`,()=>{
-    document.querySelectorAll('.opt[data-i]:not(.off)').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,[n,p,u]=o[i];S.money-=p;S.car={name:n,value:p,upkeep:u,age:0,life:(i===0?6:12)+Math.floor(rnd()*8)};S.log.push(`${Math.floor(S.age)} let – ${n.toLowerCase()}.`);sfx('place');closeModal()})})}
+    document.querySelectorAll('.opt[data-i]:not(.off)').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,[n,p,u]=o[i];S.money-=p;const a0=i===0?4+Math.floor(rnd()*5):0;S.car={name:n,value:p,upkeep:u,age:a0,life:a0+(i===0?6:12)+Math.floor(rnd()*8)};S.log.push(`${Math.floor(S.age)} let – ${n.toLowerCase()}.`);sfx('place');closeModal()})})}
 function actRetrain(){modal(`<h3>Rekvalifikace</h3><p class="lead">Stojí 60k a 10 energie. Do vybraného oboru získáš zkušenosti jako za zhruba tři roky na půl úvazku.</p>
   <div class="pick">${SK.map(k=>`<button class="pk" data-k="${k}" style="background:${CATS[k].c}"><span class="ai">${ICO[k]}</span>${CATS[k].name}</button>`).join('')}</div>`,()=>{
   document.querySelectorAll('.pk').forEach(b=>b.onclick=()=>{const k=b.dataset.k,l0=lvl(S.xp[k]);S.money-=60000;S.energy-=10;S.retrainAt=S.age;S.xp[k]+=12;closeModal();buildSkills();if(lvl(S.xp[k])>l0)celebrateLevel(k,lvl(S.xp[k]));else toast(`Rekvalifikace hotová: ${CATS[k].name.toLowerCase()}.`,'good');dirty=true})})}
 function actBiz(){const o=[200000,800000].filter(v=>S.money>=v);
   modal(`<h3>Vlastní firma</h3><p class="lead">Kolik do toho vložíš? Firma každý rok buď roste a vyplácí ti zisk, nebo padá. Občas zkrachuje.</p><div class="opts">${o.map(v=>`<button class="opt" data-v="${v}"><b>Vložit ${kNum(v)}</b></button>`).join('')}</div>`,()=>{
-  document.querySelectorAll('.opt[data-v]').forEach(b=>b.onclick=()=>{const v=+b.dataset.v;S.money-=v;S.biz={inv:v,value:v};S.log.push(`${Math.floor(S.age)} let – vlastní firma.`);sfx('place');closeModal()})})}
+  document.querySelectorAll('.opt[data-v]').forEach(b=>b.onclick=()=>{const v=+b.dataset.v;S.money-=v;S.biz={inv:v,value:v};moneyFx(-v,'Vloženo do firmy');S.log.push(`${Math.floor(S.age)} let – vlastní firma.`);sfx('place');closeModal()})})}
 function actSab(){modal(`<h3>Sabatikl</h3><p class="lead">Rok bez práce. Pracovní karty na ose budou stát (nevydělávají), ale stres rychle odchází a energie se vrací.</p><div class="opts"><button class="opt" id="s1"><b>Vzít si rok volna</b></button></div>`,()=>{
   $('#s1').onclick=()=>{S.sabAt=S.age;S.sabUntil=S.age+1;S.log.push(`${Math.floor(S.age)} let – sabatikl.`);closeModal();toast('Rok volna začíná.','good')}})}
 function actWill(){const kids=aliveKids();modal(`<h3>Závěť</h3><p class="lead">Komu jednou necháš, co máš?</p><div class="opts">
@@ -2076,8 +2081,8 @@ function extraInfo(c){
   if(c.startsWith('q:')){const q=S.quests.find(x=>x.id===+c.slice(2));if(!q)return '';return `<h4>Cíl: ${q.text}</h4><div class="sr"><span>Zbývá</span><b>${Math.max(0,q.until-S.age).toFixed(1).replace('.',',')} roku</b></div><div class="sr"><span>Splníš</span><b class="g">štěstí +${q.reward}</b></div><div class="sr"><span>Nestihneš</span><b style="color:var(--bad)">štěstí −${Math.round(q.reward/2)}</b></div>${q.type==='skill'?`<div class="k">Teď máš úroveň ${lvl(S.xp[q.k])}.</div>`:''}`}
   if(c.startsWith('add:')){const a=c.slice(4);return `<h4>Závislost: ${ADD[a]}</h4><div>Když to nemáš, roste stres.${ADD_HP[a]?' Ubírá zdraví.':''}${a==='gamble'?' Stojí peníze.':''}</div><div class="k">Pomůže odvykací kúra nebo anonymní alkoholici. Nebo prostě vydržet bez toho.</div>`}
   if(c==='ins')return '<h4>Pojištění</h4><div>1,5k měsíčně. Klikni pro zrušení.</div>';
-  if(c==='car')return `<h4>${S.car.name}</h4><div class="sr"><span>Stáří</span><b>${S.car.age||0} ${letStr(S.car.age||0)}</b></div><div class="sr"><span>Hodnota</span><b>${kNum(S.car.value)}</b></div><div class="sr"><span>Provoz</span><b>${kNum(S.car.upkeep)} / měs</b></div><div class="k">Klikni pro prodej.</div>`;
-  if(c==='biz')return `<h4>Vlastní firma</h4><div class="sr"><span>Hodnota</span><b>${kNum(S.biz.value)}</b></div><div class="sr"><span>Vloženo</span><b>${kNum(S.biz.inv)}</b></div><div class="k">Klikni pro prodej.</div>`;
+  if(c==='car')return `<h4>${S.car.name}</h4><div class="sr"><span>Stáří</span><b>${S.car.age||0} ${letStr(S.car.age||0)}</b></div><div class="sr"><span>Hodnota</span><b>${kNum(S.car.value)}</b></div><div class="sr"><span>Provoz</span><b>${kNum(carCost())} / měs</b></div><div class="k">Klikni pro prodej.</div>`;
+  if(c==='biz')return `<h4>Vlastní firma</h4><div class="sr"><span>Hodnota</span><b>${kNum(S.biz.value)}</b></div><div class="sr"><span>Vloženo</span><b>${kNum(S.biz.inv)}</b></div><div class="k">Vložené peníze nejsou v hotovosti, dostaneš je zpátky prodejem firmy. Klikni pro prodej.</div>`;
   if(c==='sab')return '<h4>Sabatikl</h4><div>Pracovní karty teď stojí. Odpočíváš.</div>';
   return ''}
 function extraClick(c){
@@ -2099,7 +2104,7 @@ function extraClick(c){
       const b3=$('#k3');if(b3)b3.onclick=()=>{if(a<18){S.energy-=3;k.rel=Math.min(100,k.rel+(k.rel>=30||rnd()<0.5?6:-3))}else k.rel=Math.min(100,k.rel+4);done()}})}
   else if(c==='ins')actIns();
   else if(c==='car'){const v=S.car.value;modal(`<h3>Prodat auto?</h3><p class="lead">Dostaneš ${kNum(v)}.</p><div class="opts"><button class="opt" id="c1"><b>Prodat</b></button></div>`,()=>{$('#c1').onclick=()=>{S.money+=v;S.car=null;closeModal()}})}
-  else if(c==='biz'){const v=S.biz.value*0.9;modal(`<h3>Prodat firmu?</h3><p class="lead">Dostaneš ${kNum(v)}.</p><div class="opts"><button class="opt" id="b1"><b>Prodat</b></button></div>`,()=>{$('#b1').onclick=()=>{S.money+=v;S.biz=null;S.log.push(`${Math.floor(S.age)} let – prodej firmy.`);closeModal()}})}
+  else if(c==='biz'){const v=S.biz.value*0.9;modal(`<h3>Prodat firmu?</h3><p class="lead">Dostaneš ${kNum(v)}.</p><div class="opts"><button class="opt" id="b1"><b>Prodat</b></button></div>`,()=>{$('#b1').onclick=()=>{S.money+=v;S.biz=null;S.log.push(`${Math.floor(S.age)} let – prodej firmy.`);closeModal();moneyFx(v,'Firma prodána')}})}
 }
 
 /* ============ ZÁVISLOSTI ============ */
@@ -2193,6 +2198,7 @@ function leaveOwnHome(toTier,done){const o=S.own;const v=sellValue(o),inc=QOL[o.
 /* ============ OSLAVY ============ */
 function sparks(x,y,col){for(let i=0;i<10;i++){const sp=document.createElement('i');sp.className='spark';const a=rnd()*Math.PI*2,d=24+rnd()*30;
   sp.style.cssText=`left:${x}px;top:${y}px;--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px;--c:${i%3?col:'#F2D07A'}`;document.body.appendChild(sp);setTimeout(()=>sp.remove(),1100)}}
+function moneyFx(v,why){const r=$('#money').getBoundingClientRect();floaty(r.left+r.width/2,r.top-6,(v<0?'−':'+')+kNum(Math.abs(v)));toast(`${why}: ${v<0?'−':'+'}${kNum(Math.abs(v))}.`)}
 function floaty(x,y,txt){const f=document.createElement('div');f.className='floaty';f.textContent=txt;f.style.left=x+'px';f.style.top=y+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),2100)}
 let momT=null;
 function moment(ico,col,title,sub){
