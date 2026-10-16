@@ -33,7 +33,8 @@ svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 .sky{flex:1;position:relative;min-height:230px}
-.offers{position:absolute;left:160px;right:16px;top:8px;bottom:56px;display:flex;flex-wrap:wrap;align-items:center;align-content:center;justify-content:center;gap:18px 20px}
+.offers{--cw:110px;--ch:146px;--cg:16px;position:absolute;left:160px;right:16px;top:8px;bottom:56px;display:grid;grid-template-columns:repeat(9,calc(var(--cw)*var(--oz,1)));grid-template-rows:calc(var(--ch)*var(--oz,1));column-gap:calc(var(--cg)*var(--oz,1));justify-content:center;align-content:center}
+.offers .oc{grid-row:1;justify-self:center;align-self:center;scale:var(--oz,1)}
 .chipsrow{position:absolute;left:16px;right:16px;bottom:10px;display:flex;gap:8px;flex-wrap:wrap;z-index:4;pointer-events:none}
 .chipsrow>*{pointer-events:auto}
 .cms{display:flex;gap:8px;flex-wrap:wrap}
@@ -122,7 +123,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .oc .req{position:absolute;left:5px;top:5px;background:var(--paper);color:var(--bad);border:2px solid var(--ink);border-radius:999px;padding:1px 6px 1px 4px;font-family:var(--display);font-weight:600;font-size:12px;display:flex;align-items:center;gap:2px}
 
 .dock{padding:0 14px 14px}
-.panel{padding:12px 16px 12px;display:flex;flex-direction:column;gap:10px;margin-top:14px;border-radius:10px}
+.panel{position:relative;padding:12px 16px 12px;display:flex;flex-direction:column;gap:10px;margin-top:14px;border-radius:10px}
 .hud{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-size:13px}
 .hap{display:flex;align-items:center;gap:6px;background:var(--ink);color:var(--paper);border-radius:999px;padding:3px 12px 3px 8px;font-family:var(--display);font-weight:600;font-size:17px;font-variant-numeric:tabular-nums}
 .hap svg{font-size:18px;color:#F2D07A}
@@ -274,7 +275,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .offers{top:0}
   .speed button,.helpb{padding:3px 8px;font-size:11.5px}
   .sky{min-height:0}
-  .offers{left:8px;right:8px;top:2px;bottom:28px;gap:6px 8px}
+  .offers{left:8px;right:8px;top:2px;bottom:28px;--cw:68px;--ch:90px;--cg:8px}
   .oc{width:68px;height:90px;border-width:2px;box-shadow:0 3px 0 var(--line)}
   .oc .hd{font-size:9.5px;padding:2px 5px;border-bottom-width:2px}
   .oc .bd{padding-top:5px}
@@ -290,7 +291,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .oc .req{font-size:10px;left:3px;top:3px}
   .lockb{width:20px;height:20px;top:-8px;right:-8px;font-size:11px}
   .acts{display:none}
-  .qright{right:8px;bottom:4px}
+  .qright{right:8px;top:30px}.qn{font-size:8.5px;padding:1px 5px 1px 3px}
   .qf{font-size:8.5px}
   #actsBtn{display:block}
   .actgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
@@ -351,7 +352,10 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
 .skw{position:relative;display:inline-flex}
 .qf{position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:1px;background:#F6E7B8;border:1.5px solid var(--ink);border-radius:999px;font-family:var(--display);font-weight:600;font-size:10px;line-height:1;padding:1px 4px 1px 2px;z-index:3;cursor:help;white-space:nowrap}
 .qf svg{font-size:10px}
-.qright{position:absolute;right:16px;bottom:10px;display:flex;gap:8px;z-index:4;flex-wrap:wrap;justify-content:flex-end;max-width:45%}
+.qright{position:absolute;right:16px;top:45px;display:flex;gap:6px;z-index:4;justify-content:flex-end;max-width:40%}
+.qn{display:inline-flex;align-items:center;gap:3px;background:#F6E7B8;border:1.5px solid var(--ink);border-radius:999px;font-family:var(--display);font-weight:600;font-size:11px;line-height:1;padding:2px 7px 2px 4px;white-space:nowrap;cursor:default}
+.qn svg{width:11px;height:11px}.qn b{font-weight:600;opacity:.65}
+.seg .ndx{position:absolute;top:3px;right:4px;z-index:4;width:17px;height:17px;border-radius:50%;background:var(--bad);color:#fff;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:12px;line-height:1}
 .btn.soft{background:var(--paper)}
 .save{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 16px}
 .save input{font:inherit;font-weight:700;border:2.5px solid var(--ink);border-radius:7px;padding:7px 10px;background:var(--paper);min-width:0;flex:1 1 180px;max-width:260px}
@@ -379,7 +383,6 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
     <div class="toasts" id="toasts"></div>
     <div class="offers" id="offers"></div>
     <div class="acts" id="acts"></div>
-    <div class="qright" id="qright"></div>
     <div class="chipsrow"><button class="recentBtn box" id="recentBtn" hidden></button><div class="cms" id="cms"></div></div>
     <div class="tray box" id="tray" hidden></div>
   </div>
@@ -394,6 +397,7 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
         <div class="sep"></div><div class="skills" id="skills"></div>
         <div class="sep"></div><span class="lab">Baví mě</span><div class="mots" id="mots"></div>
       </div>
+      <div class="qright" id="qright"></div>
       <div class="agerow">
         <div class="agen" id="ageN">0<small>let</small></div>
         <div class="agetrack" id="ageTrack"><div class="fill" id="ageFill"></div><canvas id="kid" width="16" height="16"></canvas></div>
@@ -418,7 +422,8 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
 <script>
 /* ============ TEMPO ============ */
 const YEAR=90;              // sekund na rok
-const LIFE=[55,70];         // karta čeká 55–70 s
+const LIFE=[63,81];
+const ST_K=0.55;             // stres se kumuluje pomaleji         // karta čeká 55–70 s
 
 /* ============ IKONY ============ */
 const P='<svg class="i" viewBox="0 0 24 24">';
@@ -833,6 +838,125 @@ const RAW=[
 ['Ultramaraton','S',4,'5-20','22-60','S6',-3000,-1.6,0.03,0.02,{tag:'run',needT:{run:8}}],
 ['Kancelář vlastní agentury','P',10,'8-20','28-70','P5',95000,-1.0,0,0.06,{tag:'trade',needT:{trade:4}}],
 
+// ===== ŽIVOT PODLE MÍSTA A CESTY =====
+// statek a hospodářství (vesnice/venkov)
+['Krmení slepic','R/K',1,'6-10','4-14','',0,-0.1,0.002,-0.03,{tag:'farm',pl:'vesnice/venkov'}],
+['Pomoc na statku','R/P',4,'6-18','10-18','',2000,-0.5,0.004,0,{tag:'farm',pl:'vesnice/venkov',needT:{farm:1}}],
+['Zemědělská škola','V',8,'7-16','15-19','',0,-0.4,0,0.01,{tag:'farm',needT:{farm:3},yrs:4,pl:'vesnice/venkov'}],
+['Traktorista|Traktoristka','P',9,'5-19','18-65','',30000,-0.9,-0.003,0.01,{tag:'farm',needT:{farm:5},pl:'vesnice/venkov'}],
+['Farmářské trhy','P/F',4,'6-14','16-80','',9000,-0.4,0,-0.01,{tag:'farm',needT:{farm:4}}],
+['Agronom|Agronomka','P/V',8,'6-17','23-65','V4',48000,-0.7,0,0.02,{tag:'farm',needT:{farm:12},pl:'vesnice/venkov'}],
+['Vlastní farma','P',11,'5-20','28-75','P4',70000,-1.0,0.003,0.04,{tag:'farm',needT:{farm:20},pl:'vesnice/venkov'}],
+// včely a les
+['Včelaření s dědou','K/R',2,'9-19','8-16','',0,-0.1,0.002,-0.04,{tag:'bees',pl:'vesnice/venkov'}],
+['Vlastní úly','K',2,'8-19','16-95','',-500,-0.2,0.003,-0.05,{tag:'bees',needT:{bees:2}}],
+['Prodej medu','P/K',3,'9-18','20-90','',8000,-0.3,0,-0.02,{tag:'bees',needT:{bees:6}}],
+['Houbaření','K/S',3,'6-14','6-95','',0,-0.2,0.006,-0.05,{tag:'forest'}],
+['Lesní brigáda','P/S',8,'6-16','16-30','',22000,-0.9,0.004,0,{tag:'forest',needT:{forest:2},pl:'vesnice/venkov'}],
+['Hajný|Hajná','P/S',8,'6-17','22-70','',33000,-0.6,0.006,-0.02,{tag:'forest',needT:{forest:8},pl:'vesnice/venkov'}],
+['Myslivecký kroužek','K/S',2,'14-20','11-18','',0,-0.2,0.002,-0.01,{tag:'hunt',pl:'vesnice/venkov'}],
+['Hon','F/S',5,'6-15','18-85','',-2000,-0.5,0,-0.02,{tag:'hunt',needT:{hunt:2},pl:'vesnice/venkov'}],
+['Myslivec|Myslivkyně','K/S',3,'4-9','20-90','',-1000,-0.3,0.004,-0.04,{tag:'hunt',needT:{hunt:5}}],
+// hasiči
+['Mladí hasiči','S/F',2,'15-19','7-15','',0,-0.3,0.003,-0.02,{tag:'fire',pl:'vesnice/venkov'}],
+['Hasičská soutěž','S/F',4,'8-18','12-60','',0,-0.5,0.002,0.01,{tag:'fire',needT:{fire:2}}],
+['Dobrovolný hasič|Dobrovolná hasička','F/S',3,'17-22','18-70','',0,-0.4,0,0,{tag:'fire',needT:{fire:3}}],
+['Hasičský ples','F',5,'20-2','16-85','',-800,-0.4,-0.004,-0.04,{tag:'party',pl:'vesnice/venkov'}],
+['Profesionální hasič|Profesionální hasička','P/S',12,'*','20-55','S4',45000,-1.0,-0.004,0.03,{tag:'fire',needT:{fire:8}}],
+// chalupa
+['Prázdniny u babičky','R/C',6,'8-20','4-14','',0,0.1,0.006,-0.05,{tag:'cottage'}],
+['Víkendy na chalupě','R/K',5,'9-21','14-95','',-1500,0.1,0.004,-0.05,{tag:'cottage',needT:{cottage:2}}],
+['Oprava chalupy','K/R',5,'8-19','25-80','',-6000,-0.7,0,0.01,{tag:'cottage',needT:{cottage:6}}],
+['Život na samotě','K',4,'*','45-99','',-1000,0.1,0.004,-0.06,{tag:'cottage',needT:{cottage:14}}],
+// velkoměsto: start-upy
+['Startupový meetup','F/P',3,'17-23','17-45','',-300,-0.3,0,-0.01,{tag:'startup',pl:'mesto/velkomesto'}],
+['Startup víkend','P/F',6,'9-21','18-40','',-2000,-0.7,0,0.03,{tag:'startup',needT:{startup:2}}],
+['Zakladatel startupu|Zakladatelka startupu','P',12,'*','20-50','P3 V3',30000,-1.2,-0.008,0.09,{tag:'startup',needT:{startup:5},pl:'mesto/velkomesto'}],
+['Prodej startupu','P',6,'9-19','25-60','P6',260000,-0.6,0,0.04,{tag:'startup',needT:{startup:25}}],
+['Andělský investor|Andělská investorka','P/F',3,'10-20','35-80','P7',90000,-0.2,0,0.02,{tag:'startup',needT:{startup:30}}],
+// korporát
+['Trainee program','P/V',9,'8-18','22-30','V4',38000,-0.9,0,0.04,{tag:'corp',pl:'mesto/velkomesto'}],
+['Konzultant|Konzultantka','P',10,'8-21','23-50','V4 P2',62000,-1.0,-0.004,0.06,{tag:'corp',needT:{corp:4}}],
+['Teambuilding','F/P',6,'10-24','22-60','',0,-0.3,-0.004,-0.01,{tag:'corp',needT:{corp:2}}],
+['Manažer týmu|Manažerka týmu','P',10,'8-20','28-62','P5',90000,-1.0,-0.004,0.06,{tag:'corp',needT:{corp:14}}],
+['Ředitel pobočky|Ředitelka pobočky','P',11,'7-21','35-65','P7',160000,-1.1,-0.006,0.08,{tag:'corp',needT:{corp:30}}],
+// ulice a město
+['Skatepark','S/F',2,'14-21','10-30','',0,-0.3,0.001,-0.03,{tag:'skate',pl:'mesto/velkomesto'}],
+['Skate soutěž','S',4,'10-19','14-30','S3',-500,-0.5,-0.004,0.02,{tag:'skate',needT:{skate:4}}],
+['Vlastní skateshop','P/S',9,'9-19','24-55','P3',36000,-0.7,0,0.03,{tag:'skate',needT:{skate:10}}],
+['Graffiti','K',2,'22-4','14-30','',-800,-0.3,-0.003,-0.02,{tag:'street',pl:'mesto/velkomesto'}],
+['Legální stěna','K',3,'10-20','16-50','K2',-600,-0.3,0,-0.04,{tag:'street',needT:{street:2}}],
+['Muralista|Muralistka','P/K',8,'8-19','22-60','K5',45000,-0.8,0,0.02,{tag:'street',needT:{street:8}}],
+['Kavárny a lidi','F',2,'9-20','16-90','',-1500,-0.1,0,-0.04,{tag:'city',pl:'mesto/velkomesto'}],
+['Techno klub','F',6,'23-5','17-40','',-1500,-0.6,-0.012,-0.05,{tag:'party',addict:'drugs',pl:'velkomesto'}],
+['Kurýr na kole|Kurýrka na kole','P/S',6,'10-22','17-40','',20000,-0.9,0.002,0.02,{tag:'bike',pl:'mesto/velkomesto'}],
+['Rozvoz jídla','P',6,'11-23','18-55','',19000,-0.7,0,0.03,{pl:'mesto/velkomesto'}],
+['Vernisáže','K/F',3,'17-22','20-90','',-500,-0.1,0,-0.03,{tag:'art',pl:'mesto/velkomesto'}],
+// zahraničí
+['Au pair v Anglii','P/C',8,'7-20','18-26','',22000,-0.6,0,0.03,{tag:'abroad',yrs:1}],
+['Sezóna v Rakousku','P/C',10,'7-22','18-40','',48000,-1.0,-0.003,0.03,{tag:'abroad',yrs:1}],
+['Práce v zahraničí','P/C',9,'8-19','22-55','',75000,-0.8,0,0.04,{tag:'abroad',needT:{abroad:6}}],
+['Život v cizině','C/F',3,'*','25-80','',-3000,-0.1,0,-0.02,{tag:'abroad',needT:{abroad:14}}],
+['Návrat domů','R/C',4,'*','30-80','',0,0.1,0.002,-0.05,{tag:'abroad',needT:{abroad:20}}],
+// uniforma
+['Airsoft','S/F',4,'9-18','14-45','',-1500,-0.6,0,-0.02,{tag:'uniform'}],
+['Vojenská škola','V/S',9,'6-17','15-19','S2',0,-0.9,0.003,0.04,{tag:'uniform',needT:{uniform:2},yrs:4}],
+['Zahraniční mise','P/C',14,'*','21-45','S5',110000,-1.2,-0.01,0.1,{tag:'uniform',needT:{uniform:12},yrs:1}],
+['Policejní škola','V/S',8,'7-16','18-25','',0,-0.7,0.002,0.03,{tag:'police',yrs:2}],
+['Policista|Policistka','P',10,'*','20-60','S2',40000,-1.0,-0.003,0.06,{tag:'police',needT:{police:4}}],
+['Kriminalista|Kriminalistka','P/V',10,'8-22','28-62','V4 P4',62000,-1.0,-0.004,0.07,{tag:'police',needT:{police:16}}],
+// řemeslo
+['Kutění s tátou|Kutění s mámou','R/K',2,'9-19','6-14','',0,-0.2,0,-0.03,{tag:'craft'}],
+['Učiliště: elektrikář|Učiliště: elektrikářka','V/P',8,'7-15','15-18','',0,-0.6,0,0.01,{tag:'craft',needT:{craft:1},yrs:3}],
+['Elektrikář|Elektrikářka','P',8,'7-17','18-65','',38000,-0.8,-0.002,0.02,{tag:'craft',needT:{craft:4}}],
+['Instalatér|Instalatérka','P',8,'7-18','18-65','',40000,-0.8,-0.002,0.02,{tag:'craft',needT:{craft:4}}],
+['Vlastní řemeslná firma','P',10,'6-19','26-68','P4',85000,-1.0,-0.003,0.05,{tag:'craft',needT:{craft:18}}],
+['Brigáda ve fabrice','P',8,'6-14','16-25','',21000,-0.8,-0.002,0.02,{tag:'factory'}],
+['Směny ve fabrice','P',8,'*','18-63','',31000,-0.9,-0.004,0.03,{tag:'factory',needT:{factory:2}}],
+['Mistr ve výrobě|Mistrová ve výrobě','P',9,'6-16','28-63','P4',48000,-0.8,-0.002,0.04,{tag:'factory',needT:{factory:14}}],
+['Pečení s babičkou','R/K',2,'9-18','4-14','',0,-0.1,0,-0.04,{tag:'bake'}],
+['Pekař|Pekařka','P',8,'1-10','17-65','',30000,-0.9,-0.003,0.02,{tag:'bake',needT:{bake:3}}],
+['Vlastní pekárna','P',10,'2-14','26-70','P4',70000,-1.0,-0.003,0.05,{tag:'bake',needT:{bake:16}}],
+// doprava a letadla
+['Modelářství','K/V',2,'14-21','9-80','',-1000,-0.1,0,-0.04,{tag:'fly'}],
+['Plachtění','S/K',4,'9-18','15-75','',-4000,-0.4,0,-0.02,{tag:'fly',needT:{fly:3}}],
+['Letecká škola','V',8,'8-18','19-30','V4',-15000,-0.8,0,0.04,{tag:'fly',needT:{fly:6},yrs:2}],
+['Pilot dopravního letadla|Pilotka dopravního letadla','P/C',10,'*','23-60','V5',150000,-1.0,-0.006,0.06,{tag:'fly',needT:{fly:14}}],
+['Taxikář|Taxikářka','P',9,'16-4','21-70','',33000,-0.8,-0.005,0.03,{tag:'drive',pl:'mesto/velkomesto'}],
+['Řidič autobusu|Řidička autobusu','P',8,'5-15','24-65','',36000,-0.7,-0.004,0.03,{tag:'drive',needT:{drive:3}}],
+// cesty jinak
+['Stopování','C/F',6,'8-20','17-35','',-500,-0.5,0,-0.03,{tag:'nomad'}],
+['Dodávka na cestách','C',8,'*','20-60','',-8000,-0.3,0,-0.05,{tag:'nomad',needT:{nomad:3}}],
+// péče a pomoc
+['Péče o babičku','R',3,'8-20','14-75','',0,-0.4,0,0.03,{tag:'care'}],
+['Dobrovolník v domově|Dobrovolnice v domově','F/R',3,'13-18','15-90','',0,-0.3,0,-0.02,{tag:'care'}],
+['Pečovatel|Pečovatelka','P',8,'6-20','19-65','',30000,-0.8,0,0.03,{tag:'care',needT:{care:3}}],
+['Sociální pracovník|Sociální pracovnice','P/V',8,'8-17','23-65','V4',40000,-0.8,0,0.05,{tag:'care',needT:{care:6}}],
+['Humanitární mise','C/F',10,'*','21-60','',-3000,-1.0,-0.004,0.03,{tag:'care',needT:{care:8},yrs:1}],
+// učení druhých
+['Doučování','P/V',2,'14-20','15-70','V3',5000,-0.3,0,0.01,{tag:'teach'}],
+['Pedagogická fakulta','V',8,'8-17','19-26','V3',0,-0.5,0,0.02,{tag:'teach',needT:{teach:2},yrs:4}],
+['Ředitel školy|Ředitelka školy','P',10,'7-18','38-67','V6 P4',62000,-0.9,0,0.06,{tag:'teach',needT:{teach:30}}],
+// peníze rychle
+['Krypto horečka','P',4,'*','20-60','',22000,-0.4,-0.004,0.08,{tag:'trade',needT:{trade:4},addict:'gamble'}],
+['Kšefty na černo','P',4,'18-2','18-55','',25000,-0.4,-0.004,0.07,{tag:'trade'}],
+// stáří
+['Počítačový kurz pro seniory','V',2,'9-15','60-99','',-500,-0.2,0,0.01,{tag:'old'}],
+['Hlídání vnoučat','R',5,'7-18','50-90','',0,-0.4,0,-0.01,{need:'kids'}],
+['Psaní pamětí','K/R',2,'*','60-99','',0,-0.1,0,-0.04,{tag:'writing'}],
+['Výlety s důchodci','C/F',6,'7-19','62-95','',-2000,-0.3,0.004,-0.04,{tag:'old',needT:{old:2}}],
+// dětství jinak
+['Stavění bunkru','F/K',3,'9-20','6-13','',0,-0.2,0.004,-0.05,{pl:'vesnice/venkov'}],
+['Lezení po stromech','S/F',2,'9-20','5-13','',0,-0.2,0.004,-0.04,{}],
+['Keramický kroužek','K',2,'14-18','6-16','',-300,-0.1,0,-0.03,{tag:'art'}],
+['Sbírání kartiček','K/F',1,'*','7-15','',-200,0,0,-0.03,{tag:'collect'}],
+['Domácí mazlíček','R/K',1,'*','5-90','',-1000,0,0.002,-0.05,{tag:'animals'}],
+// koně a jarmarky
+['Krmení koní','K/R',2,'7-12','8-18','',-500,-0.2,0.003,-0.04,{tag:'horse',pl:'vesnice/venkov'}],
+['Chovatel koní|Chovatelka koní','P/K',9,'6-18','24-70','',38000,-0.9,0.002,0.02,{tag:'horse',needT:{horse:10},pl:'vesnice/venkov'}],
+['Jarmark','F/C',4,'9-18','4-90','',-800,-0.3,0,-0.04,{tag:'fair'}],
+['Pouťové atrakce','P/C',10,'10-23','18-60','',32000,-1.0,-0.004,0.03,{tag:'fair',needT:{fair:2}}],
+['Koňský tábor','S/C',6,'8-20','9-16','',-3000,-0.4,0.004,-0.04,{tag:'horse',needT:{horse:1}}],
 ];
 
 const ILL=[
@@ -870,7 +994,7 @@ const QOL=[
 // Okno, kdy se karta dá dělat: [a,b) ve slotech od 6:00; b může přetéct přes 24 (přes půlnoc dokola).
 function parseWin(w){if(w==='*')return [0,24];const [a,b]=w.split('-').map(Number);let s=(a-6+24)%24,e=(b-6+24)%24;if(e<=s)e+=24;return [s,e]}
 // Energie je teď v „jednotkách odpočinku“ za den. Kladnou energii mají jen vzácné věci (hlavně zdraví).
-const TAGMAP={'Rybaření':{tag:'fish'},'Zahrada':{tag:'garden'},'Posilovna':{tag:'gym'},'Plavání':{tag:'swim'},'Jóga':{tag:'yoga'},'Večerní jóga':{tag:'yoga'},'Cyklistika':{tag:'bike'},'Turistika':{tag:'scout'},'Kurzy a knihy':{tag:'lang'},'Lyžák v Alpách':{tag:'ski'},'Terapeut|Terapeutka':{tag:'mind'},'Zdravotník|Zdravotní sestra':{tag:'medic'},'Kreslení':{tag:'art'},'Tvoření':{tag:'art'},'Hudba':{tag:'music'},'Soukromé lekce hudby':{tag:'music'},'Hudební škola':{tag:'music'},
+const TAGMAP={'Erasmus':{tag:'abroad',yrs:1},'Voják z povolání':{tag:'uniform',g:'m'},'Řidič kamionu|Řidička kamionu':{tag:'drive'},'Digitální nomád':{tag:'nomad'},'Učitel|Učitelka':{tag:'teach'},'Senior klub':{tag:'old'},'Rybaření':{tag:'fish'},'Zahrada':{tag:'garden'},'Posilovna':{tag:'gym'},'Plavání':{tag:'swim'},'Jóga':{tag:'yoga'},'Večerní jóga':{tag:'yoga'},'Cyklistika':{tag:'bike'},'Turistika':{tag:'scout'},'Kurzy a knihy':{tag:'lang'},'Lyžák v Alpách':{tag:'ski'},'Terapeut|Terapeutka':{tag:'mind'},'Zdravotník|Zdravotní sestra':{tag:'medic'},'Kreslení':{tag:'art'},'Tvoření':{tag:'art'},'Hudba':{tag:'music'},'Soukromé lekce hudby':{tag:'music'},'Hudební škola':{tag:'music'},
   'Muzikant|Muzikantka':{tag:'music',needT:{music:6}},'Rocková hvězda':{tag:'music',needT:{music:15}},'Videohry':{tag:'games',addict:'games'},'Čtení':{tag:'books'},'Knihovna':{tag:'books'},
   'Psaní':{tag:'writing'},'Vaření':{tag:'food'},'Mazlíček':{tag:'animals'},'Jezdecký kroužek':{tag:'animals'},'Běhání':{tag:'run'},'Maraton':{tag:'run',needT:{run:2}},
   'Expedice do hor':{tag:'climb',needT:{climb:3}},'Párty':{tag:'party'},'Večírky s alkoholem':{tag:'party',addict:'alcohol'},'Cigarety s kamarády':{tag:'smoke',addict:'smoke'},
@@ -883,7 +1007,7 @@ const CARDS=RAW.map((r,i)=>{
   const req={};r[5].split(' ').filter(Boolean).forEach(t=>req[t[0]]=+t.slice(1));
   const win=parseWin(r[3]);if(win[1]-win[0]<r[2])win[1]=win[0]+r[2];
   let en=r[7];if(cats.includes('V')&&en<0)en*=1.6;if(en>=0)en=EN_POS[r[0]]??-0.1;
-  return {id:i,name:r[0],cats,h:r[2],win,any:win[1]-win[0]>=24,a0,a1,req,money:r[6],en,hp:r[8],st:r[9],heal:o.heal||0,yrs:o.yrs||0,pmin:o.pmin||0,xpb:o.xpb||1,g:o.g||null,need:o.need||null,tag:o.tag||null,needT:o.needT||null,addict:o.addict||null};
+  return {id:i,name:r[0],cats,h:r[2],win,any:win[1]-win[0]>=24,a0,a1,req,money:r[6],en,hp:r[8],st:r[9],heal:o.heal||0,yrs:o.yrs||0,pmin:o.pmin||0,xpb:o.xpb||1,g:o.g||null,need:o.need||null,tag:o.tag||null,needT:o.needT||null,addict:o.addict||null,pl:o.pl?o.pl.split('/'):null};
 });
 const SK=CK.filter(k=>k!=='Z');            // zdraví není dovednost
 const skillCats=c=>c.cats.filter(k=>k!=='Z');
@@ -936,6 +1060,7 @@ function newLife(){
   const k=['R','K','S','F','V'][Math.floor(rnd()*5)];S.mot[k]=1;S.firstLove=k;S.tagKid={};S.addHist=[];
   S.log.push(`0 let – narození. Od malička tě baví ${CATS[k].name.toLowerCase()}.`);
   document.querySelectorAll('.oc').forEach(e=>e.remove());
+  fitOffers();
   dirty=true;buildSkills();renderMots();renderQol();renderRecent();renderActs();renderChips();
   if(typeof setPlace==='function'){setPlace(placeFor(S.qol,true),true);S.birthPlace=PLACE}
 }
@@ -955,7 +1080,7 @@ const OVERLAP_PENALTY=0.9; // když si karty překrýváš, zbytek karty funguje
 function computeRates(){
   const {stacks,restEff}=layout();const q=QOL[S.qol];
   const R={tagH:{},addH:{},money:0,heal:0,score:0,rest:0,xp:{},hours:{},eff:new Map(),nightH:0,cardH:0,
-    E:{rest:0,awake:0,cards:0,ill:0,family:familyEnergy(),sab:(S.sabUntil&&S.age<S.sabUntil)?2:0,home:q.en*4,need:-NEED},H:{rest:0,cards:0,ill:0,home:q.hp},T:{cards:0,overlap:0,gap:0,home:q.st},M:{inc:0,act:0}};
+    E:{rest:0,awake:0,cards:0,ill:0,family:familyEnergy(),sab:(S.sabUntil&&S.age<S.sabUntil)?2:0,home:q.en*4,need:-NEED},H:{rest:0,cards:0,ill:0,home:q.hp},T:{cards:0,overlap:0,gap:0,home:q.st,mot:0},M:{inc:0,act:0}};
   CK.forEach(k=>{R.xp[k]=0;R.hours[k]=0});
   for(let s=0;s<24;s++){const n=stacks[s].length;
     if(!n){R.rest++;R.E.rest+=restEff[s];R.H.rest+=0.006*restEff[s]}else{R.E.awake-=AWAKE*(S.car?0.85:1);const nc=stacks[s].filter(q=>!q.ev).length;if(nc>1)R.T.overlap+=Math.pow(nc-1,1.6)*0.12}}
@@ -968,7 +1093,7 @@ function computeRates(){
     R.heal+=c.heal*frac;
     const gap=cardGap(c);if(gap>0)R.T.gap+=GAP_ST[Math.min(gap,10)]*frac;
     const sc=skillCats(c),share=c.cats.length>1?0.6:1;
-    for(const k of c.cats){R.hours[k]+=eh;R.score+=(S.mot[k]||0)*0.01*eh*share}
+    for(const k of c.cats){R.hours[k]+=eh;const m=S.mot[k]||0;R.score+=m*0.01*eh*share;R.T.mot+=(m>0?-0.012*m:m<0?0.009*-m:0)*eh*share}
     if(c.tag)R.tagH[c.tag]=(R.tagH[c.tag]||0)+eh;if(c.addict)R.addH[c.addict]=(R.addH[c.addict]||0)+eh;
     for(const k of sc)R.xp[k]+=eh*CATS[k].xp*(sc.length>1?0.6:1)*ageMult(S.age)*motMult(S.mot[k]||0)*(1+0.06*(c.req[k]||0))*c.xpb/YEAR;
   }
@@ -991,17 +1116,18 @@ function step(dt){
   // energie – pomalá, dlouhodobá
   const dE=R.enU*EK;S.energy=clamp(S.energy+dE*dt,0,100);
   // stres
-  const T=R.T,parentsSt=(S.age>=18&&!S.movedOut)?0.05+0.03*Math.pow(S.age-18,1.4):0,debt=S.money<-20000?0.15+Math.min(1.2,-S.money/400000):0,tired=S.energy<15?0.3:0,decay=-(0.35+0.012*R.rest);
+  const T=R.T,parentsSt=(S.age>=18&&!S.movedOut)?0.05+0.03*Math.pow(S.age-18,1.4):0,debt=S.money<-20000?0.1+Math.min(0.8,-S.money/600000):0,tired=S.energy<15?0.3:0,decay=-(0.35+0.012*R.rest);
   familyTick(dt,R);const famSt=famStress();
-  const addSt=(S.addFx&&S.addFx.st)||0;const dS=T.cards+T.overlap+T.gap+T.home+parentsSt+debt+tired+decay+famSt+addSt;
+  const addSt=(S.addFx&&S.addFx.st)||0;const STP={cards:T.cards,overlap:T.overlap,gap:T.gap,home:T.home,mot:T.mot,parentsSt,debt,tired,decay,famSt,addSt};
+  for(const k in STP)if(STP[k]>0)STP[k]*=ST_K;const dS=Object.values(STP).reduce((a,b)=>a+b,0);
   S.stress=clamp(S.stress+dS*dt,0,100);
   // zdraví
-  const H=R.H,exh=S.energy<=0?-0.3:0,stressH=S.stress>30?-(S.stress-30)*0.015:0,ageH=S.age>50?-(S.age-50)*0.004:0,bigIll=S.placed.some(p=>p.ev&&p.h>=18)?-0.3:0;
+  const H=R.H,exh=S.energy<=0?-0.3:0,stressH=S.stress>30?-(S.stress-30)*0.01:0,ageH=S.age>50?-(S.age-50)*0.004:0,bigIll=S.placed.some(p=>p.ev&&p.h>=18)?-0.3:0;
   const addHp=(S.addFx&&S.addFx.hp)||0;const dHr=H.rest+H.cards+H.ill+H.home+exh+stressH+ageH+bigIll+addHp,HK=dHr>0?1.2:0.6,dH=dHr*HK;
   S.maxH=S.age<45?100:Math.max(35,100-(S.age-45)*1.1);
   S.health=clamp(S.health+dH*dt,0,S.maxH);
   S.trend={en:dE,hp:dH,st:dS};
-  S.bd.E={...R.E,total:R.enU};S.bd.H={...H,exh,stressH,ageH,bigIll,addHp,total:dH,k:HK};S.bd.T={...T,parentsSt,debt,tired,decay,famSt,addSt,total:dS};
+  S.bd.E={...R.E,total:R.enU};S.bd.H={...H,exh,stressH,ageH,bigIll,addHp,total:dH,k:HK};S.bd.T={...STP,total:dS};
   S.score+=(R.score+famScore())*dt;
   const per=S.age<18?0:S.age<40?1:S.age<65?2:3;
   for(const k of CK){S.th[per][k]+=R.hours[k]*dt/YEAR;S.yh[k]+=R.hours[k]*dt}
@@ -1035,10 +1161,10 @@ function step(dt){
   S.spawnT-=dt;
   if(S.spawnT<=0){const mx=maxOffers();
     if(S.second){S.second=false;S.spawnT=3}else S.spawnT=clamp(124/mx,12,40)*(0.8+rnd()*0.4);
-    for(let i=0;i<2;i++)if(S.offers.length<mx||(S.forceZ&&S.offers.length<10))spawnOffer()}
+    for(let i=0;i<2;i++)if(S.offers.length<mx||(S.forceZ&&S.offers.length<9))spawnOffer()}
   while(Math.floor(S.age)>S.lastYear){S.lastYear++;yearTick(S.lastYear)}
 }
-function maxOffers(){return clamp(Math.round(3.2+Math.min(S.age,40)/7.5+(S.qol-4)*0.3),3,10)}
+function maxOffers(){return clamp(Math.round(3.2+Math.min(S.age,40)/7.5+(S.qol-4)*0.3),3,9)}
 function growIll(p){if(p.h>=18)return;if(rnd()<0.5)p.start=(p.start+23)%24;p.h++;dirty=true}
 function deathCause(){
   const ills=S.placed.filter(p=>p.ev).sort((a,b)=>a.ill.hp*a.h-b.ill.hp*b.h);
@@ -1092,6 +1218,8 @@ function ageW(a){
   if(a<65)return {P:3,R:2,K:2,C:1.5,F:1.5,S:1,V:0.7};
   return {R:2.5,K:2.5,F:2,C:1.5,S:0.8,P:0.5,V:0.5};
 }
+function lifeW(c){if(!S.flav)S.flav={seed:Math.floor(rnd()*1e9),tag:{}};const t=c.tag;if(t&&S.flav.tag[t]==null)S.flav.tag[t]=0.45+rnd()*1.25;
+  let h=(c.id*2654435761+S.flav.seed)>>>0;h=((h^(h>>>15))*2246822519)>>>0;return (t?S.flav.tag[t]:1)*(0.6+((h%1000)/1000)*0.9)}
 function spawnOffer(){
   const a=S.age,W=ageW(a),ill=S.placed.some(p=>p.ev),hrs=S.R?S.R.hours:{};
   const used=new Set([...S.placed.filter(p=>!p.ev).map(p=>p.card.id),...S.offers.map(o=>o.card.id)]);
@@ -1102,11 +1230,11 @@ function spawnOffer(){
     const cat=S.forceZ&&tries<4?'Z':pickW(CK,k=>{if(k==='Z')return zNeed;const m=S.mot[k]||0;
       return (W[k]||0)*(m>0?1+0.35*m:m<0?0.8:1)*(1+0.07*lvl(S.xp[k]))*(shown.has(k)?0.45:1)+(W[k]?(hrs[k]||0)*0.15:0)});
     if(!cat)continue;
-    const cands=CARDS.filter(c=>c.cats.includes(cat)&&a>=c.a0&&a<=c.a1&&!used.has(c.id)&&!(c.cats.includes('P')&&a<15&&c.money>0)&&!(atHome&&c.pmin&&tier<c.pmin)&&genderOk(c)&&needOk(c));
+    const cands=CARDS.filter(c=>c.cats.includes(cat)&&a>=c.a0&&a<=c.a1&&!used.has(c.id)&&!(c.cats.includes('P')&&a<15&&c.money>0)&&!(atHome&&c.pmin&&tier<c.pmin)&&genderOk(c)&&needOk(c)&&(!c.pl||c.pl.includes(PLACE)));
     const ok=cands.filter(meets);
     const near=cands.filter(c=>!meets(c)&&cardGap(c)<=3);
     const pool=(near.length&&(rnd()<0.22||!ok.length))?near:ok;
-    const c=pickW(S.forceZ&&tries<4?pool.filter(c=>c.heal):pool,c=>{let w=(c.cats.length>1?0.7:1)*(ill&&c.heal?3:1)*(c.need&&c.need!=='single'?3:1)*(c.tag?1+Math.min(2.5,(S.tagH[c.tag]||0)*0.25):1)*(c.needT?2.2:1)*(c.addict&&S.addicted[c.addict]?4:1)*(c.tag==='rehab'&&Object.keys(S.addicted).length?6:1);
+    const c=pickW(S.forceZ&&tries<4?pool.filter(c=>c.heal):pool,c=>{let w=lifeW(c)*(c.pl?1.6:1)*(c.cats.length>1?0.7:1)*(ill&&c.heal?3:1)*(c.need&&c.need!=='single'?3:1)*(c.tag?1+Math.min(2.5,(S.tagH[c.tag]||0)*0.25):1)*(c.needT?2.2:1)*(c.addict&&S.addicted[c.addict]?4:1)*(c.tag==='rehab'&&Object.keys(S.addicted).length?6:1);
       if(atHome&&a<18){const cost=-c.money;if(c.pmin)w*=2;if(cost>=2000)w*=tier>=6?1.6:tier<=2?0.25:tier<=3?0.6:1;else if(tier<=3)w*=1.3}
       return w});
     if(!c)continue;
@@ -1139,7 +1267,7 @@ const TAGN={film:'filmy',theatre:'divadlo',games:'videohry',nerd:'fantasy a nerd
   code:'programování',animals:'zvířata',climb:'lezení a hory',fight:'bojové sporty',run:'běhání',art:'malování a umění',books:'knihy',writing:'psaní',travel:'cestování',party:'večírky',
   photo:'fotografie',fashion:'móda',science:'věda',law:'právo',politics:'politika',trade:'obchod a peníze',lang:'cizí jazyky',wood:'práce se dřevem',garden:'zahrada',fish:'rybaření',
   scout:'příroda a táboráky',stage:'pódium a humor',media:'média',chess:'šachy',dance:'tanec',bike:'kolo',swim:'plavání',ski:'lyže',ball:'fotbal',hockey:'hokej',tennis:'tenis',golf:'golf',
-  sail:'jachting',yoga:'jóga',gym:'posilovna',brew:'pivo',wine:'víno',medic:'záchranařina',mind:'pomoc druhým',smoke:'cigarety',gamble:'hazard',collect:'sbírání',rehab:'odvykání'};
+  sail:'jachting',yoga:'jóga',gym:'posilovna',brew:'pivo',wine:'víno',medic:'záchranařina',mind:'pomoc druhým',smoke:'cigarety',gamble:'hazard',collect:'sbírání',rehab:'odvykání',farm:'hospodaření',bees:'včely',forest:'les',hunt:'myslivost',fire:'hasiči',cottage:'chalupa',startup:'start-upy',corp:'kariéra ve firmě',skate:'skateboard',street:'street art',city:'život ve městě',abroad:'život v cizině',uniform:'uniforma',police:'policie',craft:'řemeslo',factory:'fabrika',bake:'pečení',fly:'létání',drive:'řízení',nomad:'cesty bez domova',care:'péče o druhé',teach:'učení druhých',old:'stáří s přáteli',horse:'koně',fair:'jarmarky a pouti'};
 const ADDN={alcohol:'alkoholem',smoke:'cigaretami',gamble:'hazardem',social:'sociálními sítěmi',games:'hrami',drugs:'drogami',caffeine:'kofeinem',collect:'sběratelskou vášní'};
 const PLACE_IN={vesnice:'na vesnici',venkov:'na venkově',mesto:'ve městě',velkomesto:'ve velkoměstě'};
 const GR={acc:{P:'práci',V:'učení',R:'rodinu',F:'kamarády',K:'koníčky',S:'sport',C:'cestování'},
@@ -1284,8 +1412,14 @@ function cardInner(c,o){
   </div>
   ${c.needT&&!S.seenPath.has(c.id)?'<span class="newp">nová cesta</span>':''}${miss.length?`<span class="lockb" style="background:var(--bad)">!</span>`:(c.yrs?`<span class="bdg yrs">${c.yrs} ${plural(c.yrs,'rok','roky','let')}</span>`:'')}`;
 }
+const SLOT_ORD=[4,3,5,2,6,1,7,0,8];
+function takeSlot(o){const used=new Set(S.offers.filter(x=>x!==o&&x.slot!=null).map(x=>x.slot));let sl=SLOT_ORD.find(i=>!used.has(i));
+  if(sl==null){const v=S.offers.filter(x=>x!==o).sort((a,b)=>a.life-b.life)[0];sl=v.slot;removeOffer(v,true)}o.slot=sl}
+function fitOffers(){const el=$('#offers');if(!el)return;const cs=getComputedStyle(el),cw=parseFloat(cs.getPropertyValue('--cw')),ch=parseFloat(cs.getPropertyValue('--ch')),cg=parseFloat(cs.getPropertyValue('--cg'));
+  const z=Math.min(1,el.clientWidth/(9*cw+8*cg),el.clientHeight/(ch+14));el.style.setProperty('--oz',Math.max(0.5,z).toFixed(3))}
+addEventListener('resize',fitOffers);
 function makeOfferEl(o){
-  const el=document.createElement('div');el.className='oc';el.style.setProperty('--d',(-rnd()*8).toFixed(2)+'s');
+  takeSlot(o);const el=document.createElement('div');el.className='oc';el.style.gridColumn=o.slot+1;el.style.setProperty('--d',(-rnd()*8).toFixed(2)+'s');
   el.innerHTML=cardInner(o.card,o);o.el=el;o.lk=!meets(o.card);el.classList.toggle('locked',o.lk);
   el.addEventListener('pointerdown',e=>{if(S.dead)return;tip.hidden=true;
     e.preventDefault();startDrag(e,{src:'offer',o,card:o.card,h:o.card.h,grab:Math.floor(o.card.h/2),el})});
@@ -1322,7 +1456,7 @@ function renderTimeline(){
   assignLanes();
   for(const p of S.placed){
     const n=p._n,ln=p._lane,inT=n===1?4:3;
-    const bg=p.ev?'#A3A6A8':bgOf(p.card.cats),ic=p.ev?ICO.ill:icoOf(p.card.cats),nmx=p.ev?p.ill.name:nm(p.card);
+    const bg=p.ev?(p.ill.need?'#8C8F93':'#A3A6A8'):bgOf(p.card.cats),ic=p.ev?ICO.ill:icoOf(p.card.cats),nmx=p.ev?p.ill.name:nm(p.card);
     const top=`calc(${ln*100/n}% + ${inT}px)`,height=`calc(${100/n}% - ${inT*2}px)`;
     const pcs=piecesOf(p.start,p.h),main=pcs.reduce((m,x)=>x[1]>m[1]?x:m,pcs[0]);
     const kind=s=>p.ev?'hz':stacks[s].filter(q=>q!==p&&!(q.ev&&p.card.heal)).length?'hz cov':'';
@@ -1332,7 +1466,7 @@ function renderTimeline(){
         hatch+=`<i class="${k}" style="left:${(s-ps)/pl*100}%;width:${(e-s)/pl*100}%"></i>`;s=e}
       const small=n>1||pl<4;const isMain=pc===main;
       const gp=p.ev?0:cardGap(p.card);
-      const label=isMain?`<span class="lbl ${small?'sm':''}">${gp>0?`<span class="gap">+${gp}</span>`:''}${mon?`<span class="mob ${mon>0?'plus':''}">${kShort(mon)}</span>`:''}<span class="ic">${ic}</span><span class="t"><b>${p.h} h</b>${!small&&pl>=5?`<small>${nmx}</small>`:''}</span></span>`:'';
+      const label=isMain?`${p.ev&&p.ill.need?'<b class="ndx" title="Samo to nepřejde – potřebuje léčbu">!</b>':''}<span class="lbl ${small?'sm':''}">${gp>0?`<span class="gap">+${gp}</span>`:''}${mon?`<span class="mob ${mon>0?'plus':''}">${kShort(mon)}</span>`:''}<span class="ic">${ic}</span><span class="t"><b>${p.h} h</b>${!small&&pl>=5?`<small>${nmx}</small>`:''}</span></span>`:'';
       const cutL=off>0,cutR=pcs.length>1&&off===0;
       h+=`<div class="seg ${p.ev?'ev':''} ${p.ev&&p.growing?'grow':''} ${hoverUid===p.uid?'hov':''} ${freshUid===p.uid?'fresh':''} ${cutL?'cutL':''} ${cutR?'cutR':''}" data-uid="${p.uid}" style="left:calc(${ps*W}% + ${cutL?0:2}px);width:calc(${pl*W}% - ${(cutL?0:2)+(cutR?0:2)}px);top:${top};height:${height};background:${bg}">${hatch}${label}</div>`;
     }
@@ -1387,7 +1521,7 @@ function statTip(k,e){
     `<div class="sr tot"><span>Celkem</span><b>${(sc(E.total*EK)>0?'+':'−')+yr(Math.abs(sc(E.total*EK)))}</b></div>`}
   if(k==='hp'&&B.H){const H=Object.fromEntries(Object.entries(B.H).map(([a,v])=>[a,a==='total'||a==='k'?v:v*B.H.k]));h=`<h4>Zdraví</h4>${S.crit!=null?`<div style="color:var(--bad)">Kritický stav! Zbývá ${Math.max(0,1-(S.age-S.crit)).toFixed(1).replace('.',',')} roku, potřebuješ aspoň 5.</div>`:''}`+statRow('Odpočinek',sc(H.rest),yr)+statRow('Aktivity',sc(H.cards),yr)+statRow('Nemoci',sc(H.ill+H.bigIll),yr)+statRow('Bydlení',sc(H.home),yr)+
     statRow('Vyčerpání',sc(H.exh),yr)+statRow('Stres',sc(H.stressH),yr)+statRow('Věk',sc(H.ageH),yr)+statRow('Závislosti',sc(H.addHp||0),yr)+`<div class="sr tot"><span>Celkem</span><b>${(H.total>0?'+':'−')+yr(Math.abs(sc(H.total)))}</b></div>`+(S.maxH<100?`<div class="k">Strop zdraví s věkem klesá: ${Math.round(S.maxH)}</div>`:'')}
-  if(k==='st'&&B.T){const T=B.T;h=`<h4>Stres</h4>`+statRow('Aktivity',sc(T.cards),yr,1)+statRow('Překrývání karet',sc(T.overlap),yr,1)+statRow('Karty nad úroveň',sc(T.gap),yr,1)+statRow('Bydlení',sc(T.home),yr,1)+
+  if(k==='st'&&B.T){const T=B.T;h=`<h4>Stres</h4>`+statRow('Aktivity',sc(T.cards),yr,1)+statRow('Překrývání karet',sc(T.overlap),yr,1)+statRow('Karty nad úroveň',sc(T.gap),yr,1)+statRow('Bydlení',sc(T.home),yr,1)+statRow('Co tě baví / nebaví',sc(T.mot||0),yr,1)+
     statRow('Pořád u rodičů',sc(T.parentsSt),yr,1)+statRow('Rodina a život',sc(T.famSt),yr,1)+statRow('Chuť (závislost)',sc(T.addSt||0),yr,1)+statRow('Dluhy',sc(T.debt),yr,1)+statRow('Únava',sc(T.tired),yr,1)+statRow('Přirozeně odchází',sc(T.decay),yr,1)+`<div class="sr tot"><span>Celkem</span><b>${(T.total>0?'+':'−')+yr(Math.abs(sc(T.total)))}</b></div>`}
   if(k==='mo'&&B.M){const M=B.M,mo=v=>kNum(v)+' / měs';h=`<h4>Peníze</h4>`+statRow('Příjmy',M.inc,mo)+statRow('Aktivity',M.act,mo)+statRow(S.own&&S.own.tier===S.qol?'Údržba bydlení':'Bydlení',M.home,mo)+statRow('Osobní výdaje',M.pers,mo)+statRow('Pronájem bytu',M.rent,mo)+statRow('Partner přispívá',M.partner,mo)+statRow('Děti',M.kids,mo)+statRow('Pojištění',M.ins,mo)+statRow('Auto',M.car,mo)+statRow('Závislosti',M.addict,mo)+statRow('Splátky',M.loans,mo)+statRow('Úroky z dluhu',M.interest,mo)+statRow('Příspěvek rodičům',M.parents,mo)+statRow('Důchod',M.pension,mo)+
     `<div class="sr tot"><span>Celkem</span><b>${kShort(M.total||0)} / měs</b></div>`+(S.age<18&&!S.hadJob?'<div class="k">Zatím tě živí rodiče.</div>':'')}
@@ -1430,9 +1564,10 @@ function onDragUp(){
 
 /* ============ HUD ============ */
 const skEls={};
+function updSkillBars(){for(const k of SK){const l=lvl(S.xp[k]);const f=l>=MAXL?1:(S.xp[k]-TH[l])/(TH[l+1]-TH[l]);const v=f.toFixed(3);if(skEls[k]&&skEls[k]._p!==v){skEls[k]._p=v;skEls[k].style.setProperty('--p',v)}}}
 function buildSkills(){
-  $('#skills').innerHTML=SK.map(k=>{const l=lvl(S.xp[k]),q=(S.quests||[]).find(x=>x.type==='skill'&&x.k===k);return `<div class="skw">${q?`<span class="qf" data-c="q:${q.id}">${AICO.flag}${q.target}</span>`:''}<div class="skc ${l?'':'zero'} ${l>=8?'glow':''}" id="sk${k}" style="background:color-mix(in srgb, ${CATS[k].c} ${l?30+7*l:0}%, var(--paper));--gc:${CATS[k].c}" title="${CATS[k].name} – úroveň ${l} z 10${S.mot[k]?` · učíš se ${S.mot[k]>0?'rychleji':'pomaleji'} (×${String(motMult(S.mot[k])).replace('.',',')})`:''}">${ICO[k]}<b>${l||''}</b></div></div>`}).join('');
-  SK.forEach(k=>skEls[k]=$('#sk'+k));
+  setH($('#skills'),SK.map(k=>{const l=lvl(S.xp[k]),q=(S.quests||[]).find(x=>x.type==='skill'&&x.k===k);return `<div class="skw">${q?`<span class="qf" data-c="q:${q.id}">${AICO.flag}${q.target}</span>`:''}<div class="skc ${l?'':'zero'} ${l>=8?'glow':''}" id="sk${k}" style="background:color-mix(in srgb, ${CATS[k].c} ${l?30+7*l:0}%, var(--paper));--gc:${CATS[k].c}" title="${CATS[k].name} – úroveň ${l} z 10${S.mot[k]?` · učíš se ${S.mot[k]>0?'rychleji':'pomaleji'} (×${String(motMult(S.mot[k])).replace('.',',')})`:''}">${ICO[k]}<b>${l||''}</b></div></div>`}).join(''));
+  SK.forEach(k=>skEls[k]=$('#sk'+k));updSkillBars();
 }
 function renderMots(){
   const keys=Object.keys(S.mot).sort((a,b)=>S.mot[b]-S.mot[a]);
@@ -1442,10 +1577,10 @@ function renderMots(){
 }
 function renderQol(){
   const lockedYr=S.movedOut&&S.age<S.qolLock;
-  $('#qs').innerHTML=QOL.map((q,i)=>`<button class="q ${i===S.qol?'cur':''}" data-q="${i}" ${(!S.movedOut||lockedYr)&&i!==S.qol?'disabled':''} title="${q.n} · ${kNum(q.cost)} měsíčně">${i+1}</button>`).join('');
+  setH($('#qs'),QOL.map((q,i)=>`<button class="q ${i===S.qol?'cur':''}" data-q="${i}" ${(!S.movedOut||lockedYr)&&i!==S.qol?'disabled':''} title="${q.n} · ${kNum(q.cost)} měsíčně">${i+1}</button>`).join(''));
   const q=QOL[S.qol];
-  $('#qinfo').innerHTML=S.movedOut?`<b>${q.n}</b> · ${S.own&&S.own.tier===S.qol?`vlastní, údržba ${kNum(q.cost*0.15)}`:kNum(q.cost)} měsíčně${lockedYr?' · další změna příští rok':''}`
-    :`U rodičů (<b>${q.n.toLowerCase()}</b>).${S.age>=18?' Když vyděláváš, přispíváš na domácnost. Každý rok doma přidává stres.':' Nájem neplatíš.'}`;
+  setH($('#qinfo'),S.movedOut?`<b>${q.n}</b> · ${S.own&&S.own.tier===S.qol?`vlastní, údržba ${kNum(q.cost*0.15)}`:kNum(q.cost)} měsíčně${lockedYr?' · další změna příští rok':''}`
+    :`U rodičů (<b>${q.n.toLowerCase()}</b>).${S.age>=18?' Když vyděláváš, přispíváš na domácnost. Každý rok doma přidává stres.':' Nájem neplatíš.'}`);
   $('#moveBtn').style.visibility=(S.age>=18&&!S.movedOut)?'visible':'hidden';$('#moveBtn').hidden=S.movedOut;
 }
 $('#qs').addEventListener('click',e=>{const b=e.target.closest('.q');if(!b||b.disabled||!S.movedOut)return;const i=+b.dataset.q;if(i===S.qol)return;
@@ -1467,7 +1602,7 @@ function updateHUD(){
   setTr('trEn',S.energy>=100&&t.en>0?['','']:trendOf(t.en,[0.02,0.12,0.3]));
   setTr('trHp',S.health>=S.maxH-0.01&&t.hp>0?['','']:trendOf(t.hp,[0.02,0.2,0.6]));
   setTr('trSt',S.stress<=0&&t.st<0?['','']:trendOf(t.st,[0.05,0.4,1],true));
-  for(const k of SK){const l=lvl(S.xp[k]);const f=l>=MAXL?1:(S.xp[k]-TH[l])/(TH[l+1]-TH[l]);if(skEls[k])skEls[k].style.setProperty('--p',f.toFixed(3))}
+  updSkillBars();
   const age=Math.floor(S.age);$('#ageN').innerHTML=`${age}<small>${letStr(age)}</small>`;
   $('#ageFill').style.width=Math.min(100,S.age)+'%';$('#kid').style.left=Math.min(100,S.age)+'%';$('#season').textContent=SEAS[Math.floor((S.age%1)*4)];
   if(++hudTick%30===0){renderQol();renderActs();renderChips()}
@@ -1703,7 +1838,7 @@ const ACTS=[
 ];
 function renderActs(){
   const vis=ACTS.filter(a=>!a.show||a.show());let fresh=false;
-  $('#acts').innerHTML=vis.map(a=>{const nw=S.seenActs&&!S.seenActs.has(a.id);if(nw){S.seenActs.add(a.id);fresh=true}return `<button class="act box ${a.ok()?'':'off'} ${nw?'fresh':''}" data-a="${a.id}"><span class="ai">${AICO[a.id]}</span><span>${a.name}</span></button>`}).join('');
+  setH($('#acts'),vis.map(a=>{const nw=S.seenActs&&!S.seenActs.has(a.id);if(nw){S.seenActs.add(a.id);fresh=true}return `<button class="act box ${a.ok()?'':'off'} ${nw?'fresh':''}" data-a="${a.id}"><span class="ai">${AICO[a.id]}</span><span>${a.name}</span></button>`}).join(''));
   if(fresh){$('#actsBtn').classList.remove('fresh');void $('#actsBtn').offsetWidth;$('#actsBtn').classList.add('fresh');if(S.age>0.5)sfx('appear')}
 }
 $('#acts').addEventListener('click',e=>{const b=e.target.closest('.act');if(!b||S.dead)return;const a=ACTS.find(x=>x.id===b.dataset.a);if(!a.ok()){toast(a.why());return}a.run()});
@@ -1938,7 +2073,7 @@ function extraInfo(c){
   if(c==='partner'){const P=S.partner;return `<h4>${P.name}</h4><div class="k">${P.married?gw(P.g,'Manžel','Manželka'):gw(P.g,'Přítel','Přítelkyně')} · spolu ${Math.floor(S.age-P.since)} ${letStr(Math.floor(S.age-P.since))}</div><div class="sr"><span>${relWord(P.rel)}</span><b>${Math.round(P.rel)}</b></div><div class="k">Vztah roste, když spolu trávíte čas (karty s partnerem, rodinné večery). Klikni pro společné chvíle.</div>`}
   if(c.startsWith('kid:')){const k=S.kids.find(x=>x.id===+c.slice(4));if(!k)return '';const a=Math.floor(kidAge(k));
     return `<h4>${k.name}, ${a} ${letStr(a)}</h4><div class="sr"><span>${relWord(k.rel)}</span><b>${Math.round(k.rel)}</b></div>${k.dir?`<div>Tíhne k: ${CATS[k.dir].name.toLowerCase()}</div>`:''}${k.fate?`<div>${k.fate}</div>`:''}${k.grand?`<div>Vnoučata: ${k.grand}</div>`:''}<div class="k">${a<18?`Potřebuje asi ${a<3?3:a<12?2:1} h denně tvého času (karty s dětmi, rodinné večery).`:gw(k.g,'Už je samostatný.','Už je samostatná.')} Klikni pro společné chvíle.</div>`}
-  if(c.startsWith('q:')){const q=S.quests.find(x=>x.id===+c.slice(2));if(!q)return '';return `<h4>Cíl: ${q.text}</h4><div class="sr"><span>Zbývá</span><b>${Math.max(0,q.until-S.age).toFixed(1).replace('.',',')} roku</b></div><div class="sr"><span>Odměna</span><b class="g">štěstí +${q.reward}</b></div>${q.type==='skill'?`<div class="k">Teď máš úroveň ${lvl(S.xp[q.k])}.</div>`:''}`}
+  if(c.startsWith('q:')){const q=S.quests.find(x=>x.id===+c.slice(2));if(!q)return '';return `<h4>Cíl: ${q.text}</h4><div class="sr"><span>Zbývá</span><b>${Math.max(0,q.until-S.age).toFixed(1).replace('.',',')} roku</b></div><div class="sr"><span>Splníš</span><b class="g">štěstí +${q.reward}</b></div><div class="sr"><span>Nestihneš</span><b style="color:var(--bad)">štěstí −${Math.round(q.reward/2)}</b></div>${q.type==='skill'?`<div class="k">Teď máš úroveň ${lvl(S.xp[q.k])}.</div>`:''}`}
   if(c.startsWith('add:')){const a=c.slice(4);return `<h4>Závislost: ${ADD[a]}</h4><div>Když to nemáš, roste stres.${ADD_HP[a]?' Ubírá zdraví.':''}${a==='gamble'?' Stojí peníze.':''}</div><div class="k">Pomůže odvykací kúra nebo anonymní alkoholici. Nebo prostě vydržet bez toho.</div>`}
   if(c==='ins')return '<h4>Pojištění</h4><div>1,5k měsíčně. Klikni pro zrušení.</div>';
   if(c==='car')return `<h4>${S.car.name}</h4><div class="sr"><span>Stáří</span><b>${S.car.age||0} ${letStr(S.car.age||0)}</b></div><div class="sr"><span>Hodnota</span><b>${kNum(S.car.value)}</b></div><div class="sr"><span>Provoz</span><b>${kNum(S.car.upkeep)} / měs</b></div><div class="k">Klikni pro prodej.</div>`;
@@ -1981,24 +2116,29 @@ function addictTick(dt,R){const rehab=R.tagH.rehab||0,fx={st:0,hp:0,money:0};
 /* ============ CÍLE (bucket list) ============ */
 function questDone(q){switch(q.type){
   case 'skill':return lvl(S.xp[q.k])>=q.target;case 'married':return !!(S.partner&&S.partner.married);case 'child':return S.kids.length>q.base;
-  case 'car':return !!S.car&&(q.target!=='new'||S.car.name==='Nové auto');case 'home':return !!S.own;case 'save':return S.money>=q.amount;case 'clean':return !Object.keys(S.addicted).length}}
+  case 'car':return !!S.car&&(q.target!=='new'||S.car.name==='Nové auto');case 'home':return !!S.own;case 'homeT':return !!S.own&&S.own.tier>=q.target;case 'biz':return !!S.biz;case 'qol':return S.movedOut&&S.qol>=q.target;case 'free':return S.movedOut;case 'save':return S.money>=q.amount;case 'clean':return !Object.keys(S.addicted).length}}
 function genQuest(){const C=[],a=S.age,has=t=>S.quests.some(q=>q.type===t);
   for(const k of SK){const l=lvl(S.xp[k]);if(l>=MAXL||(S.mot[k]||0)<0)continue;const up=l<3?2:(rnd()<0.5?1:2),t=Math.min(MAXL,l+up),need=TH[t]-S.xp[k];
     const rate=3*CATS[k].xp*motMult(S.mot[k]||0)*ageMult(a),yrs=clamp(Math.ceil(need/rate*1.35),2,14);
-    if(a+yrs>80)continue;C.push({w:(S.mot[k]>0?3:1)*(l>0?1.5:1),q:{type:'skill',k,target:t,until:a+yrs,reward:6+5*(t-l)+Math.round(yrs/2),text:`${CATS[k].name}: úroveň ${t}`}})}
-  if(S.partner&&!S.partner.married&&a>=20&&!has('married'))C.push({w:2,q:{type:'married',until:a+4,reward:12,text:'Vzít se'}});
-  if(S.partner&&fertile()&&a>=22&&a<=40&&S.kids.length<3&&!has('child'))C.push({w:1.5,q:{type:'child',base:S.kids.length,until:a+5,reward:12,text:'Mít dítě'}});
-  if(a>=18&&!S.car&&!has('car')){C.push({w:1,q:{type:'car',target:'used',until:a+3,reward:6,text:'Koupit si auto'}});if(S.monthly>15000)C.push({w:0.6,q:{type:'car',target:'new',until:a+6,reward:12,text:'Koupit si nové auto'}})}
-  if(a>=25&&!S.own&&!has('home'))C.push({w:1,q:{type:'home',until:a+8,reward:18,text:'Mít vlastní bydlení'}});
-  if(a>=18&&!has('save')){const amt=Math.round(Math.max(100000,S.money+Math.max(5000,S.monthly)*12*3)/50000)*50000;C.push({w:1,q:{type:'save',amount:amt,until:a+5,reward:10,text:`Našetřit ${kNum(amt)}`}})}
-  if(Object.keys(S.addicted).length&&!has('clean'))C.push({w:3,q:{type:'clean',until:a+4,reward:15,text:'Zbavit se závislosti'}});
+    if(a+yrs>80)continue;C.push({w:(S.mot[k]>0?3:1)*(l>0?1.5:1),q:{type:'skill',k,target:t,until:a+yrs,reward:Math.round(8+6*(t-l)+0.8*yrs),text:`${CATS[k].name}: úroveň ${t}`}})}
+  const fam=(S.mot.R||0)>0?2.5:(S.mot.R||0)<0?0.4:1,wk=(S.mot.P||0)>0?2:1;
+  if(a>=18&&a<26&&!S.movedOut&&!has('free'))C.push({w:1.5,q:{type:'free',until:a+3,reward:16,text:'Odstěhovat se od rodičů'}});
+  if(S.partner&&!S.partner.married&&a>=20&&!has('married'))C.push({w:2*fam,q:{type:'married',until:a+4,reward:24,text:'Vzít se'}});
+  if(S.partner&&fertile()&&a>=22&&a<=42&&S.kids.length<4&&!has('child'))C.push({w:1.5*fam,q:{type:'child',base:S.kids.length,until:a+5,reward:S.kids.length?20:26,text:['Mít dítě','Mít druhé dítě','Mít třetí dítě','Mít čtvrté dítě'][S.kids.length]}});
+  if(a>=18&&!S.car&&!has('car')){C.push({w:1,q:{type:'car',target:'used',until:a+3,reward:12,text:'Koupit si auto'}});if(S.monthly>15000)C.push({w:0.6,q:{type:'car',target:'new',until:a+6,reward:22,text:'Koupit si nové auto'}})}
+  if(a>=25&&!S.own&&!has('home'))C.push({w:1,q:{type:'home',until:a+8,reward:30,text:'Mít vlastní bydlení'}});
+  if(a>=28&&S.own&&S.own.tier<8&&!has('homeT')){const t=S.own.tier+2;C.push({w:0.8,q:{type:'homeT',target:t,until:a+10,reward:20+4*t,text:`Vlastní bydlení úrovně ${t+1}`}})}
+  if(a>=22&&S.movedOut&&S.qol<8&&!has('qol')){const t=Math.min(9,S.qol+2);C.push({w:0.8,q:{type:'qol',target:t,until:a+6,reward:14+3*t,text:`Bydlet na úrovni ${t+1}`}})}
+  if(a>=25&&a<=60&&!S.biz&&lvl(S.xp.P)>=3&&!has('biz'))C.push({w:0.7*wk,q:{type:'biz',until:a+8,reward:30,text:'Založit si firmu'}});
+  if(a>=18&&!has('save')){const amt=Math.round(Math.max(100000,S.money+Math.max(5000,S.monthly)*12*3)/50000)*50000;C.push({w:1,q:{type:'save',amount:amt,until:a+5,reward:18,text:`Našetřit ${kNum(amt)}`}})}
+  if(Object.keys(S.addicted).length&&!has('clean'))C.push({w:3,q:{type:'clean',until:a+4,reward:30,text:'Zbavit se závislosti'}});
   const pick=pickW(C,x=>x.w);if(!pick)return;const q={id:++uidC,...pick.q};if(questDone(q))return;
-  S.quests.push(q);moment(AICO.flag,'#F2D07A','Nový cíl',`${q.text} do ${Math.floor(q.until)} let. Odměna: štěstí +${q.reward}.`);sfx('motUp');renderChips()}
+  S.quests.push(q);moment(AICO.flag,'#F2D07A','Nový cíl',`${q.text} do ${Math.floor(q.until)} let. Splníš: štěstí +${q.reward}. Nestihneš: −${Math.round(q.reward/2)}.`);sfx('motUp');renderChips()}
 function questTick(){if(!S.quests.length)return;let ch=false;
   for(const q of [...S.quests]){if(questDone(q)){S.quests=S.quests.filter(x=>x!==q);S.score+=q.reward;S.questsDone++;ch=true;
       moment(AICO.flag,'#9ED8B0','Cíl splněn',`${q.text}. Štěstí +${q.reward}.`);sfx('level');S.log.push(`${Math.floor(S.age)} let – splněný cíl: ${q.text.toLowerCase()}.`)}
-    else if(S.age>=q.until){S.quests=S.quests.filter(x=>x!==q);ch=true;toast(`Nestihl/a jsi: ${q.text.toLowerCase()}.`,'bad')}}
-  if(ch)renderChips()}
+    else if(S.age>=q.until){S.quests=S.quests.filter(x=>x!==q);ch=true;const pen=Math.round(q.reward/2);S.score-=pen;S.questsFail=(S.questsFail||0)+1;toast(`Nestihl/a jsi: ${q.text.toLowerCase()}. Štěstí −${pen}.`,'bad');sfx('motDown')}}
+  if(ch){renderChips();buildSkills()}}
 
 /* ============ NEČEKANÉ DÍTĚ ============ */
 function accidentalBaby(){let P=S.partner;const f=isF();
@@ -2010,14 +2150,15 @@ function accidentalBaby(){let P=S.partner;const f=isF();
   sfx('motDown');renderChips();renderActs()}
 
 /* ============ ZÁVAZKY NAD OSOU ============ */
+function setH(el,h){if(el&&el._h!==h){el._h=h;el.innerHTML=h}}
 function renderChips(){
   if(!S)return;let h='';
   for(const l of S.loans)h+=`<button class="cm box" data-c="loan:${l.id}"><span class="ai">${AICO[l.kind==='hypo'?'home':'loan']}</span>${l.kind==='hypo'?'Hypotéka':'Půjčka'} <b>−${kNum(l.pay)}</b></button>`;
   if(S.own)h+=`<button class="cm box" data-c="own"><span class="ai">${AICO.home}</span>Vlastní bydlení</button>`;
   S.rentals.forEach((r,i)=>h+=`<button class="cm box" data-c="rent:${i}"><span class="ai">${AICO.home}</span>Pronájem <b class="g">+${kNum(r.income)}</b></button>`);
   if(S.inv>0)h+=`<button class="cm box" data-c="inv"><span class="ai">${AICO.inv}</span>Investice <b>${kNum(S.inv)}</b></button>`;
-  $('#cms').innerHTML=h+extraChips();
-  $('#qright').innerHTML=S.quests.filter(q=>q.type!=='skill').map(q=>`<button class="cm box quest" data-c="q:${q.id}"><span class="ai">${AICO.flag}</span>${q.text} <b>${Math.max(0,q.until-S.age).toFixed(1).replace('.',',')} r</b></button>`).join('');buildSkills();
+  setH($('#cms'),h+extraChips());
+  setH($('#qright'),S.quests.filter(q=>q.type!=='skill').map(q=>`<span class="qn" data-c="q:${q.id}">${AICO.flag}${q.text} <b>${Math.max(0,Math.ceil(q.until-S.age))} r</b></span>`).join(''));buildSkills();
 }
 function chipInfo(c){
   if(c.startsWith('loan:')){const l=S.loans.find(x=>x.id===+c.slice(5));if(!l)return '';const yl=l.left/12;
