@@ -367,6 +367,9 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
 .hall td.n{font-family:var(--display);font-weight:600;color:var(--muted);width:2em}
 .hall td.sc{font-family:var(--display);font-weight:600;text-align:right;font-size:17px}
 .hall .sub{color:var(--muted);font-size:12.5px;font-weight:700}
+.verlink{margin-top:4px;background:none;border:0;font:inherit;font-size:12.5px;font-weight:800;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.notes h4{margin:10px 0 4px;font-family:var(--display);font-weight:600;font-size:17px}.notes h4:first-child{margin-top:2px}.notes h4 small{font-family:inherit;font-size:12px;color:var(--muted);font-weight:700;margin-left:6px}
+.notes ul{margin:0 0 4px;padding-left:18px;font-size:13.5px;font-weight:700;line-height:1.5}
 .hallbox{background:var(--paper);border:2.5px solid var(--ink);border-radius:10px;box-shadow:0 4px 0 var(--ink);padding:10px 14px;text-align:left;width:100%;max-height:55vh;overflow:auto}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
@@ -1680,14 +1683,11 @@ const BADT=new Set(['rehab','smoke','gamble','party']);
 function eligibleNow(c,a){return a>=c.a0&&a<=c.a1&&genderOk(c)&&needOk(c)&&(!c.pl||c.pl.includes(PLACE))&&!(c.cats.includes('P')&&a<15&&c.money>0)&&!(!S.movedOut&&c.pmin&&S.qol<c.pmin)}
 function crossroads(y){S.crossPend=null;const a=S.age;
   const byTag={};for(const c of CARDS)if(c.tag&&!BADT.has(c.tag)&&eligibleNow(c,a)&&cardGap(c)<=2)(byTag[c.tag]=byTag[c.tag]||[]).push(c);
-  const tags=Object.keys(byTag);if(tags.length<2)return;
-  const known=tags.filter(t=>(S.tagH[t]||0)>0.5).sort((x,z)=>(S.tagH[z]||0)-(S.tagH[x]||0)).slice(0,2);
-  const fresh=tags.filter(t=>!(S.tagH[t]>0.5)&&!known.includes(t));const opts=known.map(t=>({t,old:1}));
-  while(opts.length<3&&fresh.length){const t=fresh.splice(Math.floor(rnd()*fresh.length),1)[0];opts.push({t,old:0})}
-  modal(`<h3>Rozcestí</h3><p class="lead">${CROSS[y]} Co si vybereš, to ti život bude pár let častěji nabízet.</p><div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}"><b>${o.old?'Jít víc do toho':'Zkusit něco nového'}: ${TAGN[o.t]||o.t}</b><span>třeba ${byTag[o.t].slice().sort(()=>rnd()-0.5).slice(0,2).map(c=>'„'+nm(c)+'“').join(', ')}</span></button>`).join('')}<button class="opt" id="cx"><b>Nechat to plynout</b><span>Žádný směr, ať to přijde samo.</span></button></div>`,()=>{
-    document.querySelectorAll('.opt[data-i]').forEach(b=>b.onclick=()=>{const o=opts[+b.dataset.i];S.dir={tag:o.t,until:a+8};(S.dirHist=S.dirHist||[]).push({age:y,tag:o.t});
-      S.log.push(`${y} let – rozcestí: ${TAGN[o.t]||o.t}.`);closeModal();dirSpawn(true);sfx('motUp')});
-    $('#cx').onclick=()=>{S.dir=null;closeModal()}})}
+  const tags=Object.keys(byTag);if(!tags.length)return;const snap=S.tagSnap||{};
+  const w=t=>Math.max(0,(S.tagH[t]||0)-(snap[t]||0))+0.3*(S.tagH[t]||0);
+  const known=tags.filter(t=>w(t)>0.3);let t;
+  if(known.length&&rnd()<0.8)t=pickW(known,w);else t=tags[Math.floor(rnd()*tags.length)];
+  S.tagSnap={...S.tagH};S.dir={tag:t,until:a+8};(S.dirHist=S.dirHist||[]).push({age:y,tag:t});dirSpawn(true)}
 function dirSpawn(force){if(!S.dir||S.age>=S.dir.until)return false;const a=S.age;
   const used=new Set([...S.placed.filter(p=>!p.ev).map(p=>p.card.id),...S.offers.map(o=>o.card.id)]);
   const pool=CARDS.filter(c=>c.tag===S.dir.tag&&!used.has(c.id)&&eligibleNow(c,a)&&(meets(c)||cardGap(c)<=2));
@@ -1774,7 +1774,7 @@ function storyText(age,cause){
   else p2+=' Stálou práci jsi nikdy pořádně nenašel/nenašla.'.replace('nenašel/nenašla',f?'nenašla':'nenašel');
   if(at.length){const main=at[0],job=S.taken.find(t=>t.money>0&&CARDS.find(c=>c.name===t.raw&&c.tag===main)),named=[jobs[0]&&jobs[0].name,longJobs[0]&&longJobs[0].name];
     p2+=job&&!named.includes(job.name)?` A z koníčku (${TAGN[main]}) se nakonec stalo živobytí: „${job.name}“.`:job?` Z koníčku (${TAGN[main]}) se tak stala práce.`:` Celým životem se ti táhly ${andJoin(at.map(t=>TAGN[t]))}.`}
-  if(dh.length)p2+=` Když přišlo rozcestí, vybral/a sis ${andJoin(dh.map(d=>TAGN[d.tag]||d.tag))}.`;
+  if(dh.length)p2+=` Postupně tě život táhl k tomu, co ti bylo nejbližší: ${andJoin(dh.map(d=>TAGN[d.tag]||d.tag))}.`;
   const best=SK.map(k=>[k,lvl(S.xp[k])]).sort((a,b)=>b[1]-a[1]);
   if(best[0][1]>=8)p2+=` V tématu ${CATS[best[0][0]].name.toLowerCase()} jsi to dotáhl/a na úroveň ${best[0][1]}. Lepší by se hledal/a těžko.`;
   else if(best[0][1]>=5)p2+=` V tématu ${CATS[best[0][0]].name.toLowerCase()} z tebe byl/a profesionál/ka s úrovní ${best[0][1]}.`;
@@ -2082,7 +2082,7 @@ function updateHUD(){
   updSkillBars();
   const age=Math.floor(S.age);$('#ageN').innerHTML=`${age}<small>${letStr(age)}</small>`;
   $('#ageFill').style.width=Math.min(100,S.age)+'%';$('#kid').style.left=Math.min(100,S.age)+'%';$('#season').textContent=SEAS[Math.floor((S.age%1)*4)];
-  if(++hudTick%30===0){renderQol();renderActs();renderChips();if(S.crossPend&&$('#ov').hidden&&!D&&!S.dead)crossroads(S.crossPend)}
+  if(++hudTick%30===0){renderQol();renderActs();renderChips();if(S.crossPend&&!S.dead)crossroads(S.crossPend)}
 }
 $('#ageTrack').insertAdjacentHTML('beforeend',[18,65].map(a=>`<div class="mk" style="left:${a}%"><span>${a}</span></div>`).join(''));
 $('#hapIco').innerHTML=ICO.hap;$('#coinIco').innerHTML=ICO.coin;$('#hpIco').innerHTML=ICO.hp;$('#enIco').innerHTML=ICO.en;$('#stIco').innerHTML=ICO.st;
@@ -2092,12 +2092,27 @@ function toast(t,kind=''){t=gtxt(t);const box=$('#toasts');const el=document.cre
   box.appendChild(el);while(box.children.length>2)box.firstChild.remove();setTimeout(()=>el.classList.add('out'),7000);setTimeout(()=>el.remove(),8600)}
 function showOverlay(h,wide){const o=$('#ov');o.innerHTML=`<div class="card box ${wide?'wide':''}">${gtxt(h)}</div>`;o.hidden=false}
 function hideOverlay(){$('#ov').hidden=true;$('#ov').classList.remove('title')}
+const VER='0.24';
+const NOTES=[
+ ['0.24','17. 10. 2026',['Životní rozcestí probíhají nenápadně: hra sama pozná, čemu se věnuješ, a podle toho tě pár let směruje.','Verze a novinky v menu.']],
+ ['0.23','17. 10. 2026',['400 nových karet: větvení kariér (medicína, IT, stavby, finance, gastro, věda, právo, armáda…) a karty, které potřebují zkušenost ze dvou oblastí.','Akce jako půjčka, investice nebo podnikání se odemykají věkem a dovedností.','Los zmizel.']],
+ ['0.22','16. 10. 2026',['Byt se dá koupit za hotové.','Starší auto má dražší provoz.','Cíle chodí častěji, můžeš mít až tři najednou.','Vyladěný stres, vklad do firmy je vidět.']],
+ ['0.21','16. 10. 2026',['Karty mají pevná místa a doplňují se od středu.','Cíle: splněný přidá štěstí, nesplněný půlku ubere. Nové cíle (svatba, děti, firma, bydlení).','Co tě baví, snižuje stres. Vážné nemoci mají vykřičník.','100 karet podle místa a stylu života. Oprava blikání a tlačítek.']],
+ ['0.20','16. 10. 2026',['Síň slávy na lygames.cz.','Příběh života na konci.','Cíle u dovedností, chytřejší Hledat, 100 nových karet.']],
+ ['0.19','15. 10. 2026',['Velká databáze karet s řetězci a závislostmi.','Cíle ze seznamu snů, nečekané dítě, kritické zdraví s rokem na záchranu.']],
+ ['0.15','15. 10. 2026',['Hratelné na mobilu na šířku.','Nová úvodní obrazovka.']],
+ ['0.10','15. 10. 2026',['Rodina, svatba, děti, půjčky, bydlení, auto.','Krajina podle místa narození, den a noc.']],
+ ['0.5','15. 10. 2026',['Hudba a zvuky, roční období, úrovně 0–10.']],
+ ['0.1','15. 10. 2026',['První verze.']]];
+function showNotes(back){$('#ov').classList.add('title');
+  showOverlay(`<div class="hero"><p class="pre">verze ${VER}</p><h1 class="mid">Co je nového</h1><div class="hallbox notes">${NOTES.map(([v,d,l])=>`<h4>${v} <small>${d}</small></h4><ul>${l.map(x=>`<li>${x}</li>`).join('')}</ul>`).join('')}</div><div class="births"><button class="btn big" id="nb">Zpět</button></div></div>`,true);
+  $('#nb').onclick=back}
 function intro(first){paused=true;setSpeedUI();
   if(first){$('#ov').classList.add('title');showOverlay(`<div class="hero"><p class="pre">hra o čase</p><h1>To je život</h1>
     <p class="tag">Jeden rok trvá minutu a půl.<br>Příležitosti přicházejí a odcházejí.<br>Některé chytíš, jiné necháš plout.<br><b>Čemu dáš svůj čas, to se z tebe stane.</b></p>
-    <div class="births"><button class="btn big" id="start">Začít hru</button><button class="btn big soft" id="hall">Síň slávy</button></div></div>`);$('#start').onclick=()=>{audioInit();birthChoice()};$('#hall').onclick=()=>showHall();return}
-  showOverlay(`<h2>Jak hrát</h2><p class="lead">Přetáhni příležitost na osu dne. Prázdné hodiny jsou odpočinek. Najeď myší na cokoliv, co tě zajímá.</p><p class="lead">Zbytek je na tobě.</p><button class="btn" id="go">Pokračovat</button>`);
-  $('#go').onclick=()=>{hideOverlay();paused=false;setSpeedUI()}}
+    <div class="births"><button class="btn big" id="start">Začít hru</button><button class="btn big soft" id="hall">Síň slávy</button></div><button class="verlink" id="notes">verze ${VER} · co je nového</button></div>`);$('#start').onclick=()=>{audioInit();birthChoice()};$('#hall').onclick=()=>showHall();$('#notes').onclick=()=>showNotes(()=>intro(true));return}
+  showOverlay(`<h2>Jak hrát</h2><p class="lead">Přetáhni příležitost na osu dne. Prázdné hodiny jsou odpočinek. Najeď myší na cokoliv, co tě zajímá.</p><p class="lead">Zbytek je na tobě.</p><button class="btn" id="go">Pokračovat</button> <button class="verlink" id="notes">verze ${VER} · co je nového</button>`);
+  $('#go').onclick=()=>{hideOverlay();paused=false;setSpeedUI()};$('#notes').onclick=()=>showNotes(()=>{$('#ov').classList.remove('title');intro(false)})}
 function birth(g){audioInit();S.gender=g;newLife();$('#ov').classList.remove('title');hideOverlay();paused=false;setSpeedUI()}
 function birthChoice(){$('#ov').classList.add('title');showOverlay(`<div class="hero"><p class="pre">${S&&S.dead?'nový začátek':'první nádech'}</p><h1 class="mid">Kým se narodíš?</h1><div class="births"><button class="btn big" id="gf">Holka</button><button class="btn big" id="gm">Kluk</button></div></div>`);$('#gf').onclick=()=>birth('f');$('#gm').onclick=()=>birth('m')}
 function setSpeedUI(){document.querySelectorAll('#speed button').forEach(b=>{const s=+b.dataset.s;b.classList.toggle('on',paused?s===0:s===speed)})}
