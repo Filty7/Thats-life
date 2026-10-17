@@ -958,6 +958,460 @@ const RAW=[
 ['Jarmark','F/C',4,'9-18','4-90','',-800,-0.3,0,-0.04,{tag:'fair'}],
 ['Pouťové atrakce','P/C',10,'10-23','18-60','',32000,-1.0,-0.004,0.03,{tag:'fair',needT:{fair:2}}],
 ['Koňský tábor','S/C',6,'8-20','9-16','',-3000,-0.4,0.004,-0.04,{tag:'horse',needT:{horse:1}}],
+// ===== VĚTVENÍ KARIÉR =====
+// medicína: záchranář → medicína → lékař → větve
+['První pomoc kroužek','Z/V',2,'14-18','11-17','',0,-0.2,0,0,{tag:'medic'}],
+['Lékařská fakulta','V/Z',9,'7-18','19-27','V5',0,-0.7,-0.002,0.05,{tag:'doctor',needT:{medic:2},yrs:6,xpb:1.2}],
+['Lékař v nemocnici|Lékařka v nemocnici','P/Z',11,'*','25-67','V6',65000,-1.1,-0.005,0.07,{tag:'doctor',needT:{doctor:10}}],
+['Chirurg|Chirurgyně','P/Z',12,'*','29-65','V7 P5',130000,-1.2,-0.006,0.09,{tag:'surgeon',needT:{doctor:25}}],
+['Praktický lékař|Praktická lékařka','P/Z',8,'7-16','30-72','V6',85000,-0.7,0,0.03,{tag:'doctor',needT:{doctor:25}}],
+['Psychiatr|Psychiatrička','P/Z',8,'8-17','30-72','V7',95000,-0.7,0,0.04,{tag:'mind',needT:{doctor:20,mind:4}}],
+['Lékař bez hranic|Lékařka bez hranic','P/C',12,'*','28-60','V6',30000,-1.2,-0.008,0.06,{tag:'care',needT:{doctor:15,care:4},yrs:1}],
+['Vlastní ordinace','P/Z',9,'7-17','35-75','V7 P5',150000,-0.8,0,0.05,{needT:{doctor:40}}],
+['Zdravotní sestra|Zdravotní bratr','P/Z',10,'*','19-65','',36000,-1.0,-0.004,0.05,{tag:'nurse',needT:{medic:3}}],
+['Porodní asistentka|Porodní asistent','P/R',10,'*','22-65','V4',42000,-1.0,-0.003,0.05,{tag:'nurse',needT:{nurse:8}}],
+['Staniční sestra|Staniční bratr','P/Z',9,'6-18','30-65','P4',52000,-0.9,-0.002,0.05,{tag:'nurse',needT:{nurse:20}}],
+['Fyzioterapie studium','V/S',8,'8-17','19-25','V3',0,-0.5,0.002,0.02,{tag:'physio',needT:{gym:2},yrs:3}],
+['Fyzioterapeut|Fyzioterapeutka','P/Z',8,'7-18','22-68','V4',45000,-0.7,0.002,0.02,{tag:'physio',needT:{physio:6}}],
+['Fyzio u sportovního klubu','P/S',8,'9-21','26-60','V5 S4',70000,-0.8,0.003,0.03,{tag:'physio',needT:{physio:14,ball:3}}],
+['Veterina','V/K',9,'7-18','19-26','V5',0,-0.7,0,0.04,{tag:'vet',needT:{animals:4},yrs:6}],
+['Veterinář na venkově|Veterinářka na venkově','P/S',10,'*','27-70','V6',52000,-1.0,0.002,0.03,{tag:'vet',needT:{animals:20,farm:2},pl:'vesnice/venkov'}],
+['Lékárník|Lékárnice','P/Z',8,'7-19','24-68','V5',48000,-0.6,0,0.02,{needT:{science:3,medic:1}}],
+// IT: programování → větve
+['Webovky pro kamarády','K/P',2,'*','14-30','',3000,-0.2,0,0,{tag:'code',needT:{code:1}}],
+['Frontendista|Frontendistka','P',8,'9-19','19-60','V3',55000,-0.7,-0.002,0.03,{tag:'web',needT:{code:4}}],
+['Backendista|Backendistka','P',8,'9-19','20-62','V4',62000,-0.7,-0.002,0.03,{tag:'backend',needT:{code:6}}],
+['Datový analytik|Datová analytička','P/V',8,'8-18','22-62','V4',60000,-0.7,0,0.03,{tag:'data',needT:{code:3,science:2}}],
+['Datový vědec|Datová vědkyně','P/V',9,'9-19','25-62','V6',95000,-0.8,0,0.04,{tag:'data',needT:{data:12}}],
+['Kyberbezpečnost','V/P',3,'*','16-50','V3',0,-0.3,0,0.02,{tag:'sec',needT:{code:3}}],
+['Vývojář her|Vývojářka her','P/K',10,'10-24','20-55','V4',52000,-1.0,-0.005,0.06,{tag:'gamedev',needT:{code:4,games:6}}],
+['Vlastní herní studio','P/K',11,'*','26-60','P4 K5',60000,-1.1,-0.006,0.08,{tag:'gamedev',needT:{gamedev:14}}],
+['Vývoj mobilních appek','P',8,'9-20','20-55','V4',68000,-0.7,0,0.03,{tag:'web',needT:{web:6}}],
+['Tech lead','P',9,'9-19','27-62','P5 V5',120000,-0.9,-0.003,0.06,{tag:'backend',needT:{backend:16}}],
+['CTO','P',11,'8-21','32-62','P7 V6',220000,-1.1,-0.005,0.08,{needT:{backend:30,startup:4}}],
+['Robotický kroužek','V/K',2,'14-18','10-17','',-600,-0.2,0,-0.01,{tag:'robot'}],
+['Robotická soutěž','V/F',5,'8-18','13-25','V3',-1000,-0.6,0,0.04,{tag:'robot',needT:{robot:2}}],
+['Inženýr robotiky|Inženýrka robotiky','P/V',9,'8-18','24-62','V6',85000,-0.8,0,0.04,{tag:'robot',needT:{robot:6,code:4}}],
+// stavby a architektura
+['Lego architektura','K/V',2,'*','6-14','',-500,-0.1,0,-0.03,{tag:'build'}],
+['Stavební průmyslovka','V',8,'7-15','15-19','V2',0,-0.5,0,0.01,{tag:'build',needT:{build:1},yrs:4}],
+['Brigáda na stavbě','P/S',9,'6-16','16-30','',26000,-1.1,-0.003,0.01,{tag:'build'}],
+['Zedník|Zednice','P/S',9,'6-16','18-60','',34000,-1.1,-0.005,0.01,{tag:'build',needT:{build:4}}],
+['Stavbyvedoucí','P',10,'6-18','27-65','P4',68000,-1.0,-0.003,0.06,{tag:'build',needT:{build:14}}],
+['Architektura (škola)','V/K',9,'9-23','19-26','V4 K2',0,-0.8,-0.004,0.04,{tag:'arch',needT:{build:2,art:2},yrs:5}],
+['Architekt|Architektka','P/K',9,'9-21','25-72','V5 K4',70000,-0.9,-0.003,0.05,{tag:'arch',needT:{arch:10}}],
+['Vlastní ateliér architektury','P/K',10,'9-21','32-75','P5 K6',130000,-1.0,-0.004,0.06,{tag:'arch',needT:{arch:25}}],
+['Rekonstrukce domu','K/R',4,'8-19','25-70','',-12000,-0.8,-0.002,0.04,{tag:'diy',needT:{build:2}}],
+['Developer|Developerka','P',10,'8-20','32-70','P6',220000,-1.0,-0.004,0.09,{needT:{build:20,trade:6}}],
+// finance
+['Kapesné a prasátko','V/R',1,'*','6-14','',0,0,0,-0.01,{tag:'money'}],
+['Obchodní akademie','V/P',8,'7-15','15-19','',0,-0.5,0,0.01,{tag:'money',needT:{money:1},yrs:4}],
+['Pokladní v bance','P',8,'8-17','19-50','V2',32000,-0.6,0,0.02,{tag:'money'}],
+['Účetní','P',8,'8-17','20-70','V3',42000,-0.6,0,0.02,{tag:'money',needT:{money:3}}],
+['Finanční poradce|Finanční poradkyně','P/F',8,'9-20','22-65','',50000,-0.8,0,0.04,{tag:'money',needT:{money:4}}],
+['Bankéř|Bankéřka','P',10,'8-20','26-65','V5 P4',110000,-1.0,-0.004,0.07,{tag:'money',needT:{money:14}}],
+['Burzovní makléř|Burzovní makléřka','P',11,'7-20','25-55','V5',160000,-1.1,-0.006,0.1,{tag:'money',needT:{money:20},addict:'gamble'}],
+['Daňový poradce|Daňová poradkyně','P',8,'8-17','30-75','V5',80000,-0.7,0,0.04,{tag:'money',needT:{money:20,law:2}}],
+// marketing a reklama
+['Školní časopis','K/V',2,'13-18','11-19','',0,-0.2,0,0,{tag:'media'}],
+['Copywriter|Copywriterka','P/K',8,'9-20','21-60','V3',42000,-0.7,0,0.03,{tag:'ads',needT:{writing:3}}],
+['Správa sociálních sítí','P',6,'9-21','19-50','',32000,-0.6,0,0.03,{tag:'ads',needT:{social:4}}],
+['Marketingový manažer|Marketingová manažerka','P',9,'9-20','27-62','P4',80000,-0.9,-0.003,0.06,{tag:'ads',needT:{ads:12}}],
+['Reklamní agentura','P/K',10,'9-22','30-65','P5 K4',110000,-1.0,-0.004,0.07,{tag:'ads',needT:{ads:22}}],
+['Grafik|Grafička','P/K',8,'9-20','19-65','K3',45000,-0.7,0,0.02,{tag:'design',needT:{art:4}}],
+['UX designér|UX designérka','P/K',8,'9-19','23-60','K4 V3',70000,-0.7,0,0.03,{tag:'design',needT:{design:6,code:1}}],
+['Art director|Art directorka','P/K',9,'9-21','30-65','K6 P4',110000,-0.9,-0.003,0.05,{tag:'design',needT:{design:18}}],
+// novinařina
+['Redakční stáž','V/P',6,'9-19','18-26','',8000,-0.6,0,0.03,{tag:'news',needT:{media:1}}],
+['Reportér|Reportérka','P/C',9,'*','21-60','V3',40000,-0.9,-0.004,0.05,{tag:'news',needT:{news:3}}],
+['Válečný zpravodaj|Válečná zpravodajka','P/C',12,'*','25-55','V4',90000,-1.2,-0.012,0.1,{tag:'news',needT:{news:14}}],
+['Šéfredaktor|Šéfredaktorka','P',10,'8-21','35-70','P5 V5',100000,-1.0,-0.003,0.07,{tag:'news',needT:{news:25}}],
+['Moderátor zpráv|Moderátorka zpráv','P/F',6,'16-23','26-65','F4',90000,-0.6,0,0.04,{tag:'news',needT:{news:10,stage:2}}],
+// pohostinství
+['Barista|Baristka','P/F',7,'6-18','16-45','',23000,-0.7,0,0.02,{tag:'coffee'}],
+['Vlastní kavárna','P/F',10,'6-20','25-70','P3',55000,-1.0,-0.002,0.05,{tag:'coffee',needT:{coffee:8}}],
+['Koktejlový mistr|Koktejlová mistryně','P/K',8,'18-3','22-55','',52000,-0.9,-0.006,0.03,{tag:'bar',needT:{party:8}}],
+['Vlastní bar','P/F',11,'16-4','26-65','P4',80000,-1.1,-0.008,0.06,{tag:'bar',needT:{bar:10},addict:'alcohol'}],
+['Kuchař v hospodě|Kuchařka v hospodě','P',9,'9-22','17-62','',30000,-1.0,-0.003,0.03,{tag:'food',needT:{food:3}}],
+['Michelinská restaurace','P/K',12,'10-24','30-65','P6 K6',140000,-1.2,-0.006,0.09,{tag:'food',needT:{food:40}}],
+['Food truck','P/C',9,'10-22','24-60','P2',48000,-0.9,0,0.03,{tag:'food',needT:{food:8}}],
+['Recepční v hotelu','P',8,'*','18-60','',27000,-0.7,-0.002,0.02,{tag:'hotel'}],
+['Manažer hotelu|Manažerka hotelu','P',10,'7-21','30-65','P5',85000,-1.0,-0.003,0.05,{tag:'hotel',needT:{hotel:14,lang:2}}],
+['Penzion na horách','P/C',10,'6-22','30-72','P4',70000,-0.9,0.002,0.04,{tag:'hotel',needT:{hotel:8,ski:2}}],
+// obchod a logistika
+['Prodavač v obchodě|Prodavačka v obchodě','P',8,'7-20','16-65','',24000,-0.7,0,0.02,{tag:'shop'}],
+['Vedoucí prodejny','P',9,'7-20','24-65','P3',42000,-0.8,0,0.04,{tag:'shop',needT:{shop:8}}],
+['Vlastní e-shop','P',6,'*','20-65','P2',35000,-0.5,0,0.04,{tag:'shop',needT:{shop:2,code:1}}],
+['Skladník|Skladnice','P/S',8,'*','17-62','',27000,-0.9,-0.003,0.02,{tag:'logist'}],
+['Dispečer dopravy|Dispečerka dopravy','P',9,'*','24-64','P3',45000,-0.8,-0.003,0.05,{tag:'logist',needT:{logist:6}}],
+['Šéf logistiky|Šéfová logistiky','P',10,'7-19','32-64','P5',95000,-0.9,-0.003,0.06,{tag:'logist',needT:{logist:18}}],
+// energetika a technika
+['Elektrotechnika (škola)','V',8,'7-15','15-19','V2',0,-0.5,0,0.01,{tag:'tech',needT:{craft:1},yrs:4}],
+['Technik v elektrárně|Technička v elektrárně','P',10,'*','20-63','V3',52000,-0.9,-0.003,0.03,{tag:'tech',needT:{tech:4}}],
+['Montér solárů|Montérka solárů','P/S',9,'6-18','19-60','',42000,-1.0,0.001,0.02,{tag:'tech',needT:{craft:3}}],
+['Energetický inženýr|Energetická inženýrka','P/V',9,'7-18','25-65','V5',80000,-0.8,0,0.04,{tag:'tech',needT:{tech:12,science:3}}],
+// věda – větve
+['Hvězdárna','V/K',3,'20-24','8-80','',-200,-0.2,0,-0.04,{tag:'astro'}],
+['Astronomická olympiáda','V',4,'9-18','14-19','V3',0,-0.5,0,0.03,{tag:'astro',needT:{astro:2}}],
+['Astrofyzik|Astrofyzička','P/V',9,'*','26-75','V7',65000,-0.8,-0.003,0.03,{tag:'astro',needT:{astro:6,science:6}}],
+['Biologická stanice','V/S',6,'7-19','15-30','V3',0,-0.5,0.003,0,{tag:'bio',needT:{science:2}}],
+['Terénní biolog|Terénní bioložka','P/C',9,'5-20','23-70','V5',48000,-0.9,0.003,0.02,{tag:'bio',needT:{bio:6}}],
+['Genetik|Genetička','P/V',9,'8-19','27-70','V7',75000,-0.8,0,0.04,{tag:'bio',needT:{bio:6,doctor:2}}],
+['Profesor na univerzitě|Profesorka na univerzitě','P/V',8,'8-18','40-80','V8',90000,-0.7,0,0.03,{needT:{science:25,teach:4}}],
+['Doktorské studium','V',9,'8-20','24-34','V6',18000,-0.8,0,0.05,{tag:'science',needT:{science:8},yrs:4}],
+// ===== KONÍČKY A ŽIVOTNÍ STYLY =====
+// deskovky, larp, cosplay
+['Deskovky s rodinou','R/K',2,'17-22','5-90','',0,-0.1,0,-0.04,{tag:'board'}],
+['Deskoherní klub','F/K',3,'17-23','12-90','',-300,-0.2,0,-0.04,{tag:'board',needT:{board:2}}],
+['Turnaj v deskovkách','K/F',6,'9-21','14-80','K3',-800,-0.5,0,0.02,{tag:'board',needT:{board:6}}],
+['Autor deskových her|Autorka deskových her','P/K',6,'*','22-80','K5',30000,-0.6,0,0.03,{tag:'board',needT:{board:14}}],
+['LARP víkend','K/F',10,'*','15-45','',-2500,-0.9,0,-0.03,{tag:'larp',needT:{nerd:2}}],
+['Výroba kostýmů','K',3,'*','14-60','',-1500,-0.3,0,-0.04,{tag:'cosplay',needT:{nerd:2}}],
+['Cosplay na conu','K/F',8,'9-21','15-45','',-2000,-0.7,0,-0.02,{tag:'cosplay',needT:{cosplay:3}}],
+['Pořadatel conu|Pořadatelka conu','P/F',8,'*','22-60','F4',25000,-0.9,-0.004,0.06,{needT:{cosplay:6,larp:4}}],
+// příroda a pozorování
+['Pozorování ptáků','K/C',3,'5-11','10-95','',-200,-0.2,0.004,-0.05,{tag:'birds'}],
+['Kroužkování ptáků','K/V',4,'5-12','16-90','V2',0,-0.3,0.003,-0.04,{tag:'birds',needT:{birds:4}}],
+['Ornitolog|Ornitoložka','P/V',8,'5-17','25-75','V5',38000,-0.7,0.004,0,{tag:'birds',needT:{birds:12,bio:2}}],
+['Akvaristika','K',1,'*','8-95','',-500,0,0,-0.04,{tag:'aqua'}],
+['Teraristika','K',1,'*','12-80','',-700,0,0,-0.03,{tag:'aqua',needT:{aqua:2}}],
+['Zoo obchod','P/K',8,'9-19','20-65','',30000,-0.7,0,0.02,{tag:'aqua',needT:{aqua:6}}],
+['Bylinky a čaje','K/Z',1,'*','15-99','',-200,0,0.003,-0.04,{tag:'herbs'}],
+['Bylinkářství','P/Z',6,'8-18','28-85','',22000,-0.5,0.003,0,{tag:'herbs',needT:{herbs:6}}],
+// vytrvalost
+['Parkrun v sobotu','S/F',1,'8-10','10-85','',0,-0.2,0.008,-0.04,{tag:'run'}],
+['Půlmaraton','S',4,'7-13','17-70','S3',-1200,-0.7,0.004,0.02,{tag:'run',needT:{run:4}}],
+['Ironman','S/C',14,'*','22-55','S7',-15000,-1.4,-0.008,0.06,{tag:'tri',needT:{run:16,swim:4}}],
+['Trenér běhu|Trenérka běhu','P/S',4,'6-10','25-75','S5',18000,-0.4,0.006,0,{tag:'run',needT:{run:16}}],
+// hory, voda, vzduch
+['Via ferrata','S/C',6,'7-17','14-70','S2',-2500,-0.7,0.003,0,{tag:'climb',needT:{climb:2}}],
+['Expedice v Himálaji','S/C',14,'*','24-60','S6 C5',-60000,-1.3,-0.012,0.07,{tag:'climb',needT:{climb:20}}],
+['Horský vůdce|Horská vůdkyně','P/S',10,'5-19','25-65','S6',45000,-1.0,0.003,0.03,{tag:'climb',needT:{climb:16}}],
+['Horská služba','P/Z',10,'*','23-60','S5',40000,-1.0,0.002,0.04,{tag:'climb',needT:{climb:10,medic:2}}],
+['Potápění','S/C',4,'8-18','15-70','',-5000,-0.5,0.002,-0.03,{tag:'dive'}],
+['Instruktor potápění|Instruktorka potápění','P/C',8,'8-18','21-60','S4',35000,-0.8,0.002,0,{tag:'dive',needT:{dive:8}}],
+['Surfování','S/C',4,'7-19','12-60','',-3000,-0.6,0.004,-0.05,{tag:'surf'}],
+['Surf camp v Portugalsku','S/C',8,'7-20','17-45','',-15000,-0.6,0.004,-0.04,{tag:'surf',needT:{surf:4},yrs:1}],
+['Paragliding','S/C',4,'9-18','18-65','S2',-6000,-0.4,0,0.01,{tag:'fly'}],
+['Seskok padákem','S/C',3,'9-18','18-70','',-8000,-0.3,0,0.03,{tag:'fly'}],
+// motorky
+['Moped','C/K',2,'*','15-25','',-1500,-0.2,-0.004,-0.02,{tag:'moto'}],
+['Motorka','C/K',3,'*','18-75','',-4000,-0.3,-0.006,-0.03,{tag:'moto',needT:{moto:2}}],
+['Motorkářský sraz','F/C',8,'*','20-70','',-3000,-0.6,-0.006,-0.03,{tag:'moto',needT:{moto:6},addict:'alcohol'}],
+['Okruhové jízdy na motorce','S/C',5,'9-18','20-55','S3',-9000,-0.6,-0.01,0.03,{tag:'moto',needT:{moto:10}}],
+['Motorkou kolem světa','C',14,'*','25-65','C4',-25000,-1.0,-0.006,0,{tag:'moto',needT:{moto:16},yrs:1}],
+// ruční práce a řemeslo pro radost
+['Pletení','K',2,'*','8-99','',-300,0,0,-0.05,{tag:'knit'}],
+['Pletení s kamarádkami|Pletení s kamarády','K/F',3,'17-21','14-99','',-300,-0.1,0,-0.05,{tag:'knit',needT:{knit:3}}],
+['Hrnčířský kruh','K',3,'16-21','14-90','',-1500,-0.2,0,-0.05,{tag:'pottery'}],
+['Vlastní keramická dílna','P/K',8,'9-19','25-80','K4',30000,-0.7,0,0.02,{tag:'pottery',needT:{pottery:8}}],
+['Šperkařství','K',2,'*','14-90','',-1200,-0.1,0,-0.04,{tag:'jewel'}],
+['Prodej šperků na jarmarcích','P/K',5,'9-18','18-85','K3',15000,-0.5,0,0,{tag:'jewel',needT:{jewel:6}}],
+['Tetování','K',3,'12-22','18-60','',-5000,-0.2,0,-0.01,{tag:'tattoo'}],
+['Tatér|Tatérka','P/K',8,'11-23','21-65','K5',55000,-0.8,-0.002,0.02,{tag:'tattoo',needT:{tattoo:2,art:6}}],
+['Renovace starého nábytku','K',3,'*','18-90','',-1200,-0.3,0,-0.04,{tag:'diy',needT:{wood:1}}],
+['Bazarové poklady','K/C',2,'9-18','18-90','',-800,-0.2,0,-0.03,{tag:'vintage'}],
+['Vintage obchod','P/K',8,'10-19','24-75','P2',30000,-0.6,0,0.02,{tag:'vintage',needT:{vintage:6}}],
+// slova a hlas
+['Poezie do šuplíku','K',1,'20-2','14-90','',0,0,0,-0.03,{tag:'poetry'}],
+['Čtení poezie v kavárně','K/F',2,'18-22','16-80','',-200,-0.1,0,0.01,{tag:'poetry',needT:{poetry:2}}],
+['Sbírka básní','K/P',4,'*','22-90','K4',8000,-0.3,0,0.02,{tag:'poetry',needT:{poetry:8}}],
+['Podcast s kamarádem|Podcast s kamarádkou','K/F',3,'17-23','16-70','',-500,-0.2,0,-0.01,{tag:'podcast'}],
+['Úspěšný podcast','P/K',5,'*','20-70','K4',45000,-0.5,0,0.03,{tag:'podcast',needT:{podcast:10}}],
+['Profesionální streamer|Profesionální streamerka','P/K',8,'16-4','18-45','K4',60000,-0.9,-0.008,0.04,{tag:'stream',needT:{games:16}}],
+// hudba – větve
+['Orchestr','P/K',6,'9-22','22-70','K7',48000,-0.6,0,0.04,{tag:'classic',needT:{music:25}}],
+['Varhaník v kostele|Varhanice v kostele','K/R',2,'8-12','16-95','K4',3000,-0.1,0,-0.03,{needT:{music:8,faith:2}}],
+['DJ na mejdanech|DJka na mejdanech','K/F',5,'22-4','17-45','',8000,-0.6,-0.008,0,{tag:'dj',addict:'alcohol'}],
+['Hudební producent|Hudební producentka','P/K',8,'12-2','22-60','K5',55000,-0.8,-0.004,0.03,{tag:'dj',needT:{dj:10,music:6}}],
+['Pěvecký sbor','K/F',2,'18-21','8-95','',-300,-0.2,0,-0.04,{tag:'choir'}],
+['Sbor na turné','K/C',8,'*','16-80','K4',-3000,-0.7,0,0,{tag:'choir',needT:{choir:8}}],
+['Folklórní soubor','K/F',3,'17-21','6-80','',-400,-0.3,0.002,-0.04,{tag:'folk',pl:'vesnice/venkov'}],
+['Hody a krojované slavnosti','F/R',8,'10-24','6-95','',-1500,-0.6,-0.004,-0.04,{tag:'folk',needT:{folk:2},pl:'vesnice/venkov'}],
+// duchovno a klid
+['Meditace ráno','Z/K',1,'6-9','16-99','',0,0,0.002,-0.06,{tag:'medit'}],
+['Tichý retreat','Z/C',10,'*','20-90','',-8000,0.1,0.004,-0.06,{tag:'medit',needT:{medit:4},yrs:1}],
+['Pobyt v klášteře','Z/K',10,'*','22-90','',-3000,0.1,0.004,-0.07,{tag:'medit',needT:{medit:8,faith:2},yrs:1}],
+['Lektor meditace|Lektorka meditace','P/Z',4,'7-21','30-85','',22000,-0.3,0.003,-0.03,{tag:'medit',needT:{medit:16}}],
+['Poutní cesta do Santiaga','C/Z',12,'*','18-80','',-20000,-1.0,0.004,-0.06,{tag:'pilgrim',yrs:1}],
+['Kněz|Řádová sestra','P/R',10,'*','26-85','V4',25000,-0.6,0,-0.02,{tag:'faith',needT:{faith:20}}],
+// aktivismus a komunita
+['Klimatická stávka','F',4,'9-16','13-30','',0,-0.4,0,0.02,{tag:'climate'}],
+['Ekologický spolek','F/K',3,'17-21','16-90','',-200,-0.3,0,-0.01,{tag:'climate',needT:{climate:2}}],
+['Komunitní zahrada','K/F',3,'8-19','16-95','',-300,-0.3,0.004,-0.05,{tag:'garden',pl:'mesto/velkomesto'}],
+['Ekologická farma','P/K',10,'5-20','25-70','P3',40000,-1.0,0.004,0.01,{needT:{climate:4,farm:4}}],
+['Neziskovka','P/F',8,'9-18','22-65','',30000,-0.7,0,0.03,{tag:'ngo',needT:{climate:4}}],
+['Ředitel neziskovky|Ředitelka neziskovky','P',9,'8-19','30-70','P4',52000,-0.8,0,0.05,{tag:'ngo',needT:{ngo:14}}],
+['Sousedská slavnost','F/R',5,'12-22','10-95','',-500,-0.3,0,-0.05,{tag:'city'}],
+['Organizace festivalu','P/F',10,'*','22-60','F4',35000,-1.0,-0.006,0.06,{tag:'fest',needT:{party:4}}],
+['Festivalové léto','F/C',10,'*','16-45','',-6000,-0.9,-0.008,-0.03,{tag:'fest',addict:'alcohol'}],
+// sbírání a kuriozity
+['Známky po dědovi','K/R',1,'*','8-95','',0,0,0,-0.04,{tag:'collect'}],
+['Sběratelské burzy','K/F',5,'8-15','14-95','',-1000,-0.4,0,-0.02,{tag:'collect',needT:{collect:3}}],
+['Starožitnictví','P/K',8,'9-18','30-85','K4',40000,-0.6,0,0.02,{tag:'collect',needT:{collect:10,vintage:2}}],
+['Detektor kovů','K/C',4,'8-18','14-85','',-2000,-0.4,0.003,-0.03,{tag:'history'}],
+['Historický šerm','S/K',3,'17-21','14-60','',-800,-0.5,0,-0.03,{tag:'history'}],
+['Archeologie (škola)','V',8,'8-17','19-26','V3',0,-0.6,0.002,0.01,{tag:'history',needT:{history:3},yrs:5}],
+['Archeolog|Archeoložka','P/C',9,'6-18','24-75','V5',38000,-0.9,0.003,0.02,{tag:'history',needT:{history:10}}],
+['Průvodce na hradě|Průvodkyně na hradě','P/F',7,'9-18','16-75','',24000,-0.6,0,0.01,{tag:'history'}],
+// mazlíčci – větve
+['Venčení psa','R/S',1,'6-9','6-95','',-800,-0.2,0.006,-0.04,{tag:'dog'}],
+['Agility se psem','S/K',3,'9-19','12-75','',-1200,-0.5,0.004,-0.02,{tag:'dog',needT:{dog:3}}],
+['Psí útulek','F/K',3,'9-17','14-95','',0,-0.4,0,-0.03,{tag:'dog'}],
+['Cvičitel psů|Cvičitelka psů','P/K',6,'8-19','22-75','',28000,-0.6,0.004,0,{tag:'dog',needT:{dog:10}}],
+// ===== ŽIVOTNÍ ETAPY, RODINA, TEMNÉ STRÁNKY =====
+// rané dětství
+['Pohádky před spaním','R',1,'19-22','1-8','',0,0,0,-0.05,{}],
+['Hraní s kostkami','K/V',2,'*','1-6','',0,-0.1,0,-0.04,{}],
+['Pískoviště','F/S',2,'9-18','2-7','',0,-0.2,0.004,-0.04,{}],
+['Plavání pro batolata','S/R',1,'9-17','1-5','',-600,-0.1,0.004,-0.03,{tag:'swim'}],
+['Zpívánky s mámou|Zpívánky s tátou','R/K',1,'*','1-6','',0,0,0,-0.04,{tag:'music'}],
+['Malování prstovkami','K',1,'9-18','2-7','',-100,0,0,-0.04,{tag:'art'}],
+['Jezdit na odrážedle','S',1,'9-19','2-6','',0,-0.1,0.004,-0.03,{tag:'bike'}],
+['Zvířátka u babičky','R/K',3,'8-19','2-10','',0,-0.2,0.004,-0.04,{tag:'animals'}],
+// školní léta
+['Družina','F',3,'12-17','6-10','',-300,-0.2,0,-0.01,{}],
+['Školní výlet','F/C',8,'7-18','7-18','',-800,-0.6,0,-0.04,{tag:'travel'}],
+['Škola v přírodě','F/C',10,'*','8-13','',-2500,-0.6,0.004,-0.03,{tag:'scout',yrs:1}],
+['Lyžák se školou','S/F',8,'8-17','12-16','',-4000,-0.7,0.003,-0.03,{tag:'ski',yrs:1}],
+['Přijímačky','V',3,'14-20','14-15','V2',0,-0.5,0,0.08,{}],
+['Maturita','V',4,'7-22','18-19','V3',0,-0.7,0,0.09,{}],
+['Doučování s mámou|Doučování s tátou','V/R',1,'17-21','7-15','',0,-0.2,0,0.02,{}],
+['Mobil pod lavicí','F',2,'*','11-17','',0,-0.1,-0.002,-0.02,{tag:'social'}],
+['První láska','F/R',3,'15-22','13-18','',-300,-0.1,0,0.01,{need:'single'}],
+['Večery na sídlišti','F',3,'18-23','13-19','',0,-0.2,-0.002,-0.03,{tag:'city',pl:'mesto/velkomesto'}],
+['Partička u rybníka','F/S',3,'14-21','10-17','',0,-0.2,0.003,-0.04,{pl:'vesnice/venkov'}],
+['Výměnný pobyt','C/V',10,'*','15-18','V3',-12000,-0.6,0,0.01,{tag:'abroad',yrs:1}],
+['Brigáda v létě','P',8,'7-17','15-25','',18000,-0.8,0,0.01,{}],
+['Rozvoz letáků','P/S',2,'14-19','13-18','',2500,-0.2,0.002,0,{}],
+['Hlídání sourozenců','R',3,'14-21','10-17','',0,-0.3,0,0.02,{}],
+// mládí a hledání
+['Gap year','C/K',6,'*','18-21','',-5000,-0.3,0,-0.06,{tag:'travel',yrs:1}],
+['Spolubydlení','F',2,'18-24','18-30','',0,-0.1,-0.002,-0.02,{}],
+['Kolej','F/V',3,'18-2','18-26','',-3000,-0.2,-0.004,-0.02,{tag:'party'}],
+['Seznamka v mobilu','F',1,'*','18-70','',-200,0,-0.002,0.01,{need:'single',tag:'social'}],
+['Single večírky','F',5,'21-3','20-45','',-2000,-0.5,-0.008,-0.03,{need:'single',tag:'party',addict:'alcohol'}],
+['Hledání sebe','K/C',4,'*','20-35','',-2000,-0.2,0,-0.03,{tag:'mind'}],
+['Druhá vysoká','V',6,'8-18','24-40','V4',-1500,-0.6,0,0.04,{yrs:3}],
+// vztah a manželství
+['Společné vaření','R/K',2,'17-22','18-95','',-1500,-0.1,0,-0.05,{need:'partner',tag:'food'}],
+['Víkend ve dvou','R/C',8,'*','18-90','',-7000,0,0.003,-0.06,{need:'partner'}],
+['Hádky o peníze','R',2,'19-23','20-80','',0,-0.3,-0.002,0.08,{need:'married'}],
+['Výročí svatby','R/C',6,'17-24','20-95','',-5000,0,0,-0.06,{need:'married'}],
+['Párová terapie','R/Z',2,'16-20','22-80','',-3000,-0.2,0,0.02,{need:'married',tag:'mind'}],
+['Stavba rodinného domu','R/K',5,'8-19','26-60','',-20000,-0.9,-0.004,0.07,{need:'married',tag:'build'}],
+['Zahrada za domem','K/R',2,'8-19','26-99','',-800,-0.2,0.004,-0.05,{need:'married',tag:'garden'}],
+// rodičovství
+['Noční vstávání k miminku|Noční kojení','R',3,'0-6','18-50','',0,-0.9,-0.004,0.04,{need:'baby'}],
+['Kočárek po parku','R/S',2,'9-17','18-60','',0,-0.2,0.004,-0.03,{need:'baby'}],
+['Plavání s miminkem','R/S',1,'9-17','18-55','',-800,-0.2,0.003,-0.03,{need:'baby'}],
+['Školní besídky','R',2,'15-19','24-65','',0,-0.2,0,-0.04,{need:'kids'}],
+['Odvoz na kroužky','R',2,'14-19','24-65','',-1500,-0.3,0,0.02,{need:'kids'}],
+['Úkoly s dětmi','R/V',1,'16-20','24-65','',0,-0.3,0,0.02,{need:'kids'}],
+['Rodinná dovolená','R/C',9,'*','22-75','',-25000,0,0.003,-0.05,{need:'kids',tag:'travel'}],
+['Trénování dětského týmu','R/S',3,'16-19','26-65','S3',0,-0.4,0.002,0.01,{need:'kids',tag:'ball'}],
+['Rodičovské sdružení','R/F',2,'17-20','26-60','',0,-0.2,0,0.02,{need:'kids'}],
+['Puberťák doma','R',2,'*','32-65','',0,-0.3,0,0.06,{need:'kids'}],
+['Pohádky s vnoučaty','R',2,'17-20','45-99','',0,-0.1,0,-0.06,{need:'grand'}],
+['Výlet s vnoučaty','R/C',6,'8-18','45-99','',-2000,-0.4,0.002,-0.04,{need:'grand'}],
+// střední věk
+['Krize středního věku','K/C',4,'*','40-55','',-15000,-0.3,0,-0.02,{tag:'moto'}],
+['Úplně nový obor','V/P',8,'8-18','35-55','',-3000,-0.7,0,0.04,{yrs:2}],
+['Kariérní kouč|Kariérní koučka','P/F',6,'9-19','35-70','P5',60000,-0.5,0,0.02,{tag:'coach',needT:{corp:8}}],
+['Mentoring mladých','P/F',3,'16-20','40-80','P6',0,-0.2,0,-0.03,{tag:'coach'}],
+['Kurz pro radost','K/V',3,'17-21','35-90','',-2500,-0.2,0,-0.04,{}],
+['Běh s kamarády z práce','S/F',2,'17-20','30-65','',0,-0.3,0.006,-0.03,{tag:'run'}],
+['Chalupa s přáteli','F/C',8,'*','30-85','',-3000,-0.2,0,-0.06,{tag:'cottage'}],
+['Péče o stárnoucí rodiče','R',4,'*','40-70','',-5000,-0.6,-0.002,0.06,{tag:'care'}],
+// stáří
+['Ranní procházka se sousedy','S/F',1,'6-9','60-99','',0,-0.1,0.006,-0.05,{tag:'old'}],
+['Univerzita třetího věku','V/F',3,'9-15','60-95','',-1500,-0.3,0,-0.02,{tag:'old'}],
+['Lázeňský pobyt','Z/C',8,'*','55-99','',-15000,0.1,0.01,-0.06,{yrs:1}],
+['Zahrádkářská osada','K/F',3,'8-19','55-99','',-500,-0.2,0.004,-0.05,{tag:'garden'}],
+['Šachy v parku','K/F',2,'13-18','60-99','',0,-0.1,0,-0.05,{tag:'chess'}],
+['Kuželky','S/F',3,'16-21','50-99','',-500,-0.3,0.002,-0.04,{}],
+['Dobrovolník v knihovně|Dobrovolnice v knihovně','F/V',3,'9-17','58-95','',0,-0.2,0,-0.04,{tag:'books'}],
+['Vyprávění pamětníka|Vyprávění pamětnice','F/V',2,'9-15','65-99','',0,-0.1,0,-0.04,{tag:'history'}],
+['Rodinný kronikář|Rodinná kronikářka','R/K',2,'*','55-99','',0,-0.1,0,-0.04,{tag:'writing'}],
+['Výlet za starými kamarády','F/C',6,'8-20','55-95','',-2500,-0.4,0,-0.05,{}],
+['Cesta kolem světa v důchodu','C',10,'*','62-90','C2',-40000,-0.6,0,-0.03,{tag:'travel',yrs:1}],
+// temné stránky a zvraty
+['Práce přes noc','P',4,'22-4','18-60','',15000,-0.8,-0.01,0.08,{}],
+['Přesčasy','P',3,'17-22','20-65','P2',12000,-0.7,-0.004,0.08,{tag:'corp'}],
+['Workoholismus','P',6,'18-2','25-65','P4',30000,-1.0,-0.012,0.1,{needT:{corp:10}}],
+['Scrollování do noci','K',2,'22-3','12-80','',0,-0.3,-0.006,0.02,{tag:'social'}],
+['Online sázení','K',2,'*','18-80','',-3000,-0.2,-0.002,0.04,{tag:'gamble',addict:'gamble'}],
+['Automaty v herně','K/F',3,'19-3','18-85','',-5000,-0.4,-0.004,0.06,{tag:'gamble',addict:'gamble'}],
+['Večery o samotě','K',3,'19-24','25-99','',0,-0.1,-0.004,0.03,{need:'single'}],
+['Večery ve vinném sklípku','F',4,'18-24','20-90','',-2000,-0.3,-0.008,-0.04,{tag:'wine',addict:'alcohol',pl:'vesnice/venkov'}],
+['Kouření s kolegy','F/P',1,'*','16-80','',-1500,0,-0.012,-0.02,{tag:'smoke',addict:'smoke'}],
+['Energetiky a noci','K',2,'0-5','15-40','',-800,-0.2,-0.01,0.02,{}],
+['Dluhová poradna','Z/V',2,'9-16','18-90','',0,-0.2,0,-0.03,{}],
+['Exekutor u dveří','R',2,'8-17','20-90','',0,-0.3,-0.004,0.1,{}],
+['Svépomocná skupina hráčů','Z/F',2,'18-21','18-90','',0,-0.2,0.002,-0.03,{tag:'rehab'}],
+['Rozvodové stání','R',3,'8-15','22-80','',-20000,-0.5,-0.004,0.1,{need:'married'}],
+['Nový začátek','K/C',4,'*','25-80','',-3000,-0.2,0.002,-0.05,{need:'single'}],
+// štěstí a příležitosti
+['Nečekané dědictví – byt','R',2,'9-17','25-90','',0,-0.1,0,0.02,{}],
+['Výhra v soutěži','K',1,'*','12-90','',0,0,0,-0.04,{}],
+['Pozvání do televize','K/F',4,'10-22','18-80','F3',15000,-0.4,0,0.04,{}],
+['Kamarád shání společníka|Kamarádka shání společnici','P/F',6,'9-20','25-60','P3',45000,-0.7,0,0.06,{tag:'trade'}],
+['Nabídka práce v zahraničí','P/C',10,'8-19','24-55','P4 V3',95000,-1.0,-0.002,0.05,{tag:'abroad'}],
+['Stipendium v zahraničí','V/C',8,'9-19','19-28','V6',10000,-0.6,0,0.02,{tag:'abroad',yrs:1}],
+['Konkurz do muzikálu','K/P',6,'9-22','16-40','K5',25000,-0.8,0,0.06,{tag:'stage',needT:{dance:4,music:4}}],
+['Kasting do filmu','K/P',5,'9-21','16-60','K4',20000,-0.6,0,0.05,{tag:'film',needT:{theatre:4}}],
+['Výpomoc v rodinné firmě','P/R',6,'8-18','15-30','',18000,-0.6,0,0.02,{}],
+['Převzetí rodinné firmy','P/R',10,'7-20','28-65','P4',90000,-1.0,-0.003,0.07,{}],
+// ===== SPORT, CESTY, MÍSTA, KOMBINACE =====
+// fotbal větve
+['Kopaná na plácku','S/F',2,'14-20','5-14','',0,-0.3,0.004,-0.04,{tag:'ball'}],
+['Okresní přebor','S/F',4,'14-20','15-45','S2',0,-0.6,0.002,0,{tag:'ball',needT:{ball:4},pl:'vesnice/venkov'}],
+['Fotbalová akademie','S/V',8,'8-19','12-18','S4',-3000,-0.9,0.004,0.04,{tag:'ball',needT:{ball:6},yrs:3}],
+['Fotbalový trenér|Fotbalová trenérka','P/S',6,'14-20','28-70','S5',35000,-0.6,0.002,0.03,{tag:'ball',needT:{ball:25}}],
+['Rozhodčí','S/P',4,'9-18','18-60','S3',8000,-0.6,0.002,0.04,{tag:'ball',needT:{ball:8}}],
+['Fanoušek na stadionu|Fanynka na stadionu','F',4,'15-22','10-90','',-800,-0.3,-0.004,-0.04,{tag:'ball',addict:'alcohol'}],
+// hokej, basket, volejbal
+['Bruslení na rybníce','S/F',2,'9-18','4-80','',0,-0.3,0.004,-0.04,{tag:'hockey'}],
+['Hokejová přípravka','S',4,'6-10','6-14','',-1500,-0.6,0.003,0.01,{tag:'hockey',needT:{hockey:2}}],
+['Juniorka v hokeji','S/F',6,'6-20','15-20','S5',-2000,-0.9,0.002,0.04,{tag:'hockey',needT:{hockey:8}}],
+['Hokejista v extralize|Hokejistka v reprezentaci','P/S',8,'9-21','19-36','S7',180000,-1.0,-0.002,0.06,{tag:'hockey',needT:{hockey:22}}],
+['Basketbal na hřišti','S/F',2,'15-21','10-40','',0,-0.4,0.004,-0.03,{tag:'basket'}],
+['Basketbalový klub','S',4,'15-21','12-35','S3',-800,-0.6,0.004,0.01,{tag:'basket',needT:{basket:4}}],
+['Plážový volejbal','S/F',3,'10-20','14-55','',-300,-0.4,0.004,-0.04,{tag:'volley'}],
+['Volejbalová liga','S/F',4,'17-21','16-45','S3',-600,-0.6,0.003,0.01,{tag:'volley',needT:{volley:6}}],
+// bojové a silové
+['Judo pro děti','S',2,'15-19','6-14','',-600,-0.4,0.004,0,{tag:'fight'}],
+['Box v tělocvičně','S',3,'17-21','14-45','',-800,-0.7,0.002,-0.02,{tag:'fight',needT:{fight:2}}],
+['Zápasy MMA','S/P',4,'18-23','19-38','S6',30000,-1.0,-0.012,0.06,{tag:'fight',needT:{fight:14}}],
+['Trenér bojových sportů|Trenérka bojových sportů','P/S',5,'16-21','27-65','S6',32000,-0.6,0.003,0.01,{tag:'fight',needT:{fight:20}}],
+['Vlastní fitko','P/S',9,'6-22','27-65','P3 S5',65000,-0.9,0.002,0.05,{tag:'gym',needT:{gym:20}}],
+// kolo, lyže, voda
+['Bikepark','S',4,'9-18','14-45','S2',-1500,-0.7,-0.004,-0.02,{tag:'bike',needT:{bike:3}}],
+['Cyklovýlet podél Dunaje','C/S',10,'*','16-80','',-8000,-0.6,0.006,-0.05,{tag:'bike',needT:{bike:4},yrs:1}],
+['Servis kol','P/K',8,'9-18','18-70','',30000,-0.6,0,0,{tag:'bike',needT:{bike:8}}],
+['Závodní cyklista|Závodní cyklistka','P/S',8,'7-17','19-35','S7',90000,-1.1,0.003,0.05,{tag:'bike',needT:{bike:20}}],
+['Lyžařský instruktor|Lyžařská instruktorka','P/S',8,'8-17','18-55','S4',30000,-0.8,0.003,0,{tag:'ski',needT:{ski:4}}],
+['Skialpinismus','S/C',6,'5-15','18-70','S4',-5000,-0.9,0.004,0,{tag:'ski',needT:{ski:8}}],
+['Sezóna na horské chatě','P/C',11,'6-23','18-35','',30000,-1.0,0,0.01,{tag:'ski',yrs:1}],
+['Vodní pólo','S',3,'17-21','12-40','S3',-800,-0.7,0.004,0.01,{tag:'swim',needT:{swim:4}}],
+['Otužování','Z/S',1,'6-10','15-95','',0,-0.2,0.008,-0.03,{tag:'cold'}],
+['Zimní plavání v řece','S/Z',1,'6-10','18-95','S2',0,-0.3,0.006,-0.04,{tag:'cold',needT:{cold:3}}],
+['Vodáci na Vltavě','C/F',8,'8-20','12-70','',-3500,-0.6,0.003,-0.06,{tag:'canoe'}],
+['Divoká voda','S/C',5,'8-18','16-60','S3',-3500,-0.7,0.002,0.01,{tag:'canoe',needT:{canoe:6}}],
+['Půjčovna lodí','P/C',8,'8-20','22-75','',32000,-0.6,0.004,0,{tag:'canoe',needT:{canoe:10}}],
+// cestovatelské větve
+['Interrail','C/F',10,'*','17-30','',-12000,-0.7,0,-0.05,{tag:'travel',yrs:1}],
+['Autostopem po Balkáně','C',10,'*','18-40','',-6000,-0.8,0,-0.03,{tag:'nomad',needT:{nomad:2}}],
+['Batůžkem po Asii','C',10,'*','19-45','',-25000,-0.7,-0.004,-0.04,{tag:'travel',needT:{travel:6},yrs:1}],
+['Průvodce zájezdů|Průvodkyně zájezdů','P/C',10,'*','21-65','C3',38000,-0.9,0,0.03,{tag:'guide',needT:{travel:8}}],
+['Vlastní cestovka','P/C',9,'8-19','28-70','P4 C5',75000,-0.8,0,0.05,{tag:'guide',needT:{guide:12}}],
+['Cestovatelské přednášky','P/C',4,'17-21','25-80','C6',25000,-0.4,0,0.02,{tag:'blog',needT:{travel:12}}],
+['Kniha o cestách','K/P',4,'*','28-90','C6 K4',20000,-0.3,0,0.02,{needT:{travel:16,writing:3}}],
+['Dobrovolnictví v Africe','C/F',10,'*','19-40','',-20000,-0.9,-0.004,0,{tag:'care',yrs:1}],
+['Učit angličtinu v Asii','P/C',8,'8-18','21-40','V4',30000,-0.7,0,0.02,{tag:'abroad',needT:{lang:4}}],
+['Tlumočník u EU|Tlumočnice u EU','P/C',8,'8-18','27-65','V7',120000,-0.8,0,0.05,{tag:'lang',needT:{lang:20}}],
+['Diplomat|Diplomatka','P/C',10,'8-21','30-70','V7 F5',140000,-1.0,-0.004,0.06,{needT:{lang:14,politics:4}}],
+['Kapitán lodi|Kapitánka lodi','P/C',10,'*','28-65','C5',90000,-1.0,0,0.04,{tag:'sail',needT:{sail:12}}],
+['Námořník na kontejnerové lodi|Námořnice na kontejnerové lodi','P/C',12,'*','20-55','',60000,-1.1,-0.004,0.03,{tag:'sea',yrs:1}],
+['Letuška|Steward','P/C',10,'*','20-50','V3',42000,-1.0,-0.005,0.03,{tag:'fly',needT:{lang:3}}],
+// místa – vesnice a venkov
+['Pouť na návsi','F/R',4,'12-22','4-95','',-500,-0.3,0,-0.05,{tag:'fair',pl:'vesnice/venkov'}],
+['Stavění máje','F/S',4,'14-22','14-60','',0,-0.5,-0.002,-0.04,{tag:'folk',pl:'vesnice/venkov'}],
+['Zabijačka','R/F',6,'6-16','6-95','',-1500,-0.5,-0.004,-0.04,{tag:'farm',pl:'vesnice/venkov'}],
+['Pálení čarodějnic','F',4,'18-24','4-95','',-300,-0.3,-0.002,-0.05,{pl:'vesnice/venkov'}],
+['Obecní knihovna','V/K',2,'14-18','6-99','',0,-0.1,0,-0.04,{tag:'books',pl:'vesnice/venkov'}],
+['Starosta|Starostka','P/F',9,'7-20','30-80','F4',55000,-0.9,0,0.05,{needT:{politics:2,fire:2},pl:'vesnice/venkov'}],
+['Obchod na vsi','P/F',9,'6-18','25-75','',30000,-0.8,0,0.02,{tag:'shop',pl:'vesnice/venkov'}],
+['Řezbářství','K',3,'*','14-99','',-500,-0.2,0,-0.05,{tag:'wood',pl:'vesnice/venkov'}],
+['Kovárna','K/P',5,'7-18','18-80','S3',18000,-0.9,-0.002,0,{tag:'smith'}],
+['Kovář|Kovářka','P/K',8,'6-17','22-75','S4 K3',38000,-1.0,-0.002,0.01,{tag:'smith',needT:{smith:6}}],
+['Ovčín a sýry','P/K',9,'5-18','25-75','',36000,-0.9,0.004,0.01,{tag:'farm',needT:{farm:8},pl:'vesnice/venkov'}],
+['Agroturistika','P/F',8,'7-20','30-75','P3',48000,-0.8,0.003,0.02,{needT:{farm:10,hotel:2},pl:'vesnice/venkov'}],
+// místa – město a velkoměsto
+['Tramvají do centra','C/F',1,'7-22','10-90','',-200,-0.1,0,0,{pl:'mesto/velkomesto'}],
+['Squash po práci','S/F',1,'17-22','20-60','',-500,-0.4,0.004,-0.03,{pl:'mesto/velkomesto'}],
+['Afterwork drinky','F/P',3,'17-22','22-60','',-2000,-0.3,-0.006,-0.04,{tag:'party',addict:'alcohol',pl:'mesto/velkomesto'}],
+['Divadlo v centru','K/F',3,'19-22','12-95','',-800,-0.1,0,-0.05,{tag:'theatre',pl:'mesto/velkomesto'}],
+['Lezecká stěna v hale','S',2,'16-22','10-60','',-500,-0.4,0.004,-0.02,{tag:'climb',pl:'mesto/velkomesto'}],
+['Podnájem s cizími lidmi','F',1,'*','18-35','',0,-0.1,-0.002,0.02,{pl:'velkomesto'}],
+['Mrakodrapová kancelář','P',10,'8-20','24-60','V5 P4',120000,-1.0,-0.004,0.07,{tag:'corp',needT:{corp:6},pl:'velkomesto'}],
+['Bistro na rohu','P/F',10,'7-21','25-65','P3',58000,-1.0,-0.002,0.05,{tag:'food',needT:{food:6},pl:'mesto/velkomesto'}],
+// kombinované cesty (dvě zkušenosti → něco nového)
+['Sportovní novinář|Sportovní novinářka','P/S',8,'*','24-65','V3',50000,-0.8,0,0.03,{needT:{news:4,ball:6}}],
+['Kameraman dokumentů|Kameramanka dokumentů','P/C',9,'*','25-65','K5',60000,-0.9,-0.002,0.03,{needT:{film:8,travel:6}}],
+['Kuchařská show','P/K',6,'9-21','25-65','K5',90000,-0.7,0,0.04,{needT:{food:14,media:3}}],
+['Sportovní aplikace','P/S',8,'*','24-55','V4',70000,-0.7,0,0.04,{needT:{code:6,run:6}}],
+['Hudba do her','P/K',6,'*','22-65','K5',50000,-0.6,-0.002,0.02,{needT:{music:10,games:6}}],
+['Ilustrátor knih|Ilustrátorka knih','P/K',6,'*','22-80','K5',40000,-0.5,0,0.01,{needT:{art:10,books:3}}],
+['Zahradní architekt|Zahradní architektka','P/K',8,'7-18','26-75','K4',55000,-0.8,0.003,0.02,{needT:{garden:8,art:4}}],
+['Terapie se zvířaty','P/Z',6,'8-18','25-75','',35000,-0.6,0.002,0,{needT:{animals:8,mind:3}}],
+['Vinařství','P/K',9,'7-19','30-80','P4',85000,-0.9,0,0.04,{tag:'wine',needT:{wine:6,farm:4}}],
+['Malý pivovar','P/F',10,'8-22','28-70','P4',80000,-1.0,-0.004,0.05,{tag:'brew',needT:{brew:8,trade:2}}],
+['Filmová hudba','P/K',8,'*','27-75','K6',80000,-0.7,-0.002,0.03,{needT:{music:16,film:6}}],
+['Horský fotograf|Horská fotografka','P/C',8,'*','25-70','K5 S4',50000,-0.9,0.003,0.02,{needT:{photo:8,climb:8}}],
+['Sportovní lékař|Sportovní lékařka','P/S',9,'8-19','30-70','V6',90000,-0.8,0.002,0.04,{needT:{doctor:20,gym:4}}],
+['Policejní pes','P/K',10,'*','25-60','S4',48000,-1.0,0.002,0.05,{needT:{police:6,dog:4}}],
+['Hasič na horách|Hasička na horách','P/S',12,'*','24-55','S5',52000,-1.1,0.002,0.04,{needT:{fire:8,climb:4}}],
+['Učitel v přírodní škole|Učitelka v přírodní škole','P/V',8,'7-17','25-67','V4',38000,-0.7,0.004,0.01,{needT:{teach:4,scout:4}}],
+['Odborník na víno|Odbornice na víno','P/K',6,'14-22','28-75','K4',60000,-0.6,-0.004,0.02,{tag:'wine',needT:{wine:10,lang:2}}],
+// ===== DALŠÍ VĚTVE =====
+['Pediatr|Pediatrička','P/R',9,'7-18','30-70','V6',75000,-0.8,0,0.04,{needT:{doctor:20,care:2}}],
+// psaní
+['Povídky do soutěže','K',2,'*','12-60','',0,-0.2,0,0.01,{tag:'writing'}],
+['Román po nocích','K',3,'21-3','18-90','K3',0,-0.5,-0.004,0.02,{tag:'novel',needT:{writing:4}}],
+['Vydaný román','K/P',4,'*','22-90','K5',25000,-0.4,0,0.03,{tag:'novel',needT:{novel:8}}],
+['Bestseller a autogramiády','P/F',5,'10-20','25-90','K7',90000,-0.6,0,0.04,{tag:'novel',needT:{novel:20}}],
+['Scenárista|Scenáristka','P/K',8,'*','26-75','K6',70000,-0.7,-0.002,0.04,{needT:{novel:8,film:6}}],
+['Redaktor v nakladatelství|Redaktorka v nakladatelství','P/V',8,'8-17','24-70','V4',40000,-0.6,0,0.02,{tag:'books',needT:{books:6,writing:2}}],
+// divadlo a tanec
+['Režie amatérského divadla','K/F',4,'17-22','20-80','K4',0,-0.5,0,0.03,{tag:'theatre',needT:{theatre:8}}],
+['Divadelní režisér|Divadelní režisérka','P/K',10,'10-23','28-80','K7',65000,-1.0,-0.004,0.06,{tag:'theatre',needT:{theatre:22}}],
+['Baletní škola','S/K',6,'14-20','6-18','S2',-1500,-0.9,0.004,0.04,{tag:'ballet'}],
+['Baletka|Baletní tanečník','P/S',8,'9-22','17-35','S6 K5',38000,-1.1,-0.002,0.06,{tag:'ballet',needT:{ballet:12}}],
+['Choreograf|Choreografka','P/K',7,'10-22','28-70','K6',50000,-0.7,0,0.03,{needT:{ballet:16}}],
+['Taneční škola pro děti','P/S',6,'14-21','25-70','S4',35000,-0.7,0.003,0.02,{tag:'dance',needT:{dance:10}}],
+// výtvarné umění
+['Modelování z hlíny','K',2,'*','8-90','',-400,-0.1,0,-0.04,{tag:'sculpt'}],
+['Sochařský ateliér','K',5,'9-21','18-85','K4',-3000,-0.8,-0.002,0.01,{tag:'sculpt',needT:{sculpt:6}}],
+['Sochař|Sochařka','P/K',8,'*','25-90','K7',45000,-0.9,-0.002,0.03,{tag:'sculpt',needT:{sculpt:16}}],
+['Výstava v galerii','K/P',4,'10-20','22-95','K6',30000,-0.4,0,0.04,{needT:{art:16}}],
+['Restaurátor fresek|Restaurátorka fresek','P/K',8,'8-18','28-75','K6 V4',48000,-0.8,-0.002,0.02,{needT:{art:10,history:4}}],
+// právo a stát
+['Soudce|Soudkyně','P/V',9,'8-18','35-75','V7 P5',120000,-0.8,0,0.06,{needT:{law:25}}],
+['Notář|Notářka','P',8,'8-17','35-75','V6',140000,-0.6,0,0.03,{needT:{law:20}}],
+['Státní zástupce|Státní zástupkyně','P/V',10,'8-19','30-70','V6',95000,-0.9,-0.002,0.07,{needT:{law:15,police:2}}],
+['Úředník na radnici|Úřednice na radnici','P',8,'8-16','20-65','',32000,-0.5,0,0.02,{tag:'office'}],
+['Vedoucí odboru','P',8,'8-17','32-65','P4',55000,-0.6,0,0.04,{tag:'office',needT:{office:14}}],
+['Poslanec|Poslankyně','P/F',11,'8-22','30-80','F6 V5',130000,-1.1,-0.006,0.09,{tag:'politics',needT:{politics:16}}],
+['Ministr|Ministryně','P',12,'7-23','38-80','P7 F7',180000,-1.2,-0.008,0.1,{needT:{politics:30}}],
+// uniforma – větve
+['Vojenský pilot|Vojenská pilotka','P/S',10,'*','23-45','S5 V5',90000,-1.1,-0.004,0.07,{needT:{uniform:8,fly:6}}],
+['Výsadkář|Výsadkářka','P/S',11,'*','21-40','S6',65000,-1.2,-0.006,0.07,{tag:'uniform',needT:{uniform:10}}],
+['Hasičský záchranář|Hasičská záchranářka','P/Z',12,'*','22-55','S5',52000,-1.1,-0.004,0.05,{needT:{fire:10,medic:3}}],
+['Celník|Celnice','P',9,'*','22-62','',40000,-0.8,-0.002,0.04,{needT:{police:2}}],
+// víra – větve
+['Ministrant|Ministrantka','R/F',2,'8-11','7-16','',0,-0.1,0,-0.02,{tag:'faith'}],
+['Křesťanský tábor','F/C',10,'*','8-17','',-2500,-0.6,0.004,-0.04,{tag:'faith',yrs:1}],
+['Teologie','V',8,'8-17','19-28','V3',0,-0.5,0,0.01,{tag:'faith',needT:{faith:6},yrs:5}],
+['Nemocniční kaplan|Nemocniční kaplanka','P/Z',8,'8-18','30-80','',30000,-0.7,0,0.03,{needT:{faith:16,care:4}}],
+['Misie v Africe','C/R',10,'*','22-70','',-5000,-1.0,-0.004,0.02,{tag:'faith',needT:{faith:10},yrs:1}],
+// digitální život
+['Vlogy z dětského pokoje','K',2,'*','11-17','',0,-0.2,-0.002,0.01,{tag:'social'}],
+['Virální video','K/F',2,'*','14-50','',5000,-0.2,0,0.03,{tag:'social',needT:{social:3}}],
+['Spolupráce se značkami','P/K',4,'*','17-45','K3',50000,-0.4,-0.002,0.05,{tag:'social',needT:{social:10}}],
+['Digitální detox','Z/K',6,'*','18-80','',0,0.1,0.004,-0.06,{needT:{social:8}}],
+['AI nástroje a automatizace','P/V',4,'*','18-70','V3',20000,-0.4,0,0.02,{tag:'code',needT:{code:2}}],
+// další stáří a návraty
+['Návrat na rodnou vesnici','R/C',4,'*','50-95','',0,0,0.004,-0.05,{pl:'vesnice/venkov'}],
+['Kytara po letech','K',2,'17-22','40-95','',-300,-0.1,0,-0.04,{tag:'music'}],
+['Psaní dopisů vnoučatům','R/K',1,'*','55-99','',0,0,0,-0.05,{need:'grand'}],
+['Konzultant v důchodu|Konzultantka v důchodu','P',3,'9-15','63-80','P6',30000,-0.3,0,0.01,{}],
+['Sousedská výpomoc','F/R',2,'9-18','60-99','',0,-0.2,0.002,-0.04,{tag:'old'}],
+// drobné dětské cesty
+['Kroužek vaření','K/R',2,'14-18','8-15','',-400,-0.1,0,-0.04,{tag:'food'}],
+['Kroužek programování','V/K',2,'14-18','9-16','',-500,-0.2,0,0,{tag:'code'}],
+['Atletika','S',2,'15-19','7-18','',-400,-0.5,0.006,0,{tag:'run'}],
+['Šachový kroužek','K/V',2,'14-18','7-16','',-200,-0.1,0,0,{tag:'chess'}],
 ];
 
 const ILL=[
@@ -1185,7 +1639,7 @@ function yearTick(y){
   if(y===18){toast('Je ti 18. Teď si všechno platíš sám.','good');S.log.push('18 let – dospělost.')}
   if(y===65){S.pension=9000+1500*lvl(S.xp.P);toast(`Důchod: ${kNum(S.pension)} měsíčně`,'good');S.log.push('65 let – důchod.')}
   if(y>=100)die('Dožil/a ses sta let.');
-  for(const k of CK)S.yh[k]=0;yearMoneyTick();if(S.car)S.car.value*=0.88;jobYear();carYear();if(y>=S.questAt){if(S.quests.length<3)genQuest();S.questAt=y+1.2+rnd()*3.3}if(S.sabUntil&&S.age>=S.sabUntil){S.sabUntil=null;toast('Sabatikl skončil.')}familyYear();renderQol();renderActs();
+  for(const k of CK)S.yh[k]=0;yearMoneyTick();if(S.car)S.car.value*=0.88;jobYear();carYear();if(CROSS[y]&&!(S.crossSeen||(S.crossSeen={}))[y]){S.crossSeen[y]=1;S.crossPend=y}if(y>=S.questAt){if(S.quests.length<3)genQuest();S.questAt=y+1.2+rnd()*3.3}if(S.sabUntil&&S.age>=S.sabUntil){S.sabUntil=null;toast('Sabatikl skončil.')}familyYear();renderQol();renderActs();
 }
 function addNegMot(){
   const tot=SK.reduce((t,k)=>t+S.yh[k],0),keys=Object.keys(S.mot);
@@ -1221,7 +1675,27 @@ function ageW(a){
 }
 function lifeW(c){if(!S.flav)S.flav={seed:Math.floor(rnd()*1e9),tag:{}};const t=c.tag;if(t&&S.flav.tag[t]==null)S.flav.tag[t]=0.45+rnd()*1.25;
   let h=(c.id*2654435761+S.flav.seed)>>>0;h=((h^(h>>>15))*2246822519)>>>0;return (t?S.flav.tag[t]:1)*(0.6+((h%1000)/1000)*0.9)}
+const CROSS={14:'Končí ti základka. Kam dál?',18:'Je ti osmnáct. Co teď?',24:'Už nějakou dobu stojíš na vlastních nohou. Kam to táhne?',32:'Třicítka. Jakým směrem dál?',42:'Půlka života. Co dál?',55:'Všechno je zaběhnuté. Chceš ještě něco změnit?',66:'Důchod je tady. Čemu se věnovat?'};
+const BADT=new Set(['rehab','smoke','gamble','party']);
+function eligibleNow(c,a){return a>=c.a0&&a<=c.a1&&genderOk(c)&&needOk(c)&&(!c.pl||c.pl.includes(PLACE))&&!(c.cats.includes('P')&&a<15&&c.money>0)&&!(!S.movedOut&&c.pmin&&S.qol<c.pmin)}
+function crossroads(y){S.crossPend=null;const a=S.age;
+  const byTag={};for(const c of CARDS)if(c.tag&&!BADT.has(c.tag)&&eligibleNow(c,a)&&cardGap(c)<=2)(byTag[c.tag]=byTag[c.tag]||[]).push(c);
+  const tags=Object.keys(byTag);if(tags.length<2)return;
+  const known=tags.filter(t=>(S.tagH[t]||0)>0.5).sort((x,z)=>(S.tagH[z]||0)-(S.tagH[x]||0)).slice(0,2);
+  const fresh=tags.filter(t=>!(S.tagH[t]>0.5)&&!known.includes(t));const opts=known.map(t=>({t,old:1}));
+  while(opts.length<3&&fresh.length){const t=fresh.splice(Math.floor(rnd()*fresh.length),1)[0];opts.push({t,old:0})}
+  modal(`<h3>Rozcestí</h3><p class="lead">${CROSS[y]} Co si vybereš, to ti život bude pár let častěji nabízet.</p><div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}"><b>${o.old?'Jít víc do toho':'Zkusit něco nového'}: ${TAGN[o.t]||o.t}</b><span>třeba ${byTag[o.t].slice().sort(()=>rnd()-0.5).slice(0,2).map(c=>'„'+nm(c)+'“').join(', ')}</span></button>`).join('')}<button class="opt" id="cx"><b>Nechat to plynout</b><span>Žádný směr, ať to přijde samo.</span></button></div>`,()=>{
+    document.querySelectorAll('.opt[data-i]').forEach(b=>b.onclick=()=>{const o=opts[+b.dataset.i];S.dir={tag:o.t,until:a+8};(S.dirHist=S.dirHist||[]).push({age:y,tag:o.t});
+      S.log.push(`${y} let – rozcestí: ${TAGN[o.t]||o.t}.`);closeModal();dirSpawn(true);sfx('motUp')});
+    $('#cx').onclick=()=>{S.dir=null;closeModal()}})}
+function dirSpawn(force){if(!S.dir||S.age>=S.dir.until)return false;const a=S.age;
+  const used=new Set([...S.placed.filter(p=>!p.ev).map(p=>p.card.id),...S.offers.map(o=>o.card.id)]);
+  const pool=CARDS.filter(c=>c.tag===S.dir.tag&&!used.has(c.id)&&eligibleNow(c,a)&&(meets(c)||cardGap(c)<=2));
+  const c=pickW(pool,c=>(c.needT?2.5:1)*(meets(c)?1:0.4));if(!c)return false;
+  const life=LIFE[force?1:0]+rnd()*(LIFE[1]-LIFE[0]);const o={uid:++uidC,card:c,life,max:life,self:c.money<0&&a>=15&&a<18&&S.hadJob};
+  S.offers.push(o);makeOfferEl(o);if(c.needT)S.seenPath.add(c.id);sfx('appear');return true}
 function spawnOffer(){
+  if(S.dir&&S.age<S.dir.until&&!S.forceZ&&rnd()<0.3&&dirSpawn())return;
   const a=S.age,W=ageW(a),ill=S.placed.some(p=>p.ev),hrs=S.R?S.R.hours:{};
   const used=new Set([...S.placed.filter(p=>!p.ev).map(p=>p.card.id),...S.offers.map(o=>o.card.id)]);
   const shown=new Set(S.offers.flatMap(o=>o.card.cats));
@@ -1268,7 +1742,7 @@ const TAGN={film:'filmy',theatre:'divadlo',games:'videohry',nerd:'fantasy a nerd
   code:'programování',animals:'zvířata',climb:'lezení a hory',fight:'bojové sporty',run:'běhání',art:'malování a umění',books:'knihy',writing:'psaní',travel:'cestování',party:'večírky',
   photo:'fotografie',fashion:'móda',science:'věda',law:'právo',politics:'politika',trade:'obchod a peníze',lang:'cizí jazyky',wood:'práce se dřevem',garden:'zahrada',fish:'rybaření',
   scout:'příroda a táboráky',stage:'pódium a humor',media:'média',chess:'šachy',dance:'tanec',bike:'kolo',swim:'plavání',ski:'lyže',ball:'fotbal',hockey:'hokej',tennis:'tenis',golf:'golf',
-  sail:'jachting',yoga:'jóga',gym:'posilovna',brew:'pivo',wine:'víno',medic:'záchranařina',mind:'pomoc druhým',smoke:'cigarety',gamble:'hazard',collect:'sbírání',rehab:'odvykání',farm:'hospodaření',bees:'včely',forest:'les',hunt:'myslivost',fire:'hasiči',cottage:'chalupa',startup:'start-upy',corp:'kariéra ve firmě',skate:'skateboard',street:'street art',city:'život ve městě',abroad:'život v cizině',uniform:'uniforma',police:'policie',craft:'řemeslo',factory:'fabrika',bake:'pečení',fly:'létání',drive:'řízení',nomad:'cesty bez domova',care:'péče o druhé',teach:'učení druhých',old:'stáří s přáteli',horse:'koně',fair:'jarmarky a pouti'};
+  sail:'jachting',yoga:'jóga',gym:'posilovna',brew:'pivo',wine:'víno',medic:'záchranařina',mind:'pomoc druhým',smoke:'cigarety',gamble:'hazard',collect:'sbírání',rehab:'odvykání',farm:'hospodaření',bees:'včely',forest:'les',hunt:'myslivost',fire:'hasiči',cottage:'chalupa',startup:'start-upy',corp:'kariéra ve firmě',skate:'skateboard',street:'street art',city:'život ve městě',abroad:'život v cizině',uniform:'uniforma',police:'policie',craft:'řemeslo',factory:'fabrika',bake:'pečení',fly:'létání',drive:'řízení',nomad:'cesty bez domova',care:'péče o druhé',teach:'učení druhých',old:'stáří s přáteli',horse:'koně',fair:'jarmarky a pouti',ads:'reklama',aqua:'akvária',arch:'architektura',astro:'hvězdy',backend:'programování',ballet:'balet',bar:'bary a koktejly',basket:'basketbal',bio:'biologie',birds:'ptáci',blog:'cestopisy',board:'deskovky',build:'stavění',canoe:'vodáctví',choir:'zpívání ve sboru',classic:'klasická hudba',climate:'ochrana přírody',coach:'koučování',coffee:'káva',cold:'otužování',cosplay:'cosplay',data:'data',design:'design',dive:'potápění',diy:'kutění',dj:'elektronická hudba',doctor:'medicína',dog:'psi',fest:'festivaly',folk:'folklór',gamedev:'tvorba her',guide:'průvodcování',herbs:'bylinky',history:'historie',hotel:'hotely',jewel:'šperky',knit:'pletení',larp:'LARP',logist:'logistika',medit:'meditace',money:'finance',moto:'motorky',news:'novinařina',ngo:'neziskovky',novel:'romány',nurse:'ošetřování',office:'úřad',physio:'fyzioterapie',pilgrim:'poutě',podcast:'podcasty',poetry:'poezie',pottery:'keramika',robot:'roboti',sculpt:'sochařství',sea:'moře',sec:'kyberbezpečnost',shop:'obchod',smith:'kovářství',stream:'streamování',surf:'surfování',surgeon:'chirurgie',tattoo:'tetování',tech:'technika',tri:'triatlon',vet:'veterina',vintage:'vintage',volley:'volejbal',web:'weby'};
 const ADDN={alcohol:'alkoholem',smoke:'cigaretami',gamble:'hazardem',social:'sociálními sítěmi',games:'hrami',drugs:'drogami',caffeine:'kofeinem',collect:'sběratelskou vášní'};
 const PLACE_IN={vesnice:'na vesnici',venkov:'na venkově',mesto:'ve městě',velkomesto:'ve velkoměstě'};
 const GR={acc:{P:'práci',V:'učení',R:'rodinu',F:'kamarády',K:'koníčky',S:'sport',C:'cestování'},
@@ -1286,19 +1760,21 @@ function storyText(age,cause){
   let p1=`Narodil/a ses ${PLACE_IN[S.birthPlace]||'v malém městě'}, ${home}. Od malička jsi měl/a ${pickOne(['nejradši','nejvíc v oblibě'])} ${GR.acc[S.firstLove]}`;
   p1+=kt.length?`, a když ses zrovna nevěnoval/a škole, nejvíc tě bavily ${andJoin(kt.map(t=>TAGN[t]))}.`:'.';
   const neg=Object.entries(S.mot).filter(([k,v])=>v<0).map(([k])=>k)[0];
-  if(neg)p1+=` ${pickOne(['Už tehdy ti ale lezlo na nervy','Jen jedno jsi nesnášel/a:','A pak tu bylo něco, co tě štvalo:'])} ${CATS[neg].name.toLowerCase()}.`;
+  if(neg&&neg===S.firstLove)p1+=` Jenže časem se to otočilo a ${CATS[neg].name.toLowerCase()} ti začal/a lézt na nervy.`.replace('začal/a',{R:'začala',V:'začalo',F:'začali',K:'začaly',S:'začal',C:'začalo',P:'začala'}[neg]||'začalo');
+  else if(neg)p1+=` ${pickOne(['Už tehdy ti ale lezlo na nervy','Jen jedno jsi nesnášel/a:','A pak tu bylo něco, co tě štvalo:'])} ${CATS[neg].name.toLowerCase()}.`;
   P.push(p1);
   if(age<18){P.push(`Život ale skončil příliš brzy, ${vLet(age)}. ${cause}`);return P}
   // mládí a dospělost
   const jobs=S.taken.filter(t=>t.cats.includes('P')&&t.money>0).sort((a,b)=>a.from-b.from);
   const longJobs=[...jobs].filter(j=>j.to-j.from>=2).sort((a,b)=>(b.to-b.from)-(a.to-a.from));
-  const at=topTags(S.tagH,3);let p2='';
+  const at=topTags(S.tagH,3);let p2='';const dh=(S.dirHist||[]).filter(d=>d.age>=18);
   p2+=S.movedAt!=null?pickOne([`${vLet(S.movedAt,1)} sis sbalil/a věci a odstěhoval/a ses od rodičů.`,`Z domu jsi vylétl/a ${vLet(S.movedAt)}.`]):'Od rodičů ses nikdy pořádně neodstěhoval/a.';
   if(jobs.length){const first=jobs[0];p2+=` První peníze ti vydělala práce „${first.name}“${first.from<20?', ještě skoro jako dítěti':''}.`;
     if(longJobs.length&&longJobs[0].name!==first.name){const j=longJobs[0],y=Math.round(j.to-j.from);p2+=` ${pickOne(['Nejvíc let ale padlo na','Nakonec ses usadil/a u'])} „${j.name}“, ${y} ${letStr(y)}.`}}
   else p2+=' Stálou práci jsi nikdy pořádně nenašel/nenašla.'.replace('nenašel/nenašla',f?'nenašla':'nenašel');
   if(at.length){const main=at[0],job=S.taken.find(t=>t.money>0&&CARDS.find(c=>c.name===t.raw&&c.tag===main)),named=[jobs[0]&&jobs[0].name,longJobs[0]&&longJobs[0].name];
     p2+=job&&!named.includes(job.name)?` A z koníčku (${TAGN[main]}) se nakonec stalo živobytí: „${job.name}“.`:job?` Z koníčku (${TAGN[main]}) se tak stala práce.`:` Celým životem se ti táhly ${andJoin(at.map(t=>TAGN[t]))}.`}
+  if(dh.length)p2+=` Když přišlo rozcestí, vybral/a sis ${andJoin(dh.map(d=>TAGN[d.tag]||d.tag))}.`;
   const best=SK.map(k=>[k,lvl(S.xp[k])]).sort((a,b)=>b[1]-a[1]);
   if(best[0][1]>=8)p2+=` V tématu ${CATS[best[0][0]].name.toLowerCase()} jsi to dotáhl/a na úroveň ${best[0][1]}. Lepší by se hledal/a těžko.`;
   else if(best[0][1]>=5)p2+=` V tématu ${CATS[best[0][0]].name.toLowerCase()} z tebe byl/a profesionál/ka s úrovní ${best[0][1]}.`;
@@ -1606,7 +2082,7 @@ function updateHUD(){
   updSkillBars();
   const age=Math.floor(S.age);$('#ageN').innerHTML=`${age}<small>${letStr(age)}</small>`;
   $('#ageFill').style.width=Math.min(100,S.age)+'%';$('#kid').style.left=Math.min(100,S.age)+'%';$('#season').textContent=SEAS[Math.floor((S.age%1)*4)];
-  if(++hudTick%30===0){renderQol();renderActs();renderChips()}
+  if(++hudTick%30===0){renderQol();renderActs();renderChips();if(S.crossPend&&$('#ov').hidden&&!D&&!S.dead)crossroads(S.crossPend)}
 }
 $('#ageTrack').insertAdjacentHTML('beforeend',[18,65].map(a=>`<div class="mk" style="left:${a}%"><span>${a}</span></div>`).join(''));
 $('#hapIco').innerHTML=ICO.hap;$('#coinIco').innerHTML=ICO.coin;$('#hpIco').innerHTML=ICO.hp;$('#enIco').innerHTML=ICO.en;$('#stIco').innerHTML=ICO.st;
@@ -1835,8 +2311,11 @@ const ACTS=[
   {id:'loan',name:'Půjčka',show:()=>S.age>=18,tip:'Půjčíš si a pak to roky splácíš i s úrokem.',ok:()=>S.age>=18&&S.loans.filter(l=>l.kind==='loan').length<2,why:()=>S.age<18?'Od 18 let.':'Máš už dvě půjčky.',run:actLoan},
   {id:'home',name:'Koupit bydlení',show:()=>S.age>=18,tip:'Za hotové, nebo 20 % předem a zbytek hypotéka. Nájem neplatíš, jen údržbu. Byt časem zdražuje.',ok:()=>S.age>=18&&!S.own,why:()=>S.age<18?'Od 18 let.':'Už vlastníš, kde bydlíš.',run:actHome},
   {id:'inv',name:'Investovat',show:()=>S.age>=18,tip:'Peníze ve fondu průměrně rostou, ale některé roky padají.',ok:()=>S.age>=18,why:()=>'Od 18 let.',run:actInv},
-  {id:'lot',name:'Los',show:()=>S.age>=18,tip:'Jednou za rok si koupíš los za 500 Kč. Většinou nic.',ok:()=>S.age>=18&&S.age-(S.lotAt??-9)>=1,why:()=>S.age<18?'Od 18 let.':'Další los až příští rok.',run:actLot},
 ];
+const GATE={loan:{a:19,k:'P',l:1},ins:{a:19,k:'P',l:1},home:{a:21,k:'P',l:2},inv:{a:21,k:'P',l:3},retr:{a:24,k:'V',l:3},biz:{a:23,k:'P',l:4},sab:{a:27,k:'P',l:3}};
+function applyGates(){for(const a of ACTS){const g=GATE[a.id];if(!g||a.gated)continue;a.gated=1;const sh=a.show,ok=a.ok,why=a.why,nm_=CATS[g.k].name.toLowerCase();
+  a.show=()=>S.age>=g.a&&lvl(S.xp[g.k])>=g.l-1&&(!sh||sh());a.ok=()=>lvl(S.xp[g.k])>=g.l&&ok();
+  a.why=()=>lvl(S.xp[g.k])<g.l?`Odemkne se, až budeš mít ${nm_} na úrovni ${g.l}.`:why();a.tip+=` Od ${g.a} let a s dovedností ${nm_} ${g.l}.`}}
 function renderActs(){
   const vis=ACTS.filter(a=>!a.show||a.show());let fresh=false;
   setH($('#acts'),vis.map(a=>{const nw=S.seenActs&&!S.seenActs.has(a.id);if(nw){S.seenActs.add(a.id);fresh=true}return `<button class="act box ${a.ok()?'':'off'} ${nw?'fresh':''}" data-a="${a.id}"><span class="ai">${AICO[a.id]}</span><span>${a.name}</span></button>`}).join(''));
@@ -1860,7 +2339,7 @@ function actSearch(){
     <div class="pick">${cats.map(k=>`<button class="pk" data-k="${k}" style="background:${CATS[k].c}"><span class="ai">${ICO[k]}</span>${CATS[k].name}</button>`).join('')}</div>`,()=>{
     document.querySelectorAll('.pk').forEach(b=>b.onclick=()=>{const k=b.dataset.k;S.searchAt=S.age;S.energy=Math.max(0,S.energy-10);
       const used=new Set([...S.placed.filter(p=>!p.ev).map(p=>p.card.id),...S.offers.map(o=>o.card.id)]);
-      let pool=CARDS.filter(c=>c.cats.includes(k)&&S.age>=c.a0&&S.age<=c.a1&&!used.has(c.id)&&meets(c)&&genderOk(c)&&needOk(c)&&!(S.movedOut===false&&c.pmin&&S.qol<c.pmin));
+      let pool=CARDS.filter(c=>c.cats.includes(k)&&S.age>=c.a0&&S.age<=c.a1&&!used.has(c.id)&&meets(c)&&genderOk(c)&&needOk(c)&&(!c.pl||c.pl.includes(PLACE))&&!(S.movedOut===false&&c.pmin&&S.qol<c.pmin));
       const qual=c=>1+Object.values(c.req).reduce((t,v)=>t+v,0)*0.7+Math.max(0,c.money)/25000+(c.needT?1:0)+(c.tag?Math.min(2,(S.tagH[c.tag]||0)*0.2):0);let n=0;
       while(pool.length&&n<2){const c=pickW(pool,qual);pool.splice(pool.indexOf(c),1);const o={uid:++uidC,card:c,life:LIFE[1],max:LIFE[1],self:c.money<0&&S.age>=15&&S.age<18&&S.hadJob};S.offers.push(o);makeOfferEl(o);n++}
       closeModal();sfx('appear');toast(n?`Našel/a jsi ${n===1?'jednu kartu':'dvě karty'}: ${CATS[k].name.toLowerCase()}.`:'Tentokrát nic nevyšlo.',n?'good':'bad')})});
@@ -2031,6 +2510,7 @@ ACTS.push(
     ok:()=>S.age-(S.sabAt??-99)>=8,why:()=>'Další sabatikl až za pár let.',run:actSab},
   {id:'will',name:'Závěť',tip:'Rozhodneš, komu jednou necháš, co máš.',show:()=>S.age>=55,ok:()=>!S.will,why:()=>'Závěť už máš.',run:actWill},
 );
+applyGates();
 function actWedding(){const P=S.partner;
   modal(`<h3>Svatba</h3><p class="lead">${P.name} a ty. Jakou svatbu chcete?</p><div class="opts">
     <button class="opt ${S.money>=40000?'':'off'}" id="w1" ${S.money>=40000?'':'disabled'}><b>Malá svatba</b><span>40k · jen nejbližší</span></button>
@@ -2134,7 +2614,7 @@ function genQuest(){const C=[],a=S.age,has=t=>S.quests.some(q=>q.type===t);
   if(a>=25&&!S.own&&!has('home'))C.push({w:1,q:{type:'home',until:a+8,reward:30,text:'Mít vlastní bydlení'}});
   if(a>=28&&S.own&&S.own.tier<8&&!has('homeT')){const t=S.own.tier+2;C.push({w:0.8,q:{type:'homeT',target:t,until:a+10,reward:20+4*t,text:`Vlastní bydlení úrovně ${t+1}`}})}
   if(a>=22&&S.movedOut&&S.qol<8&&!has('qol')){const t=Math.min(9,S.qol+2);C.push({w:0.8,q:{type:'qol',target:t,until:a+6,reward:14+3*t,text:`Bydlet na úrovni ${t+1}`}})}
-  if(a>=25&&a<=60&&!S.biz&&lvl(S.xp.P)>=3&&!has('biz'))C.push({w:0.7*wk,q:{type:'biz',until:a+8,reward:30,text:'Založit si firmu'}});
+  if(a>=25&&a<=60&&!S.biz&&lvl(S.xp.P)>=4&&!has('biz'))C.push({w:0.7*wk,q:{type:'biz',until:a+8,reward:30,text:'Založit si firmu'}});
   if(a>=18&&!has('save')){const amt=Math.round(Math.max(100000,S.money+Math.max(5000,S.monthly)*12*3)/50000)*50000;C.push({w:1,q:{type:'save',amount:amt,until:a+5,reward:18,text:`Našetřit ${kNum(amt)}`}})}
   if(Object.keys(S.addicted).length&&!has('clean'))C.push({w:3,q:{type:'clean',until:a+4,reward:30,text:'Zbavit se závislosti'}});
   const pick=pickW(C,x=>x.w);if(!pick)return;const q={id:++uidC,...pick.q};if(questDone(q))return;
