@@ -16,7 +16,7 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{height:100%}
-body{margin:0;background:#A9C6D6;color:var(--ink);font-family:var(--body);font-size:14px;user-select:none;-webkit-user-select:none;position:relative}
+body{margin:0;-webkit-touch-callout:none;background:#A9C6D6;color:var(--ink);font-family:var(--body);font-size:14px;user-select:none;-webkit-user-select:none;position:relative}
 button{font:inherit;color:inherit}
 #scene{position:absolute;top:0;left:0;width:100%;z-index:0;display:block;image-rendering:pixelated;image-rendering:crisp-edges}
 #app{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;min-height:660px}
@@ -1995,6 +1995,22 @@ function posTip(e){const w=tip.offsetWidth,hh=tip.offsetHeight;let x=e.clientX+1
 track.addEventListener('pointermove',e=>{if(D)return;const h=hit(e);
   if(h){setHover(h.p.uid);showPlacedTip(h.p,e);track.style.cursor=h.p.ev?'not-allowed':'grab'}else{setHover(null);tip.hidden=true;track.style.cursor='default'}});
 track.addEventListener('pointerleave',()=>{if(!D){setHover(null);tip.hidden=true}});
+/* dotyk: podržením prstu se ukáže nápověda */
+let LP=null,lpShown=false,lpEat=false;const isTch=e=>e.pointerType==='touch'||e.pointerType==='pen';
+addEventListener('pointerdown',e=>{if(!isTch(e))return;if(lpShown){tip.hidden=true;lpShown=false}if(LP)clearTimeout(LP.t);
+  LP={x:e.clientX,y:e.clientY,t:setTimeout(()=>{if(!LP)return;if(D){D.target=null;D.moved=false;onDragUp()}
+    const el=document.elementFromPoint(LP.x,LP.y);if(!el)return;
+    el.dispatchEvent(new PointerEvent('pointermove',{bubbles:true,clientX:LP.x,clientY:LP.y,pointerType:'mouse'}));
+    if(tip.hidden){const ac=el.closest('.act[data-a]'),ti=el.closest('[title]');let h='';
+      if(ac){const A=ACTS.find(x=>x.id===ac.dataset.a);if(A)h=`<h4>${A.name}</h4><div>${A.tip}</div>${A.ok()?'':`<div class="k">${A.why()}</div>`}`}
+      else if(ti&&ti.title)h=`<div>${ti.title}</div>`;
+      if(h){tip.innerHTML=h;tip.hidden=false;posTip({clientX:LP.x,clientY:LP.y})}}
+    if(!tip.hidden){LP.fired=true;lpShown=true;lpEat=true;LP.html=tip.innerHTML;LP.l=tip.style.left;LP.tp=tip.style.top;try{navigator.vibrate&&navigator.vibrate(12)}catch(_){}}},430)}},true);
+addEventListener('pointermove',e=>{if(LP&&!LP.fired&&Math.hypot(e.clientX-LP.x,e.clientY-LP.y)>10){clearTimeout(LP.t);LP=null}},true);
+const lpEnd=()=>{if(!LP)return;clearTimeout(LP.t);const f=LP;LP=null;if(f.fired){setTimeout(()=>{tip.innerHTML=f.html;tip.style.left=f.l;tip.style.top=f.tp;tip.hidden=false},0);setTimeout(()=>lpEat=false,450)}};
+addEventListener('pointerup',lpEnd,true);addEventListener('pointercancel',lpEnd,true);
+addEventListener('click',e=>{if(lpEat){lpEat=false;e.preventDefault();e.stopPropagation()}},true);
+addEventListener('contextmenu',e=>e.preventDefault());
 track.addEventListener('pointerdown',e=>{if(S.dead)return;const h=hit(e);if(!h||h.p.ev)return;e.preventDefault();tip.hidden=true;
   startDrag(e,{src:'tl',p:h.p,card:h.p.card,h:h.p.h,grab:(h.slot-h.p.start+24)%24})});
 
@@ -2101,8 +2117,9 @@ function toast(t,kind=''){t=gtxt(t);const box=$('#toasts');const el=document.cre
   box.appendChild(el);while(box.children.length>2)box.firstChild.remove();setTimeout(()=>el.classList.add('out'),7000);setTimeout(()=>el.remove(),8600)}
 function showOverlay(h,wide){const o=$('#ov');o.innerHTML=`<div class="card box ${wide?'wide':''}">${gtxt(h)}</div>`;o.hidden=false}
 function hideOverlay(){$('#ov').hidden=true;$('#ov').classList.remove('title')}
-const VER='0.26';
+const VER='0.27';
 const NOTES=[
+ ['0.27','18. 10. 2026',['Mobil: podržením prstu se ukáže nápověda – u karet, na ose dne, u statistik, dovedností i tlačítek.']],
  ['0.26','18. 10. 2026',['iPhone: panel dole sedí i když Safari schová lišty, karty mají správnou velikost.','iPhone: tlačítko celé obrazovky poradí, jak hru přidat na plochu – pak běží bez lišt.']],
  ['0.25','18. 10. 2026',['Mobil: výrazně větší karty (na šířku jich je max. 7), nižší osa dne.','Mobil: tlačítko na celou obrazovku vpravo nahoře.']],
  ['0.24','17. 10. 2026',['Životní rozcestí probíhají nenápadně: hra sama pozná, čemu se věnuješ, a podle toho tě pár let směruje.','Verze a novinky v menu.']],
@@ -2122,7 +2139,7 @@ function intro(first){paused=true;setSpeedUI();
   if(first){$('#ov').classList.add('title');showOverlay(`<div class="hero"><p class="pre">hra o čase</p><h1>To je život</h1>
     <p class="tag">Jeden rok trvá minutu a půl.<br>Příležitosti přicházejí a odcházejí.<br>Některé chytíš, jiné necháš plout.<br><b>Čemu dáš svůj čas, to se z tebe stane.</b></p>
     <div class="births"><button class="btn big" id="start">Začít hru</button><button class="btn big soft" id="hall">Síň slávy</button></div><button class="verlink" id="notes">verze ${VER} · co je nového</button></div>`);$('#start').onclick=()=>{audioInit();birthChoice()};$('#hall').onclick=()=>showHall();$('#notes').onclick=()=>showNotes(()=>intro(true));return}
-  showOverlay(`<h2>Jak hrát</h2><p class="lead">Přetáhni příležitost na osu dne. Prázdné hodiny jsou odpočinek. Najeď myší na cokoliv, co tě zajímá.</p><p class="lead">Zbytek je na tobě.</p><button class="btn" id="go">Pokračovat</button> <button class="verlink" id="notes">verze ${VER} · co je nového</button>`);
+  showOverlay(`<h2>Jak hrát</h2><p class="lead">Přetáhni příležitost na osu dne. Prázdné hodiny jsou odpočinek. ${matchMedia('(pointer:coarse)').matches?'Podrž prst na čemkoliv, co tě zajímá – ukáže se nápověda.':'Najeď myší na cokoliv, co tě zajímá.'}</p><p class="lead">Zbytek je na tobě.</p><button class="btn" id="go">Pokračovat</button> <button class="verlink" id="notes">verze ${VER} · co je nového</button>`);
   $('#go').onclick=()=>{hideOverlay();paused=false;setSpeedUI()};$('#notes').onclick=()=>showNotes(()=>{$('#ov').classList.remove('title');intro(false)})}
 function birth(g){audioInit();S.gender=g;newLife();$('#ov').classList.remove('title');hideOverlay();paused=false;setSpeedUI()}
 function birthChoice(){$('#ov').classList.add('title');showOverlay(`<div class="hero"><p class="pre">${S&&S.dead?'nový začátek':'první nádech'}</p><h1 class="mid">Kým se narodíš?</h1><div class="births"><button class="btn big" id="gf">Holka</button><button class="btn big" id="gm">Kluk</button></div></div>`);$('#gf').onclick=()=>birth('f');$('#gm').onclick=()=>birth('m')}
@@ -2150,7 +2167,6 @@ addEventListener('keydown',e=>{if(!$('#ov').hidden||S.dead)return;
 const isTouch=matchMedia('(hover:none)').matches;
 if(isTouch){
   document.querySelectorAll('[data-stat]').forEach(el=>el.addEventListener('pointerdown',e=>{statTip(el.dataset.stat,e);e.stopPropagation()}));
-  addEventListener('pointerdown',e=>{if(!e.target.closest('[data-stat]'))setTimeout(()=>{if(!D)tip.hidden=true},1600)});
 }
 /* ============ PIXELOVÁ KRAJINA ============ */
 const PLACE_NAMES={vesnice:'vesnice',venkov:'venkov',mesto:'město',velkomesto:'velkoměsto'};
