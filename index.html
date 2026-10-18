@@ -1,4 +1,4 @@
-<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#A9C6D6"><title>To je život</title>
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#A9C6D6"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="To je život"><title>To je život</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -266,8 +266,9 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   @keyframes rot{0%,30%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
 }
 @media (max-height:520px){
-  html,body{height:100%}
-  #app{min-height:0;height:100%}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+  body{position:fixed;inset:0}
+  #app{min-height:0;height:var(--appH,100dvh);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);box-sizing:border-box}
   .head{padding:4px 8px 0}
   .brand{display:none}
   .head{justify-content:flex-end;flex-wrap:nowrap;position:relative;z-index:6}
@@ -2090,7 +2091,7 @@ function updateHUD(){
   updSkillBars();
   const age=Math.floor(S.age);$('#ageN').innerHTML=`${age}<small>${letStr(age)}</small>`;
   $('#ageFill').style.width=Math.min(100,S.age)+'%';$('#kid').style.left=Math.min(100,S.age)+'%';$('#season').textContent=SEAS[Math.floor((S.age%1)*4)];
-  if(++hudTick%30===0){renderQol();renderActs();renderChips();if(S.crossPend&&!S.dead)crossroads(S.crossPend)}
+  if(++hudTick%30===0){fitOffers();renderQol();renderActs();renderChips();if(S.crossPend&&!S.dead)crossroads(S.crossPend)}
 }
 $('#ageTrack').insertAdjacentHTML('beforeend',[18,65].map(a=>`<div class="mk" style="left:${a}%"><span>${a}</span></div>`).join(''));
 $('#hapIco').innerHTML=ICO.hap;$('#coinIco').innerHTML=ICO.coin;$('#hpIco').innerHTML=ICO.hp;$('#enIco').innerHTML=ICO.en;$('#stIco').innerHTML=ICO.st;
@@ -2100,8 +2101,9 @@ function toast(t,kind=''){t=gtxt(t);const box=$('#toasts');const el=document.cre
   box.appendChild(el);while(box.children.length>2)box.firstChild.remove();setTimeout(()=>el.classList.add('out'),7000);setTimeout(()=>el.remove(),8600)}
 function showOverlay(h,wide){const o=$('#ov');o.innerHTML=`<div class="card box ${wide?'wide':''}">${gtxt(h)}</div>`;o.hidden=false}
 function hideOverlay(){$('#ov').hidden=true;$('#ov').classList.remove('title')}
-const VER='0.25';
+const VER='0.26';
 const NOTES=[
+ ['0.26','18. 10. 2026',['iPhone: panel dole sedí i když Safari schová lišty, karty mají správnou velikost.','iPhone: tlačítko celé obrazovky poradí, jak hru přidat na plochu – pak běží bez lišt.']],
  ['0.25','18. 10. 2026',['Mobil: výrazně větší karty (na šířku jich je max. 7), nižší osa dne.','Mobil: tlačítko na celou obrazovku vpravo nahoře.']],
  ['0.24','17. 10. 2026',['Životní rozcestí probíhají nenápadně: hra sama pozná, čemu se věnuješ, a podle toho tě pár let směruje.','Verze a novinky v menu.']],
  ['0.23','17. 10. 2026',['400 nových karet: větvení kariér (medicína, IT, stavby, finance, gastro, věda, právo, armáda…) a karty, které potřebují zkušenost ze dvou oblastí.','Akce jako půjčka, investice nebo podnikání se odemykají věkem a dovedností.','Los zmizel.']],
@@ -2130,9 +2132,15 @@ $('#helpBtn').onclick=()=>{if(!S.dead)intro(false)};
 const FS_ON='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',FS_OFF='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
 const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
 function fsUI(){$('#fsBtn').innerHTML=fsEl()?FS_OFF:FS_ON;setTimeout(fitOffers,300)}
-$('#fsBtn').onclick=async()=>{const d=document.documentElement;try{if(fsEl()){await (document.exitFullscreen||document.webkitExitFullscreen).call(document)}else{await (d.requestFullscreen||d.webkitRequestFullscreen).call(d);try{await screen.orientation.lock('landscape')}catch(e){}}}catch(e){toast('Celou obrazovku tenhle prohlížeč nedovolí.')}};
+const IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const STANDALONE=navigator.standalone||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches;
+function setAppH(){const h=window.visualViewport?visualViewport.height:innerHeight;document.documentElement.style.setProperty('--appH',Math.round(h)+'px');if(typeof fitOffers==='function')fitOffers()}
+setAppH();addEventListener('orientationchange',()=>setTimeout(setAppH,350));if(window.visualViewport)visualViewport.addEventListener('resize',setAppH);addEventListener('resize',setAppH);
+$('#fsBtn').onclick=async()=>{if(IOS&&!(document.fullscreenEnabled||document.webkitFullscreenEnabled)){
+    modal(`<h3>Celá obrazovka na iPhonu</h3><p class="lead">Safari na iPhonu webům celou obrazovku nedovolí. Jde to ale takhle:</p><p class="lead">1. Klepni na <b>Sdílet</b> (čtvereček se šipkou – v Safari dole nebo vedle adresy, v Chromu vpravo nahoře).<br>2. Vyber <b>Přidat na plochu</b>.<br>3. Spusť hru z ikony na ploše – poběží přes celou obrazovku bez lišt.</p>`);return}
+  const d=document.documentElement;try{if(fsEl()){await (document.exitFullscreen||document.webkitExitFullscreen).call(document)}else{await (d.requestFullscreen||d.webkitRequestFullscreen).call(d);try{await screen.orientation.lock('landscape')}catch(e){}}}catch(e){toast('Celou obrazovku tenhle prohlížeč nedovolí.')}};
 document.addEventListener('fullscreenchange',fsUI);document.addEventListener('webkitfullscreenchange',fsUI);fsUI();
-if(!(document.fullscreenEnabled||document.webkitFullscreenEnabled))$('#fsBtn').style.visibility='hidden';
+if(STANDALONE||(!IOS&&!(document.fullscreenEnabled||document.webkitFullscreenEnabled)))$('#fsBtn').style.display='none';
 addEventListener('keydown',e=>{if(!$('#ov').hidden||S.dead)return;
   if(e.code==='Space'){e.preventDefault();paused=!paused;setSpeedUI()}
   if(e.key==='1'){speed=1;paused=false;setSpeedUI()}if(e.key==='2'){speed=2;paused=false;setSpeedUI()}if(e.key==='3'||e.key==='4'){speed=4;paused=false;setSpeedUI()}});
