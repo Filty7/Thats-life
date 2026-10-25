@@ -338,6 +338,9 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .opt{padding:6px 10px}.opt b{font-size:14px}.opt span,.opt small{font-size:11px}
   .hero{gap:8px}.hero h1{font-size:44px}.hero h1.mid{font-size:32px}.hero .tag{font-size:13px;padding:8px 14px;margin:2px 0 4px}.btn.big{font-size:15px;padding:7px 20px}
   .tip{font-size:11px;padding:7px 9px;max-width:210px}
+  .bk-body{display:grid;grid-template-columns:1fr 1.25fr;column-gap:14px;align-items:start}.bk-body>p{grid-column:1}.bk-body>.bk-ill{grid-column:2;grid-row:1/span 4}
+  .book .verlink{display:none}.bk-ill .mtl{max-height:54px}.bk-lab{margin-bottom:3px;font-size:11px}.bk-pg{font-size:10px}.book h2{margin-bottom:4px!important}.max{font-size:9.5px}.bk-nav{margin-top:2px}
+  .bk-body p{font-size:12.5px;margin-bottom:7px}.bk-ill{padding:8px;margin-bottom:8px}.book h2{font-size:22px!important}.bk-note{font-size:11px;margin:4px 0 8px}
   .story p{font-size:12.5px}.sumchart{max-height:120px}
   .win span{font-size:10px}
 }
@@ -370,6 +373,30 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
 .hall td.sc{font-family:var(--display);font-weight:600;text-align:right;font-size:17px}
 .hall .sub{color:var(--muted);font-size:12.5px;font-weight:700}
 .fsb{display:none!important;padding-left:7px!important;padding-right:7px!important;align-items:center}
+.book{text-align:left}.book h2{margin-bottom:8px}
+.bk-pg{font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+.bk-body p{margin:0 0 10px;font-size:14.5px;line-height:1.5;font-weight:600}
+.bk-ill{background:var(--paper2);border:2px solid var(--ink);border-radius:8px;padding:12px;margin:0 0 12px}
+.bk-row{display:flex;align-items:center;gap:12px}.bk-grow{flex:1;min-width:0}.bk-arrow{font-family:var(--display);font-size:26px}
+.bk-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bk-lab{font-size:12px;font-weight:800;margin:0 0 5px}.bk-lab.bad{color:var(--bad)}.bk-lab.good{color:#4E8A4E}
+.bk-note{font-size:12.5px;color:var(--muted);font-weight:700;margin:6px 0 12px;line-height:1.4}.bk-ill>.bk-note:last-child{margin-bottom:0}
+.mtl{position:relative;background:#EFE9DA;border:2px solid var(--ink);border-radius:6px;overflow:hidden}
+.mtl .nt{position:absolute;top:0;bottom:0;background:#DCDDE6}
+.mtl .b{position:absolute;border:2px solid var(--ink);border-radius:4px;font-family:var(--display);font-weight:600;font-size:11.5px;display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap}
+.mtl .b.h{background-image:repeating-linear-gradient(45deg,rgba(51,48,46,.35) 0 3px,transparent 3px 7px)!important;background-color:#C9C2B3}
+.mtl .rl{position:absolute;top:50%;transform:translateY(-50%);text-align:center;font-size:11px;font-weight:800;color:#9C9483}
+.max{display:flex;justify-content:space-between;font-size:10.5px;font-weight:800;color:var(--muted);margin-top:3px}
+.mcard{width:66px;flex:none;border:2px solid var(--ink);border-radius:6px;overflow:hidden;box-shadow:0 3px 0 var(--ink);rotate:-3deg}
+.mcard .mh{font-size:9.5px;font-weight:800;padding:2px 5px;border-bottom:2px solid var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mcard .mb{height:62px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:6px 0 5px}
+.mcard .mr{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.5);display:grid;place-items:center;font-size:18px}
+.mcard .mf b{background:var(--ink);color:var(--paper);border-radius:999px;padding:1px 6px;font-family:var(--display);font-weight:600;font-size:11px}
+.mbar{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;margin-top:6px}.mbar span{width:52px}.mbar i{flex:1;height:8px;border:2px solid var(--ink);border-radius:3px;background:var(--paper);overflow:hidden}.mbar i b{display:block;height:100%}.mbar em{font-style:normal;width:22px;text-align:right}
+.bk-rm{display:flex;align-items:center;gap:10px;margin-top:12px}.bk-chip{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:999px;padding:3px 10px;font-weight:800;font-size:12.5px;background:#F5CBA7;box-shadow:0 3px 0 var(--ink)}.bk-chip.rm{background:#E59A94}.bk-up{font-family:var(--display);font-size:22px}
+.bk-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.bk-dots{display:flex;gap:6px}.bk-dots i{width:8px;height:8px;border-radius:50%;background:var(--paper2);border:2px solid var(--ink)}.bk-dots i.on{background:var(--ink)}
+.book .verlink{display:block;margin:10px auto 0}
 .verlink{margin-top:4px;background:none;border:0;font:inherit;font-size:12.5px;font-weight:800;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .notes h4{margin:10px 0 4px;font-family:var(--display);font-weight:600;font-size:17px}.notes h4:first-child{margin-top:2px}.notes h4 small{font-family:inherit;font-size:12px;color:var(--muted);font-weight:700;margin-left:6px}
 .notes ul{margin:0 0 4px;padding-left:18px;font-size:13.5px;font-weight:700;line-height:1.5}
@@ -2117,8 +2144,9 @@ function toast(t,kind=''){t=gtxt(t);const box=$('#toasts');const el=document.cre
   box.appendChild(el);while(box.children.length>2)box.firstChild.remove();setTimeout(()=>el.classList.add('out'),7000);setTimeout(()=>el.remove(),8600)}
 function showOverlay(h,wide){const o=$('#ov');o.innerHTML=`<div class="card box ${wide?'wide':''}">${gtxt(h)}</div>`;o.hidden=false}
 function hideOverlay(){$('#ov').hidden=true;$('#ov').classList.remove('title')}
-const VER='0.27';
+const VER='0.28';
 const NOTES=[
+ ['0.28','25. 10. 2026',['Nová knížečka Jak hrát (4 stránky s obrázky): čas, překrývání, uklízení osy a co tě baví. Ukáže se při první hře.']],
  ['0.27','18. 10. 2026',['Mobil: podržením prstu se ukáže nápověda – u karet, na ose dne, u statistik, dovedností i tlačítek.']],
  ['0.26','18. 10. 2026',['iPhone: panel dole sedí i když Safari schová lišty, karty mají správnou velikost.','iPhone: tlačítko celé obrazovky poradí, jak hru přidat na plochu – pak běží bez lišt.']],
  ['0.25','18. 10. 2026',['Mobil: výrazně větší karty (na šířku jich je max. 7), nižší osa dne.','Mobil: tlačítko na celou obrazovku vpravo nahoře.']],
@@ -2135,13 +2163,47 @@ const NOTES=[
 function showNotes(back){$('#ov').classList.add('title');
   showOverlay(`<div class="hero"><p class="pre">verze ${VER}</p><h1 class="mid">Co je nového</h1><div class="hallbox notes">${NOTES.map(([v,d,l])=>`<h4>${v} <small>${d}</small></h4><ul>${l.map(x=>`<li>${x}</li>`).join('')}</ul>`).join('')}</div><div class="births"><button class="btn big" id="nb">Zpět</button></div></div>`,true);
   $('#nb').onclick=back}
+/* ============ KNÍŽEČKA: JAK HRÁT ============ */
+function mtl(blocks,o={}){const W=100/24;let h=`<div class="mtl" style="height:${o.h||46}px"><i class="nt" style="left:${15*W}%;width:${9*W}%"></i>`;
+  for(const b of blocks){const n=b.n||1,ln=b.ln||0,top=`calc(${ln*100/n}% + 3px)`,hh=`calc(${100/n}% - 6px)`;
+    h+=`<div class="b ${b.x?'h':''} ${b.dim?'dim':''}" style="left:calc(${b.s*W}% + 1px);width:calc(${b.l*W}% - 2px);top:${top};height:${hh};background:${b.k?bgOf(b.k.split('/')):'#A3A6A8'}">${b.t||''}</div>`}
+  for(const r of (o.rest||[]))h+=`<span class="rl" style="left:${r[0]*W}%;width:${r[1]*W}%">${r[2]}</span>`;
+  return h+`</div>${o.axis===false?'':'<div class="max"><span>6:00</span><span>12:00</span><span>18:00</span><span>24:00</span><span>6:00</span></div>'}`}
+function mcard(name,k,hrs,mon){return `<div class="mcard"><div class="mh" style="background:${CATS[k.split('/')[0]].h}">${name}</div><div class="mb" style="background:${bgOf(k.split('/'))}"><span class="mr">${icoOf(k.split('/'))}</span><span class="mf"><b>${hrs}h</b>${mon?`<em>${mon}</em>`:''}</span></div></div>`}
+function mbar(lbl,v,col){return `<div class="mbar"><span>${lbl}</span><i><b style="width:${v}%;background:${col}"></b></i><em>${v}</em></div>`}
+const TOUCH=()=>matchMedia('(pointer:coarse)').matches;
+const BOOK=[
+ ()=>({t:'Hra o čase',h:`<p>Každý den má <b>24 hodin</b>, od 6:00 do 6:00. Příležitosti, které se objevují nahoře, <b>přetáhneš na osu dne</b>. Čemu dáš svůj čas, v tom se zlepšuješ – a to tě postupně formuje.</p>
+   <div class="bk-ill"><div class="bk-row">${mcard('Gymnázium','V',8)}<span class="bk-arrow">→</span><div class="bk-grow">${mtl([{s:2,l:8,k:'V',t:'8 h'},{s:12,l:3,k:'K',t:'3 h'}],{rest:[[15,9,'spánek']]})}</div></div></div>
+   <p><b>Prázdné hodiny jsou odpočinek.</b> V noci (šedé pole) odpočíváš nejvíc. Je to hra o time managementu: vejde se jen to, na co máš čas.</p>`}),
+ ()=>({t:'Nepřekrývej',h:`<p>Nemůžeš být na dvou místech zároveň. Když se dvě karty <b>překrývají</b>, v překrytých hodinách nefunguje <b>ani jedna</b>.</p>
+   <div class="bk-ill"><div class="bk-lab bad">Překryté – neefektivní</div>${mtl([{s:2,l:5,k:'P',t:'práce',n:2,ln:0},{s:7,l:3,k:'P',n:2,ln:0,x:1},{s:7,l:3,k:'F',n:2,ln:1,x:1},{s:10,l:4,k:'F',t:'přátelé',n:2,ln:1}],{axis:false,h:62})}<div class="bk-note">Šrafované hodiny = 0 % účinnost, navíc stres a riziko, že o práci přijdeš.</div>
+   <div class="bk-lab good">Za sebou – všechno naplno</div>${mtl([{s:2,l:8,k:'P',t:'práce'},{s:11,l:4,k:'F',t:'přátelé'}],{rest:[[15,9,'odpočinek']]})}</div>
+   <p>Radši věci <b>skládej za sebe</b> a nech mezi nimi chvilku volna.</p>`}),
+ ()=>({t:'Uklízej osu',h:`<p>Karta na ose <b>zůstává každý den</b>, dokud ji sám neodebereš. Když se nabalí moc věcí, chybí odpočinek, roste <b>stres</b> a ten ti bere <b>zdraví</b>.</p>
+   <div class="bk-ill"><div class="bk-two"><div><div class="bk-lab bad">Přecpaný den</div>${mtl([{s:0,l:9,k:'P'},{s:9,l:3,k:'V'},{s:12,l:4,k:'F'},{s:16,l:3,k:'K'},{s:19,l:2,k:'S'}],{axis:false,h:34})}${mbar('stres',85,'var(--st)')}${mbar('energie',15,'var(--en)')}</div>
+   <div><div class="bk-lab good">Den s volnem</div>${mtl([{s:2,l:8,k:'P'},{s:11,l:3,k:'K'}],{axis:false,h:34})}${mbar('stres',15,'var(--st)')}${mbar('energie',90,'var(--en)')}</div></div>
+   <div class="bk-rm"><span class="bk-chip">${icoOf(['F'])} 4 h</span><span class="bk-up">↑</span><span class="bk-chip rm">Ukončit</span></div><div class="bk-note">Odebrání: chyť kartu na ose a <b>vytáhni ji nahoru mimo osu</b>.</div></div>
+   <p>Když něco přestane dávat smysl – škola skončila, práce tě ničí, koníček už nebaví – <b>vyhoď to</b>. Nech si denně aspoň <b>7–8 hodin volna</b>.</p>`}),
+ ()=>({t:'Co tě baví',h:`<p><b>Štěstí</b> (skóre) roste, když děláš to, co tě baví. Co tě baví a co tě štve, vidíš vpravo dole – a během života se to mění.</p>
+   <div class="bk-ill"><div class="bk-row"><span class="mt" style="background:${CATS.K.h}">${ICO.K}+2</span><span class="mt neg">${ICO.P}−1</span><span class="bk-grow bk-note">Koníčky tě baví – učíš se rychleji a přibývá štěstí. Práci nesnášíš – učíš se pomaleji a víc tě stresuje.</span></div></div>
+   <p>Dovednosti rostou s časem a otevírají lepší příležitosti. Nahoře občas přijde <b>cíl</b> – splněný přidá štěstí, nesplněný trochu ubere.</p>
+   <p>${TOUCH()?'<b>Podrž prst</b> na čemkoliv':'<b>Najeď myší</b> na cokoliv'} a ukáže se nápověda. Zbytek je na tobě.</p>`})];
+function showBook(pg,after){const B=BOOK[pg]();
+  showOverlay(`<div class="book"><div class="bk-top"><span class="bk-pg">Jak hrát · ${pg+1}/${BOOK.length}</span></div><h2>${B.t}</h2><div class="bk-body">${B.h}</div>
+    <div class="bk-nav"><button class="btn soft" id="bkP" ${pg?'':'style="visibility:hidden"'}>Zpět</button><span class="bk-dots">${BOOK.map((_,i)=>`<i class="${i===pg?'on':''}"></i>`).join('')}</span><button class="btn" id="bkN">${pg<BOOK.length-1?'Dál':'Hrát'}</button></div>
+    <button class="verlink" id="notes">verze ${VER} · co je nového</button></div>`,MOBQ.matches);
+  $('#bkP').onclick=()=>showBook(pg-1,after);
+  $('#bkN').onclick=()=>{if(pg<BOOK.length-1)showBook(pg+1,after);else{hideOverlay();if(after)after();else{paused=false;setSpeedUI()}}};
+  $('#notes').onclick=()=>showNotes(()=>{$('#ov').classList.remove('title');showBook(pg,after)})}
 function intro(first){paused=true;setSpeedUI();
   if(first){$('#ov').classList.add('title');showOverlay(`<div class="hero"><p class="pre">hra o čase</p><h1>To je život</h1>
     <p class="tag">Jeden rok trvá minutu a půl.<br>Příležitosti přicházejí a odcházejí.<br>Některé chytíš, jiné necháš plout.<br><b>Čemu dáš svůj čas, to se z tebe stane.</b></p>
     <div class="births"><button class="btn big" id="start">Začít hru</button><button class="btn big soft" id="hall">Síň slávy</button></div><button class="verlink" id="notes">verze ${VER} · co je nového</button></div>`);$('#start').onclick=()=>{audioInit();birthChoice()};$('#hall').onclick=()=>showHall();$('#notes').onclick=()=>showNotes(()=>intro(true));return}
-  showOverlay(`<h2>Jak hrát</h2><p class="lead">Přetáhni příležitost na osu dne. Prázdné hodiny jsou odpočinek. ${matchMedia('(pointer:coarse)').matches?'Podrž prst na čemkoliv, co tě zajímá – ukáže se nápověda.':'Najeď myší na cokoliv, co tě zajímá.'}</p><p class="lead">Zbytek je na tobě.</p><button class="btn" id="go">Pokračovat</button> <button class="verlink" id="notes">verze ${VER} · co je nového</button>`);
-  $('#go').onclick=()=>{hideOverlay();paused=false;setSpeedUI()};$('#notes').onclick=()=>showNotes(()=>{$('#ov').classList.remove('title');intro(false)})}
-function birth(g){audioInit();S.gender=g;newLife();$('#ov').classList.remove('title');hideOverlay();paused=false;setSpeedUI()}
+  showBook(0)}
+function birth(g){audioInit();S.gender=g;newLife();$('#ov').classList.remove('title');hideOverlay();
+  let seen=false;try{seen=localStorage.getItem('tzj-book')==='1';localStorage.setItem('tzj-book','1')}catch(e){}
+  if(!seen){paused=true;setSpeedUI();showBook(0,()=>{paused=false;setSpeedUI()})}else{paused=false;setSpeedUI()}}
 function birthChoice(){$('#ov').classList.add('title');showOverlay(`<div class="hero"><p class="pre">${S&&S.dead?'nový začátek':'první nádech'}</p><h1 class="mid">Kým se narodíš?</h1><div class="births"><button class="btn big" id="gf">Holka</button><button class="btn big" id="gm">Kluk</button></div></div>`);$('#gf').onclick=()=>birth('f');$('#gm').onclick=()=>birth('m')}
 function setSpeedUI(){document.querySelectorAll('#speed button').forEach(b=>{const s=+b.dataset.s;b.classList.toggle('on',paused?s===0:s===speed)})}
 $('#speed').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||S.dead)return;const s=+b.dataset.s;if(s===0)paused=true;else{speed=s;paused=false}setSpeedUI()});
