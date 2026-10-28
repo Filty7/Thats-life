@@ -2706,8 +2706,9 @@ function toast(t,kind=''){t=gtxt(t);const box=$('#toasts');const el=document.cre
   box.appendChild(el);while(box.children.length>2)box.firstChild.remove();setTimeout(()=>el.classList.add('out'),7000);setTimeout(()=>el.remove(),8600)}
 function showOverlay(h,wide){const o=$('#ov');o.innerHTML=`<div class="card box ${wide?'wide':''}">${gtxt(h)}</div>`;o.hidden=false}
 function hideOverlay(){$('#ov').hidden=true;$('#ov').classList.remove('title')}
-const VER='0.30';
+const VER='0.31';
 const NOTES=[
+ ['0.31','28. 10. 2026',['Tutoriál: krátké slovo na začátku věty už nezůstává samo na konci řádku.']],
  ['0.30','28. 10. 2026',['Tutoriál má pevnou velikost, tlačítka Zpět a Dál se nehýbou. Lepší zalamování textu.']],
  ['0.29','28. 10. 2026',['Nový obrázkový tutoriál (9 krátkých stránek).','Zdraví je dovednost: každá úroveň dává +1 zdraví, +1 energie a −1 stres ročně. Léčí každá zelená karta.','Kriminalita: karty na hraně zákona (žlutý vykřičník), kontroly, pokuty, zabavení majetku, vězení.','Trauma jako blok na ose – zmenšuje ho terapie, občas se přesune nebo vyroste.','Závislosti s ukazatelem síly, hazard (většinou prohraješ), workoholismus, nakupování, sladké.','Šamanské rituály, jóga, sauny, medicína a výzkum léků. Celkem skoro 480 nových karet, vyváženější barvy.','První stěhování: hra se zastaví a vybereš si bydlení. Návrat do pronajatého bytu. Rozvod bere polovinu majetku, partner vydělává různě.','U rodičů o 15 % víc stresu. Na podzim občas prší.']],
  ['0.28','25. 10. 2026',['Nová knížečka Jak hrát (4 stránky s obrázky): čas, překrývání, uklízení osy a co tě baví. Ukáže se při první hře.']],
@@ -2759,7 +2760,7 @@ const BOOK=[
  ()=>({t:'Buď šťastný',h:`<div class="bk-ill bk-c"><div class="bk-acts">${['search','loan','home','inv','biz'].map(a=>`<span class="act box"><span class="ai">${AICO[a]||''}</span></span>`).join('')}</div><div class="bk-row bk-mid" style="margin-top:10px">${['R','C','S','K','Z'].map(k=>`<span class="bk-dot" style="background:${CATS[k].c}">${ICO[k]}</span>`).join('')}</div></div>
    <p>Vlevo se časem objeví <b>akce</b> – půjčka, bydlení, firma… Založ rodinu, cestuj, staň se šampionem, nebo měj všechno na salámu. Hlavně buď šťastný. ${TOUCH()?'Podrž prst na čemkoliv pro nápovědu.':'Najeď myší na cokoliv pro nápovědu.'}</p>`})];
 function showBook(pg,after){const B=BOOK[pg]();
-  showOverlay(`<div class="book"><div class="bk-top"><span class="bk-pg">Jak hrát · ${pg+1}/${BOOK.length}</span></div><h2>${B.t}</h2><div class="bk-body">${B.h.replace(/<p>([\s\S]*?)<\/p>/g,(m,t)=>'<p>'+t.replace(/ ([vszkouaiVSZKOUAI–]) /g,' $1&nbsp;').replace(/ = /g,'&nbsp;= ').replace(/ (po|do|od|na|ve|za|se|je|to) (\d)/g,' $1&nbsp;$2')+'</p>')}</div>
+  showOverlay(`<div class="book"><div class="bk-top"><span class="bk-pg">Jak hrát · ${pg+1}/${BOOK.length}</span></div><h2>${B.t}</h2><div class="bk-body">${B.h.replace(/<p>([\s\S]*?)<\/p>/g,(m,t)=>'<p>'+t.replace(/ ([vszkouaiVSZKOUAI–]) /g,' $1&nbsp;').replace(/ = /g,'&nbsp;= ').replace(/ (po|do|od|na|ve|za|se|je|to) (\d)/g,' $1&nbsp;$2').replace(/(^|[.!?…:–]\s+)([^\s<]{1,9}) /g,'$1$2&nbsp;').replace(/ ([^\s<>]+[.!?…])$/,'&nbsp;$1')+'</p>')}</div>
     <div class="bk-nav"><button class="btn soft" id="bkP" ${pg?'':'style="visibility:hidden"'}>Zpět</button><span class="bk-dots">${BOOK.map((_,i)=>`<i class="${i===pg?'on':''}"></i>`).join('')}</span><button class="btn" id="bkN">${pg<BOOK.length-1?'Dál':'Hrát'}</button></div>
     <button class="verlink" id="notes">verze ${VER} · co je nového</button></div>`,MOBQ.matches);$('#ov .card').classList.add('bookcard');
   $('#bkP').onclick=()=>showBook(pg-1,after);
