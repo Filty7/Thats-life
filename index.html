@@ -158,7 +158,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .skc b{position:absolute;left:0;right:0;bottom:3px;text-align:center;font-family:var(--display);font-weight:700;font-size:15px;line-height:1}
 .skc.zero b{opacity:.45}
 .mt{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;width:34px;height:44px;box-sizing:border-box;border:2px solid var(--ink);border-radius:7px;padding-top:4px;font-family:var(--display);font-weight:600;font-size:16px}
-.mt b{position:absolute;left:0;right:0;bottom:3px;text-align:center;font-size:10px;line-height:1;letter-spacing:-.5px;color:#9A7016}.mt.neg b{color:var(--bad)}
+.mt b{position:absolute;left:0;right:0;bottom:2px;text-align:center;font-size:14px;line-height:1;letter-spacing:-1px;color:#FFC93C;text-shadow:-1px -1px 0 var(--ink),1px -1px 0 var(--ink),-1px 1px 0 var(--ink),1px 1px 0 var(--ink),0 1.5px 0 var(--ink)}.mt.neg b{color:#FF5A4E}
 .mt svg{font-size:16px}
 .mt.neg{background:#CFC9D8}
 .mt.empty{border-style:dashed;border-color:#bdb5a3;color:var(--muted);justify-content:center;padding-top:0}
@@ -307,7 +307,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .hap{font-size:13px;padding:1px 8px 1px 5px}
   .meter .tk{width:40px;height:8px}
   .skc{width:26px;height:34px;font-size:12px;border-width:1.5px}
-  .mt{width:26px;height:34px;font-size:12px;padding-top:3px}.mt svg{font-size:12px}.mt b{font-size:8px;bottom:2px}
+  .mt{width:26px;height:34px;font-size:12px;padding-top:3px}.mt svg{font-size:12px}.mt b{font-size:11px;bottom:1px}
   .lab{font-size:9px}
   .agerow{padding-top:10px;gap:8px}
   #fsBtn.fsb{display:inline-flex!important}
@@ -315,7 +315,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .agerow .skills{display:flex;gap:3px;flex:none}.agerow .mots{display:flex;gap:3px;flex:none;margin-right:4px}
   .agerow .qf{bottom:auto;top:-9px;left:auto;right:-9px;transform:none;padding:0 3px 0 1px!important;font-size:8.5px!important}
   .hud{flex-wrap:nowrap}
-  .bucket{min-height:30px;max-width:230px;padding:2px 4px}.stats{gap:2px 8px}.agerow .skc{width:26px;height:34px;font-size:12px;padding-top:3px}.agerow .skc b{font-size:11px;bottom:2px}.agerow .mots{border-left:0;padding-left:0}.agerow .skw .ms{font-size:7px}
+  .bucket{min-height:30px;max-width:230px;padding:2px 4px}.stats{gap:2px 8px}.agerow .skc{width:26px;height:34px;font-size:12px;padding-top:3px}.agerow .skc b{font-size:11px;bottom:2px}.agerow .mots{border-left:0;padding-left:0}.agerow .skw .ms{font-size:10.5px}
   .axis{height:12px;margin-top:1px}
   .qolrow .q{width:20px;height:19px;font-size:9.5px;padding:0}.qolrow .btn{padding:3px 9px;font-size:11px}
   .moment{left:8px;top:-29px;transform:none;z-index:7;padding:2px 10px 2px 2px;gap:6px;max-width:calc(100vw - 440px);min-width:180px}
@@ -365,7 +365,7 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
 .cm.bad{background:#F3D5D2}
 .cm.quest{background:#F6E7B8}
 .skw{position:relative;display:inline-flex;flex-direction:column;align-items:center}
-.skw .ms{position:absolute;top:calc(100% + 1px);left:50%;transform:translateX(-50%);font-size:8.5px;line-height:1;white-space:nowrap;letter-spacing:-.5px}.ms.pos{color:#C9962A}.ms.neg{color:var(--bad)}
+.skw .ms{position:absolute;top:calc(100% + 1px);left:50%;transform:translateX(-50%);font-size:13px;line-height:1;white-space:nowrap;letter-spacing:-1px;font-weight:900;text-shadow:-1px -1px 0 var(--ink),1px -1px 0 var(--ink),-1px 1px 0 var(--ink),1px 1px 0 var(--ink),0 1.5px 0 var(--ink);z-index:2}.ms.pos{color:#FFC93C}.ms.neg{color:#FF5A4E}
 .qf{position:absolute;bottom:calc(100% + 3px);font-size:12px!important;padding:2px 6px 2px 3px!important;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:1px;background:#F6E7B8;border:1.5px solid var(--ink);border-radius:999px;font-family:var(--display);font-weight:600;font-size:10px;line-height:1;padding:1px 4px 1px 2px;z-index:3;cursor:help;white-space:nowrap}
 .qf svg{font-size:12px}
 
@@ -433,14 +433,17 @@ body.crit [data-stat="hp"]{animation:critB 1s steps(2) infinite}
 /* ---- upozornění a animace ---- */
 @keyframes yBlink{0%,100%{box-shadow:0 3px 0 var(--ink)}50%{box-shadow:0 3px 0 var(--ink),0 0 0 5px #F2C14E,0 0 18px 6px #F2C14E;background-color:#FFF0B8}}
 @keyframes yPulse{0%,80%,100%{box-shadow:0 3px 0 var(--ink)}90%{box-shadow:0 3px 0 var(--ink),0 0 0 3px rgba(242,193,78,.85)}}
+@keyframes wig{0%,100%{transform:none}15%{transform:scale(1.28) rotate(-9deg)}30%{transform:scale(1.28) rotate(8deg)}45%{transform:scale(1.22) rotate(-7deg)}60%{transform:scale(1.16) rotate(5deg)}75%{transform:scale(1.08) rotate(-3deg)}}
+@keyframes wigP{0%,82%,100%{transform:none}86%{transform:scale(1.15) rotate(-6deg)}90%{transform:scale(1.15) rotate(6deg)}94%{transform:scale(1.08) rotate(-3deg)}}
 @keyframes jiggle{0%,100%{transform:none}20%{transform:scale(1.12) rotate(-4deg)}40%{transform:scale(1.12) rotate(4deg)}60%{transform:scale(1.08) rotate(-3deg)}80%{transform:scale(1.04) rotate(2deg)}}
-.act.fresh,#moveBtn.fresh{animation:yBlink .5s ease 5,jiggle .6s ease 1}
-.act.freshp,#moveBtn.freshp{animation:yPulse 1.8s ease infinite}
+.act.fresh,#moveBtn.fresh{animation:yBlink .5s ease 5,wig .65s ease 4;position:relative;z-index:5}
+.act.freshp,#moveBtn.freshp{animation:yPulse 1.8s ease infinite,wigP 3.6s ease infinite}
 @keyframes rWarn{0%,82%,100%{filter:none}86%,94%{filter:drop-shadow(0 0 4px #E2564E) brightness(1.05)}90%{filter:none}}
 .meter.warn,.mon2.warn{animation:rWarn 4s ease infinite}
 .meter.warn .n,.mon2.warn #money{color:var(--bad)}
 .meter.warn .tk{border-color:#C8605A}
-.qf.qnew,.qn.qnew{animation:yBlinkQ .45s ease 6,jiggle .7s ease 2}
+.qf.qnewp,.qn.qnewp{animation:wigP 3s ease infinite}
+.qf.qnew,.qn.qnew{animation:yBlinkQ .45s ease 6,wig .65s ease 4;position:relative;z-index:5}
 @keyframes yBlinkQ{50%{background:#FFE07A;box-shadow:0 0 0 3px #F2C14E,0 0 12px 3px #F2C14E}}
 .fxg{transition:none}
 .fxg .ghl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ink);color:var(--paper);font-family:var(--display);font-weight:600;font-size:13px;padding:2px 10px;border-radius:999px;white-space:nowrap;z-index:5}
@@ -3237,7 +3240,7 @@ function skBg(k,l){const c=CATS[k].c,lo=Math.min(100,50+5*l),hi=Math.min(100,10*
 const motMark=v=>v>0?'★'.repeat(v):v<0?'✕'.repeat(-v):'';
 function buildSkills(){
   setH($('#skills'),SK.map(k=>{const l=lvl(S.xp[k]),q=(S.quests||[]).find(x=>x.type==='skill'&&x.k===k),mv=S.mot[k]||0,nq=q&&q.born&&Date.now()-q.born<5000;
-    return `<div class="skw">${q?`<span class="qf ${nq?'qnew':''}" data-c="q:${q.id}">${AICO.flag}${q.target}</span>`:''}<div class="skc ${l?'':'zero'} ${l>=8?'glow':''}" id="sk${k}" style="background:${skBg(k,l)};--gc:${CATS[k].c}" title="${CATS[k].name} – úroveň ${l} z 10${mv?` · ${mv>0?'baví tě':'nesnášíš'} · učíš se ${mv>0?'rychleji':'pomaleji'}`:''}">${ICO[k]}<b>${l}</b></div>${mv?`<span class="ms ${mv>0?'pos':'neg'}">${motMark(mv)}</span>`:''}</div>`}).join(''));
+    return `<div class="skw">${q?`<span class="qf ${qCls(q)}" data-c="q:${q.id}">${AICO.flag}${q.target}</span>`:''}<div class="skc ${l?'':'zero'} ${l>=8?'glow':''}" id="sk${k}" style="background:${skBg(k,l)};--gc:${CATS[k].c}" title="${CATS[k].name} – úroveň ${l} z 10${mv?` · ${mv>0?'baví tě':'nesnášíš'} · učíš se ${mv>0?'rychleji':'pomaleji'}`:''}">${ICO[k]}<b>${l}</b></div>${mv?`<span class="ms ${mv>0?'pos':'neg'}">${motMark(mv)}</span>`:''}</div>`}).join(''));
   SK.forEach(k=>skEls[k]=$('#sk'+k));updSkillBars();
 }
 function renderMots(){
@@ -3292,8 +3295,9 @@ function toast(t,kind=''){t=gtxt(t);const box=$('#toasts');const el=document.cre
   box.appendChild(el);while(box.children.length>2)box.firstChild.remove();setTimeout(()=>el.classList.add('out'),7000);setTimeout(()=>el.remove(),8600)}
 function showOverlay(h,wide){const o=$('#ov');o.innerHTML=`<div class="card box ${wide?'wide':''}">${gtxt(h)}</div>`;o.hidden=false}
 function hideOverlay(){$('#ov').hidden=true;$('#ov').classList.remove('title')}
-const VER='0.35';
+const VER='0.36';
 const NOTES=[
+ ['0.36','14. 11. 2026',['Výraznější hvězdičky a křížky u dovedností i u toho, co tě baví a nebaví.','Nová tlačítka vlevo i nové cíle se zvětší a zavrtí, pak ještě chvíli občas zatřepou.']],
  ['0.35','14. 11. 2026',['Závislosti se časem samy hojí, když jim nepodléháš. Workoholismus: 9+ hodin práce denně přidává trochu štěstí, ale závislost roste; 8 hodin a méně stresuje, ale pomalu povoluje. Terapie pomáhají, při velkém pracovním nasazení ale jen málo.','Sabatikl se nabízí až při workoholismu nad 75 %.','Nový spodní panel: zdraví a energie ve dvou řadách, stres vedle, pole pro cíle, větší dovednosti s barevným přechodem podle úrovně a hvězdičky/křížky u toho, co tě baví a nebaví.','Nová tlačítka a kartičky blikají, varování blikají červeně, milníky věku (5, 10, 15, 18, 20…) se ukážou nahoře.','Animace splněných a nesplněných cílů, vypadávání karet z rozvrhu (vyhazov, konec školky, uzdravení), upozornění na novou nemoc.','Partner, děti, auto i pronájem občas promluví v bublině. Nájemník může přestat platit nebo odejít – vyhoď ho, počkej, nebo hledej nového.']],
  ['0.34','8. 11. 2026',['121 nových karet: dotažené krátké cesty (chirurgie, kyberbezpečnost, klasická hudba, veterina, programování, káva, bary, tetování, balet, moře, úřad a další).','Nové směry: kapela s kamarády, skauti, vynálezce, stěhování za prací a zpátky, pád na dno a návrat, duchovní cesta, senioři.']],
  ['0.33','8. 11. 2026',['Sláva: kvízy, game shows, reality show, rozhovory, reklamy, modeling, herectví až po filmovou hvězdu, Hollywood a Oscara.','Rodina: rodinná firma přes generace, velké rodinné cesty, tradice, rodičovství, pěstounství a péče o rodiče.','Známosti: produkce, festivaly, divadlo, film, PR, lobbing. Politika od zastupitele až po prezidenta.','Profi sporty: přes 30 sportů s cestou profík → reprezentace → mistr světa → olympiáda. Nové sporty: házená, veslování, biatlon, krasobruslení, stolní tenis, esport.','Objevování: poklady, archeologie, expedice, záchrana planety a vesmír: ISS, Měsíc, Mars.','Další zdravotní cesty. Celkem 362 nových karet.']],
@@ -3917,6 +3921,7 @@ function genQuest(){const C=[],a=S.age,has=t=>S.quests.some(q=>q.type===t);
   if(Object.keys(S.addicted).length&&!has('clean'))C.push({w:3,q:{type:'clean',until:a+4,reward:30,text:'Zbavit se závislosti'}});
   const pick=pickW(C,x=>x.w);if(!pick)return;const q={id:++uidC,...pick.q};if(questDone(q))return;
   q.born=Date.now();S.quests.push(q);moment(AICO.flag,'#F2D07A','Nový cíl',`${q.text} do ${Math.floor(q.until)} let. Splníš: štěstí +${q.reward}. Nestihneš: −${Math.round(q.reward/2)}.`);sfx('motUp');renderChips()}
+function qCls(q){const a=q.born?Date.now()-q.born:1e9;return a<5000?'qnew':a<20000?'qnewp':''}
 function ghostOf(el,cls,label,ms){if(!el)return;const r=el.getBoundingClientRect();if(!r.width)return;const g=el.cloneNode(true);g.removeAttribute('id');
   g.classList.remove('chipnew','fresh','freshp','qnew','illnew','hov','nudge');g.classList.add('fxg',cls);g.style.cssText+=`;position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;margin:0;z-index:80;pointer-events:none`;
   if(label){const l=document.createElement('span');l.className='ghl';l.textContent=gtxt(label);g.appendChild(l)}document.body.appendChild(g);setTimeout(()=>g.remove(),ms||2200)}
@@ -3962,7 +3967,7 @@ function renderChips(){
   const cms=$('#cms'),prev=[...cms.querySelectorAll('.cm')];const keys=new Set([...h.matchAll(/data-c="([^"]+)"/g)].map(m=>m[1]));
   for(const el of prev)if(!keys.has(el.dataset.c)){ghostOf(el,'chipgone','',1400);if(S.chipSeen)delete S.chipSeen[el.dataset.c]}
   setH(cms,h);
-  setH($('#qright'),S.quests.filter(q=>q.type!=='skill').map(q=>`<span class="qn ${q.born&&Date.now()-q.born<5000?'qnew':''}" data-c="q:${q.id}">${AICO.flag}${q.text} <b>${Math.max(0,Math.ceil(q.until-S.age))} r</b></span>`).join(''));buildSkills();
+  setH($('#qright'),S.quests.filter(q=>q.type!=='skill').map(q=>`<span class="qn ${qCls(q)}" data-c="q:${q.id}">${AICO.flag}${q.text} <b>${Math.max(0,Math.ceil(q.until-S.age))} r</b></span>`).join(''));buildSkills();
 }
 function chipInfo(c){
   if(c.startsWith('loan:')){const l=S.loans.find(x=>x.id===+c.slice(5));if(!l)return '';const yl=l.left/12;
